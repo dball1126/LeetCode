@@ -1,3 +1,4 @@
+[Discussion Post (created on 27/9/2021 at 20:32)](https://leetcode.com/problems/populating-next-right-pointers-in-each-node/discuss/1544516/JavaScript-Solution-Iterative-BFS-Queue-with-explanation)  
 <h2>116. Populating Next Right Pointers in Each Node</h2><h3>Medium</h3><hr><div><p>You are given a <strong>perfect binary tree</strong> where all leaves are on the same level, and every parent has two children. The binary tree has the following definition:</p>
 
 <pre>struct Node {
