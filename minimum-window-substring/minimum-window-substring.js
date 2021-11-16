@@ -32,8 +32,8 @@ var minWindow = function(str, t) {
             }
 
             if (map.has(c)) {
+                if (map.get(c) === 0) count++;
                 map.set(c, map.get(c) + 1)
-                if (map.get(c) >= 1) count++;
             }
             s++;
         }
