@@ -3,18 +3,25 @@
  * @return {number}
  */
 var lengthOfLIS = function(nums) {
-    if (nums.length === 1) return 1;
-    const dp = nums.map(e => 1);
     let max = 1;
-
-    for (let i = 1; i < nums.length; i++) {
-        for (let j = 0; j < i; j++) {
-            if (nums[i] > nums[j]) {
-                dp[i] = Math.max(dp[i], dp[j] + 1)
-                max = Math.max(max, dp[i])
+    let dp = nums.map(a => 0)
+    const fillDP = (i) => {
+        if (i === 0) return 1;
+        if (dp[i] > 0) return dp[i]
+        let val = 1;
+        for (let s = i-1; s >= 0; s--) {
+            if (nums[i] > nums[s]) {
+                val = Math.max(1 + fillDP(s), val)
+                // console.log("VAL: " + val)
             }
         }
+        dp[i] = Math.max(dp[i], val)
+        max = Math.max(max, val)
+        return dp[i]
     }
-    console.log(dp)
-    return max;
-};
+    for (let j = nums.length-1; j >= 0; j--) {
+        fillDP(j)
+    }
+    // console.log(dp)
+    return max
+}
