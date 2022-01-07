@@ -7,12 +7,11 @@
  *                      d[i] = Math.max(val, dp(i+1, h) )
  */
 var maxProfit = function(prices) {
-    let memo = new Map();
+    let memo = [...new Array(prices.length+1)].map(a => [...new Array(2).fill(-Infinity)])
 
     const dp = (i, h) => {
         if (i >= prices.length) return 0;
-        let key = i + "" + h
-        if (memo.has(key)) return memo.get(key)
+        if (memo[i][h] !== -Infinity) return memo[i][h]
         let val;
 
         if (h === 1) {
@@ -21,8 +20,8 @@ var maxProfit = function(prices) {
             val = dp(i+2, 1) + prices[i]
         }
 
-        memo.set(key, Math.max(val, dp(i+1, h)))
-        return memo.get(key)
+        memo[i][h] = Math.max(val, dp(i+1, h))
+        return memo[i][h]
     }
     return dp(0, 1);
 };
