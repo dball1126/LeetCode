@@ -21,12 +21,12 @@ var minPathSum = function(grid) {
 
     let memo = [...new Array(grid.length+1)].map(a => [...new Array(grid[0].length+1)].fill(-1))
 
-    const dp = (r, c , s) => {
+    const dp = (r, c ) => {
         if (r >= grid.length || c >= grid[0].length) return Infinity;
-        if (r === grid.length-1 && c === grid[0].length-1) return s + grid[r][c];
+        if (r === grid.length-1 && c === grid[0].length-1) return grid[r][c];
         if (memo[r][c] !== -1 ) return memo[r][c]
         
-        return memo[r][c] = grid[r][c] + Math.min( dp(r+1, c,  s), dp(r, c+1, s) )
+        return memo[r][c] = grid[r][c] + Math.min( dp(r+1, c), dp(r, c+1) )
     }
 
     return result = dp(0, 0, 0)
