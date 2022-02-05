@@ -16,7 +16,6 @@
  */
 
 // top down
-// top down
 var lengthOfLIS = function(nums) {
     let memo = [...new Array(nums.length+1)].map(a => [...new Array(nums.length+1)].fill(-Infinity))
     let max = 1;
@@ -32,13 +31,9 @@ var lengthOfLIS = function(nums) {
         } else {
             val += dp(i-1, j)
         }
-
-        // const doNothing = dp(i-1, j-1);
         return memo[i][j] = val;
     }
-    for(let i = nums.length-1; i >= 0; i--) {
-        dp(i,i)
-    }
+    nums.forEach((v, i) => dp(i, i))
     memo.forEach(a => a.forEach(v => max = Math.max(max, v)))
     return max;
 }
