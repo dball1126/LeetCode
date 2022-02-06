@@ -1,5 +1,5 @@
 /**
- * Time: log(n)*2
+ * Time: O(n * log(n))
  * Space: O(1)
  */
 var repeatedSubstringPattern = function(s) {
