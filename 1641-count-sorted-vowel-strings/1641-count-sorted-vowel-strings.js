@@ -9,11 +9,8 @@
  *  for i of vowels
  *      dp[i] += dp(i, n-1)
  * 
- * return dp[i]
- * Time: O(n) = 5 * O(n)  = O(n)
- * Space: O(n) = 5 * O(n)  = O(n)     
+ * return dp[i]           
  */
-// Top-Down
  var countVowelStrings = function(n) {
     const vowels = ['a','e','i','o','u']
     const memo = [...new Array(vowels.length+1)].map(a => [...new Array(n+1)].fill(-Infinity))
