@@ -1,25 +1,25 @@
 /**
- * State Variables: i ...... prices.length-1.   Day you're on.
- *                  h ......... 1 for buying ....... 0 for selling.
- *
- * Recurrence relation: if ( buying ) val =  dp(i+1, 0) - prices[i]
- *                      if ( selling ) val =  dp(i+2, 1) + prices[i]
- *                      d[i] = Math.max(val, dp(i+1, h) )
+ * State Var: i for idx of days to ....end of input
+ *            t for transaction (1 for buying, 0 for selling)
+ * Base Case: 0 for idx out of bounds OR t === 1 &&  i >= input.length-1
+ * Recurrence Relation:
+ *  if t === 1
+ *      dp[i] = Math.max(dp(i+1, t), dp(i+1, 0) - dp[i])
+ *  else
+ *      dp[i] = Math.max(dp(i+1, t), dp(i+2, 1) + dp[i])
  */
+// Top-Down
 var maxProfit = function(prices) {
-    let [key, val, h] = ['', 0,  1]
+    const memo = [...new Array(prices.length+1)].map(a => [...new Array(3)].fill(-Infinity));
 
-    let dp = [...new Array(prices.length+2)].map(a => [...new Array(3).fill(0)])
-    for (let i = prices.length-1; i >= 0; i--) {
-        for (let v = h; v >= 0; v--) {
-            if (v === 1) {
-                val = dp[i+1][0] - prices[i]
-            } else {
-                val = dp[i+2][1] + prices[i]
-            }
-            dp[i][v] = Math.max(val, dp[i+1][v])
+    const dp = (i, t) => {
+        if (i >= prices.length || (t === 1 && i >= prices.length-1)) return 0;
+        if (memo[i][t] !== -Infinity) return memo[i][t];
+        if (t === 1) {
+            return memo[i][t] = Math.max(dp(i+1, t), dp(i+1, 0) - prices[i])
+        } else {
+            return memo[i][t] = Math.max(dp(i+1, t), dp(i+2, 1) + prices[i])
         }
-        
     }
-    return dp[0][1]
-};
+    return dp(0, 1);
+}
