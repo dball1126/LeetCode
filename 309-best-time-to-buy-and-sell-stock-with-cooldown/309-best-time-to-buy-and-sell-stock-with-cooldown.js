@@ -7,6 +7,8 @@
  *      dp[i] = Math.max(dp(i+1, t), dp(i+1, 0) - dp[i])
  *  else
  *      dp[i] = Math.max(dp(i+1, t), dp(i+2, 1) + dp[i])
+ * Time: O(n) * 4 = O(n)
+ * Space: O(n) * 3 = O(n)
  */
 // Top-Down
 // var maxProfit = function(prices) {
