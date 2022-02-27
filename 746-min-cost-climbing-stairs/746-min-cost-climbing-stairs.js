@@ -1,29 +1,22 @@
 /**
- * Sate var: i for idx of costs
- * Base case: 0 for out of bounds
+ * State Var: i for idx of costs ... end of costs
+ * Base Case: 0 for out of bounds. dp[0] = costs[0], dp[1] = costs[1]
  * Recurrence Relation:
- *  dp(n) = nums[i] + Math.min(dp(i-2), dp(i-1))
+ *  dp[i] = Math.min(dp[i] + dp[i-1], dp[i] + dp[i-2])
  */
-// top down
- var minCostClimbingStairs = function(cost) {
-    const memo = [...new Array(cost.length+1)].fill(Infinity)
+// Top Down
+ var minCostClimbingStairs = function(costs) {
+    const memo = [...new Array(costs.length+1)].fill(Infinity);
+    memo[0] = costs[0];
+    memo[1] = costs[1];
+
     const dp = (i) => {
-        if (i < 0) return 0
+        if ( i >= costs.length) return 0;
         if (memo[i] !== Infinity) return memo[i]
-        memo[i] = cost[i] + Math.min(dp(i-1), dp(i-2))
-        return memo[i]
+        return memo[i] = Math.min(costs[i] + memo[i-1], costs[i] + memo[i-2]);
     }
-    dp(cost.length-1)
-    console.log(memo)
-    return Math.min(memo[cost.length-1], memo[cost.length-2])
-};
-// bottom up
-// var minCostClimbingStairs = function(cost) {
-//     if (cost.length === 2) return Math.min(cost[0], cost[1])
-
-//     for (let i = 2; i < cost.length; i++) {
-//         cost[i] = cost[i] + Math.min(cost[i-2], cost[i-1])
-//     }
-
-//     return Math.min( cost[cost.length-1], cost[cost.length-2] )
-// }
+    for(let i = 2; i < costs.length; i++) {
+        dp(i)
+    }
+    return Math.min(memo[costs.length-1], memo[costs.length-2])
+}
