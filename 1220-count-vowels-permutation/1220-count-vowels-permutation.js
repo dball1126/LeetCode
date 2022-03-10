@@ -7,6 +7,9 @@
  *      for j of vowels
  *          if !map.get(i).has(j)
  *              dp(i) += dp(j, c-1)
+ * Time: O(n)
+ * Space: O(n)
+ * (vowels is a constant length of 5)
  */
 // Top Down
 var countVowelPermutation = function(num) {
