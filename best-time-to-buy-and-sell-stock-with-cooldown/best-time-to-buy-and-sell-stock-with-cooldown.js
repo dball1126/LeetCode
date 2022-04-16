@@ -9,7 +9,7 @@
         if (t === 1) {
             memo[i][t] = dp(i+1, 0) - prices[i]
         } else {
-            memo[i][t] = Math.max(dp(i+2, 1) + prices[i])
+            memo[i][t] = dp(i+2, 1) + prices[i]
         }
         return memo[i][t] = Math.max(dp(i+1, t), memo[i][t])
     }
