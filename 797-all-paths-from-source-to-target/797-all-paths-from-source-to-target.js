@@ -1,7 +1,7 @@
 /**
  * BFS, Queue
  * Build adjList
- * Time and Space: O(V * E)
+ * Time and Space: O(V + E) = O(2^n + n)
  */
 var allPathsSourceTarget = function(graph) {
     const paths = [];
