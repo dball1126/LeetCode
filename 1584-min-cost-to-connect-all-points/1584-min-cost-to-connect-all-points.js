@@ -140,7 +140,6 @@ var minCostConnectPoints = function(points) {
             pQ.insert(n)
         }
     }
-    const connected = new Set();
     let edges = 0;
     let cost = 0;
 
