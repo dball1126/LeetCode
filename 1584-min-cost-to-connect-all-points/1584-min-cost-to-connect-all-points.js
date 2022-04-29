@@ -121,8 +121,10 @@ class DisJoinSet {
  * Kruskal's algorithm (undirected graph)
  * Use union find and sort via the manhattan difference.
  * Use min Object heap to store the min points.
- * Time Complexity: Dominated by sort function O(n * log(n))
- * Space Complexity: O(V + E - 2) = O(V + E) this is for the union find structure (v for vertices and e for edges)
+ * Time Complexity: O(n2 * log(n)) it takes n*2 to compute the differences. it takes log(n) time to insert into the heap
+ *                   O(n2 * log(n) + log(n) * a(n) = O(n2 * log(n))     a(n) = inverse ackermann function
+ * 
+ * Space Complexity: O(n2) for storing all the edges
  ******************************************************************************************************************/
 var minCostConnectPoints = function(points) {
     if (points.length <= 1) return 0;
