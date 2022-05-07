@@ -11,6 +11,7 @@
  * @return {number[][]}
  */
 var levelOrder = function(root) {
+    if (!root) return []
     let [q, result] = [[[root]], []]
     while (q.length) {
         let nodes = q.shift();
