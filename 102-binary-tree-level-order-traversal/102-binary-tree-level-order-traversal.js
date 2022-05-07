@@ -17,7 +17,6 @@ var levelOrder = function(root) {
         let nodes = q.shift();
         let [lvl, nxtLvl] = [[],[]]
         nodes.forEach(n => {
-            if (!n) return
             lvl.push(n.val)
             if (n.left) nxtLvl.push(n.left)
             if (n.right) nxtLvl.push(n.right)
