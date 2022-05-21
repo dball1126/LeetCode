@@ -1,14 +1,13 @@
 /**
- * Transpose and than reverse
- * Time: O(n)
- * Space: O(1)
+ * switch values and then reverse the row
+ * time O(n)
+ * space O(1)
  */
- var rotate = function(m) {
-    for (let r = 0; r < m.length; r++) {
-        for (let c = r; c < m.length; c++) {
-            [m[r][c], m[c][r]] = [m[c][r], m[r][c]]
+var rotate = function(m) {
+    for (let i = 0; i < m.length; i++) {
+        for (let j = i; j < m[i].length; j++) {
+                [m[i][j], m[j][i]] = [m[j][i], m[i][j]]
         }
-        m[r].reverse();
+        m[i] = m[i].reverse();
     }
-    return m
-};
+}
