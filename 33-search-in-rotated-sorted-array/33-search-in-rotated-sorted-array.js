@@ -1,29 +1,28 @@
 /**
- * Binary search and use two pointer to deal with rotated array.
- * Time: log(n) + O(1) = log(n)
+ * Use edges and while loop to find target
+ * Time: log(n)
  * Space: O(1)
  */
-var search = function(n, t) {
-    let [l, r] = [0, n.length-1]
-    let p = -1;
+const search = (a, t) => {
+    let [s, e] = [0, a.length-1]
 
-    while (l <= r) {
-        let m = l + Math.floor((r - l) / 2);
-        if (n[m] === t) return p = m;
-
-        if (n[l] <= n[m]) {
-            if (t < n[m]  && t >= n[l]) {
-                r = m - 1
+    while (s <= e) {
+        let m = Math.floor((e - s) / 2) + s;
+        if (a[m] === t) return m;
+        
+        if (a[s] <= a[m]) {
+            if (t < a[m] && t >= a[s] && m-1 >= 0) {
+                e = m - 1;
             } else {
-                l = m + 1
+                s = m + 1;
             }
-        } else if (n[m] <= n[r]) {
-            if (t > n[m] && t <= n[r]) {
-                l = m + 1
+        } else {
+            if (t > a[m] && t <= a[e] && m+1 <= a.length-1) {
+                s = m + 1
             } else {
-                r = m -1;
+                e = m - 1;
             }
         }
     }
-    return p;
-};
+    return -1
+}
