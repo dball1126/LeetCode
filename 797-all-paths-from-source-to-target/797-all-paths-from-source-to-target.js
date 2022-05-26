@@ -1,25 +1,22 @@
 /**
- * BFS, Queue
- * Build adjList
- * Time and Space: O(V + E) = O(2^n + n)
+ * BFS: Level order traversal
+ * Time and Space: O(V + E)
  */
+
 var allPathsSourceTarget = function(graph) {
-    const paths = [];
-    const q = [[0]]
+    let result = [], q = [[0]]
 
     while (q.length) {
-        const curr = q.shift();
-        const c = curr[curr.length-1]
-        if (c === graph.length-1) {
-            paths.push(curr)
-        } else {
-            const arr = graph[c]
-            if (arr) {
-                arr.forEach(v => {
-                    q.push([...curr, v])
-                })
-            }
+        let curr = q.shift();
+        let node = curr[curr.length-1]
+        if (node === graph.length-1) {
+            result.push(curr)
+            continue;
         }
+        let arr = graph[node]
+        if (arr) {
+            arr.forEach(v => q.push([...curr, v]))
+        } 
     }
-    return paths;
-};
+    return result;
+}
