@@ -1,46 +1,34 @@
 /**
- * State Var: a for amount remaining
- * Base Case: 0 if amount is 0
- * Recurrence Relation:
- *  amt = Infinity
- *  for c .... of coin
- *      if a -c >= 0 && a <= c
- *          amt = Math.min(amt, 1 + dp(a-c))
- * return amt
- * 
- * Time Complexity: O(n * m)  coins * amount
- * Space Complexity: O(m) the amount
+ * State var: 0...a for min amount of coins
+ * Base Case: Infinity if out of bounds
+ *            0 if a === 0
+ * Recurrence Relation: 
+ *  val = Infinity
+ * for i of a
+ *  for c of coins
+ *      if ( a - c >= 0 && a - c <= a)
+ *          val = Math.min(val, 1 + dp(a - c))
  */
-// Top-Down
-// var coinChange = function(coins, amount) {
-//     const memo = [...new Array(amount+1)].fill(-1)
+const coinChange = (coins, amt) => {
+    const memo = new Array(amt + 1).fill(undefined)
+    memo[0] = 0;
 
-//     const dp = (a) => {
-//         if (a === 0) return 0;
-//         if (memo[a] !== -1) return memo[a];
-//         memo[a] = Infinity;
-//         for (let c of coins) {
-//             if (a - c >= 0 && a >= c) {
-//                 memo[a] = Math.min(memo[a], 1 + dp(a-c))
-//             }
-//         }
-//         return memo[a];
-//     }
-//     const result = dp(amount)
-//     return result === Infinity ? -1 : result;
-// }
-// Bottom-Up
-var coinChange = function(coins, amount) {
-    if (amount === 0) return 0;
-    const dp = [...new Array(amount+1)].fill(Infinity);
-    dp[0] = 0
-    for (let a = 1; a <= amount; a++) {
-        for (let c of coins) {
+    const dp = (a) => {
+        if (a === 0) return 0;
+        if (a < 0) return Infinity;
+        if (memo[a] !== undefined) return memo[a];
+        let val = Infinity;
 
-            if (a - c >= 0 && a >= c) {
-                dp[a] = Math.min(dp[a], 1 + dp[a-c])
+        for (let i = 0; i < coins.length; i++) {
+            const c = coins[i];
+            if (a - c >= 0 && a - c <= a) {
+                val = Math.min(val, 1 + dp(a- c))
             }
         }
+
+        return memo[a] = val;
     }
-    return dp[amount] === Infinity ? -1 : dp[amount]
+    dp(amt)
+    if (memo[amt] === Infinity) return -1
+    return memo[amt]
 }
