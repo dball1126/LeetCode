@@ -76,44 +76,32 @@ class MinHeapNum {
         return this.array.length
     }
 }
-
-function ListNode(val, next) {
-    this.val = (val===undefined ? 0 : val)
-    this.next = (next===undefined ? null : next)
-}
-
 /**
- * Create a min heap
- * insert each list into the heap
- * create a linked list and extract from the heap
- * Space: O(n)
- * Time: O(n * log(m) ) to insert into heap, log(m) to extract = O(n * log(m))
-    n for each list, m for each node in the list
+ * new list, heap
+ * Time and space O(n + m) n for lists m for nodes in list
  */
 var mergeKLists = function(lists) {
-    const newLists = lists.filter(list => list !== null)
-    if (!newLists.length) return null
-    if (newLists.length === 1) return newLists[0]
-    const pq = new MinHeapNum();
-    let head;
-    let currHead;
-
-    lists.forEach(list => {
-        while (list) {
-            pq.insert(list.val)
-            list = list.next
-        }
-    })
-
-    while (!pq.isEmpty()) {
-        let curr = new ListNode(pq.poll())
-        if (!head) {
-            head = curr;
-            currHead = curr;
-        } else {
-            currHead.next = curr;
-            currHead = currHead.next
+    lists = lists.filter(list => list !== null)
+    if (!lists.length) return null
+    if (lists.length === 1) return lists[0]
+    let heap = new MinHeapNum();
+    let list
+    for (let i = 0; i < lists.length; i++) {
+        let l = lists[i]
+        while(l) {
+            heap.insert(l.val)
+            l = l.next    
         }
     }
-    return head;
+    let temp;
+    while (!heap.isEmpty()) {
+        if (!list) {
+            list = new ListNode(heap.poll())
+            temp = list
+        } else {
+            temp.next = new ListNode(heap.poll())
+            temp = temp.next; 
+        }
+    }
+    return list
 };
