@@ -1,4 +1,6 @@
 /**
+ * DFS and Trie
+ * Time and Space: O(n * m). n for words and m for letters in words
  */
 class Node {
     isWord = false;
