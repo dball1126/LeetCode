@@ -13,7 +13,7 @@
  */
 /**
  * recursion
- * time: O(n*2 + m)
+ * time: O(n) n + n + O(1) = n
  * space: O(n + m)
  */
  var isSubtree = function(n1, n2) {
