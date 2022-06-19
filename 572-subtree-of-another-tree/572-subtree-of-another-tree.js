@@ -13,8 +13,8 @@
  */
 /**
  * recursion
- * time: O(n) n + n + O(1) = n
- * space: O(n + m)
+ * time: O(n*2 + m)
+ * space: O(n*2 + m)
  */
  var isSubtree = function(n1, n2) {
     let nodes = [], valid = false
