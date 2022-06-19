@@ -14,7 +14,7 @@
 /**
  * recursion
  * time: O(n*2 + m)
- * space: O(n*2 + m)
+ * space: O(n + m)
  */
  var isSubtree = function(n1, n2) {
     let nodes = [], valid = false
