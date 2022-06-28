@@ -1,26 +1,20 @@
-/**
- * Use edges and while loop to find target
- * Time: log(n)
- * Space: O(1)
- */
 const search = (a, t) => {
-    let [s, e] = [0, a.length-1]
-
+    let s = 0, e = a.length-1
     while (s <= e) {
-        let m = Math.floor((e - s) / 2) + s;
+        let m = Math.floor((e-s)/2) +s
         if (a[m] === t) return m;
-        
-        if (a[s] <= a[m]) {
-            if (t < a[m] && t >= a[s] && m-1 >= 0) {
-                e = m - 1;
+
+        if (a[m] > a[e]) {
+            if (t < a[m] && t >= a[s] && m !== e) {
+                e = m - 1
             } else {
-                s = m + 1;
+                s = m + 1
             }
         } else {
-            if (t > a[m] && t <= a[e] && m+1 <= a.length-1) {
+            if (t > a[m] && t <= a[e] && m !== e) {
                 s = m + 1
             } else {
-                e = m - 1;
+                e = m - 1
             }
         }
     }
