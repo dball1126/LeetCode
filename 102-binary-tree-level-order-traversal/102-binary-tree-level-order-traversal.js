@@ -10,19 +10,19 @@
  * @param {TreeNode} root
  * @return {number[][]}
  */
-var levelOrder = function(root) {
-    if (!root) return []
-    let [q, result] = [[[root]], []]
-    while (q.length) {
-        let nodes = q.shift();
-        let [lvl, nxtLvl] = [[],[]]
-        nodes.forEach(n => {
-            lvl.push(n.val)
-            if (n.left) nxtLvl.push(n.left)
-            if (n.right) nxtLvl.push(n.right)
+var levelOrder = function(n) {
+    if (!n) return []
+    let queue = [[n]], result = []
+    while (queue.length) {
+        let curr = queue.shift();
+        result.push([...curr].map(a => a.val))
+        let level = []
+
+        curr.forEach(a => {
+            if (a.left)level.push(a.left)
+            if (a.right)level.push(a.right)
         })
-        if (nxtLvl.length) q.push(nxtLvl)
-        if (lvl.length) result.push(lvl)
+        if (level.length) queue.push(level)
     }
     return result;
-};
+}
