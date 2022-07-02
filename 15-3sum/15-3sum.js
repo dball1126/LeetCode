@@ -1,24 +1,22 @@
 function threeSum(n) {
-    if (n.length <= 2) return []
-    n.sort((a,b)=> a-b);
-    let result = [];
-    
+    if (!n) return []
+    let result = []
+    n.sort((a,b) => a - b);
     for (let i = 0; i < n.length; i++) {
-        let [s, e] = [i+1, n.length-1]
-        while (s < e) {
-            let v = n[i] + n[s] + n[e]
-            if ( v === 0) {
-                result.push([n[i], n[s], n[e]])
-            }
-            if (v > 0) {
+        let j = i + 1, e = n.length-1
+        while (j < e) {
+            let sum = n[i] + n[j] + n[e]
+            if ( sum === 0) result.push([n[i],n[j],n[e]])
+            
+            if (sum > 0) {
+                while (n[e] === n[e-1]) e--
                 e--
-                while (s < e && n[e+1] === n[e]) e--
             } else {
-                s++
-                while (s < e && n[s-1] === n[s]) s++
+                while (n[j] === n[j+1]) j++
+                j++
             }
         }
-        while (n[i+1] === n[i]) i++
+        while (n[i] === n[i+1])i++
     }
-    return result
+    return result;
 }
