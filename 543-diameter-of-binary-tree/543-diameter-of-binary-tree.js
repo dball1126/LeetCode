@@ -1,17 +1,24 @@
 /**
- * recursion, dfs, max variable
- * time and space O(n)
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
  */
 var diameterOfBinaryTree = function(root) {
     let max = 0;
-    let dfs = (node) => {
-        if (!node) return 0;
-        let [l, r] = [0,0]
-        if (node.left) l = 1 + dfs(node.left)
-        if (node.right) r = 1 + dfs(node.right)
-        max = Math.max(max, l+r)
-        return Math.max(l,r)
+    const dfs = (n) => {
+        if (!n) return 0;
+        let left = dfs(n.left)
+        let right = dfs(n.right)
+        max = Math.max(max, left, right, left + right)
+        return Math.max(left, right) + 1;
     }
     dfs(root)
-    return max;
+    return max
 };
