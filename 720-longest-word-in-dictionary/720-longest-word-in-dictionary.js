@@ -1,55 +1,48 @@
-/**
- * DFS and Trie
- * Time: O(n * m). n for words and m for amount of letters in word
- * Space: O(n) for words
-*/
 class Node {
     isWord = false;
-    val = ''
-    root = new Map();
-    constructor(val) {
-        this.val = val;
-    }
+    keys = new Map();
 }
 class Trie {
     root = new Node();
-    constructor(w) {this.insert(w)}
-    insert (words) {
-        for (let i = 0; i < words.length; i++) {
-            let t = this.root;
-            for (let j = 0; j < words[i].length; j++) {
-                const L = words[i][j];
-                if (!t.root.has(L)) {
-                    t.root.set(L, new Node(L))
-                }
-                if (j === words[i].length-1) {
-                    t.root.get(L).isWord = true
-                }
-                t = t.root.get(L)
+    constructor(){}
+    insert(w) {
+        let arr = w.split("")
+        let curr = this.root;
+        arr.forEach((v, idx) => {
+            if (!curr.keys.has(v)) {
+                curr.keys.set(v, new Node())
             }
-        }
+            curr = curr.keys.get(v)
+            if (idx === arr.length-1) {
+                curr.isWord = true;
+            }
+        })
     }
 }
 
-var longestWord = function(words) {
-    let trie = new Trie(words), result = ""
-    for (let i = 0; i < words.length; i++) {
-        let t = trie.root;
-        for (let j = 0; j < words[i].length; j++) {
-            const L = words[i][j];
-            if (!t.root.has(L) || !t.root.get(L).isWord){
-                break;
+const longestWord = (words) => {
+    let trie = new Trie(), result = ""
+    words.forEach(v => trie.insert(v));
+    
+    words.forEach((word, i) => {
+        let sub = "", curr = trie.root
+    
+        for (let j = 0; j < word.length; j++) {
+            let v = word[j]
+            if (curr.keys.has(v)) {
+                if (!curr.keys.get(v).isWord) break;
+                sub += v;
+                curr = curr.keys.get(v)
             }
-            if (j === words[i].length-1 && t.root.get(L).isWord) {
-                if (words[i].length === result.length) {
-                    let s = [words[i], result].sort()
-                    result = s[0]
-                } else if (words[i].length > result.length) {
-                    result = words[i]
+            if (sub === word) {
+                if (result.length < sub.length) {
+                    result = sub;
+                } else if (result.length === sub.length){
+                    let a = [result, sub].sort();
+                    result = a[0]
                 }
             }
-            t = t.root.get(L)
         }
-    }
-    return result
-};
+    })
+    return result;
+}
