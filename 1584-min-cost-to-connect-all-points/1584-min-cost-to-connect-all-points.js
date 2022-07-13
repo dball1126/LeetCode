@@ -86,75 +86,59 @@ class MinHeap { // Object version
 class DisJoinSet {
     rank = []
     root = []
-    constructor(arr) {
-        this.init(arr);    
-    }
-    init(arr) {
-        for (let i = 0; i < arr.length; i++) {
-            this.rank[i] = 1;
+    connected = 0
+    constructor(a) {
+        this.rank = new Array(a.length).fill(1)
+        this.root = new Array(a.length)
+        a.forEach((v, i) => {
             this.root[i] = i;
-        }
+        })
     }
-    union(n1, n2) {
-        if (this.isConnected(n1, n2)) return;
-        let [p1, p2] = [this.find(n1), this.find(n2)];
-
-        if (this.rank[p1] > this.rank[p2]) {
-            this.root[p2] = p1;
-        } else if (this.rank[p1] < this.rank[p2]) {
-            this.root[p1] = p2;
-        } else {
-            this.root[p2] = this.root[p1]
-            this.rank[p1]++;
-        }
+    isConnected(n1, n2){
+        return this.find(n1) === this.find(n2)
     }
     find(n) {
-        if (this.root[n] === n) return n;
-        return this.root[n] = this.find(this.root[n])
+        let p = this.root[n]
+        if (p === n) return n;
+        this.root[n] = this.find(this.root[n])
+        return this.root[n]
     }
-    isConnected(n1, n2) {
-        return this.find(n1) === this.find(n2);
+    union(n1, n2) {
+        let p1 = this.find(n1), p2 = this.find(n2)
+        if (p1 === p2) return;
+        let r1 = this.rank[p1], r2 = this.rank[p2]
+        if (r1 > r2) {
+            this.root[p2] = p1
+        } else if (r1 < r2) {
+            this.root[p1] = p2
+        } else {
+            this.rank[p1]++
+            this.root[p2] = p1
+        }
+        this.connected += 1;
     }
-}   
+}
 
-/******************************************************************************************************************
- * Kruskal's algorithm (undirected graph)
- * Use union find and sort via the manhattan difference.
- * Use min Object heap to store the min points.
- * Time Complexity: O(n2 * log(n)) it takes n*2 to compute the differences. it takes log(n) time to insert into the heap
- *                   O(n2 * log(n) + log(n) * a(n) = O(n2 * log(n))     a(n) = inverse ackermann function
- * 
- * Space Complexity: O(n2) for storing all the edges
- ******************************************************************************************************************/
-var minCostConnectPoints = function(points) {
+const minCostConnectPoints = (points) => {
     if (points.length <= 1) return 0;
-    const pQ = new MinHeap();
-    const unionSet = new DisJoinSet(points);
-
+    let unionSet = new DisJoinSet(points);
+    let minHeap = new MinHeap();
     for (let i = 0; i < points.length; i++) {
-        let [mX, mY] = [points[i][0], points[i][1]];
+        let vx = points[i][0], vy = points[i][1]
         for (let j = i+1; j < points.length; j++) {
-            let [x, y] = [points[j][0], points[j][1]];
-            let val = Math.abs(mX - x) + Math.abs(mY - y)
-            const n = new HeapNode(val, [i, j])
-            pQ.insert(n)
+            if (i === j) continue;
+            let vx2 = points[j][0], vy2 = points[j][1]
+            let val = Math.abs(vx - vx2) + Math.abs(vy - vy2)
+            minHeap.insert(new HeapNode(val, [i, j]))
         }
     }
-    let edges = 0;
     let cost = 0;
-
-    while (!pQ.isEmpty()) {
-        let n = pQ.poll();
-
-        let [n1, n2] = [n.key[0], n.key[1]]
-        
-        if (!unionSet.isConnected(n1, n2)) {
-            unionSet.union(n1, n2)
-            edges++
-            cost += n.val;
-        }
-        if (edges === points.length-1) {
-            return cost
+    while (unionSet.connected !== points.length-1) {
+        let v = minHeap.poll();
+        if (!unionSet.isConnected(v.key[0], v.key[1])) {
+            unionSet.union(v.key[0], v.key[1])
+            cost += v.val
         }
     }
+    return cost;
 }
