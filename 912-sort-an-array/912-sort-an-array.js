@@ -1,16 +1,18 @@
-/**
- * @param {number[]} nums
- * @return {number[]}
- */
 const sortArray = (n) => {
-    if (!n.length) return [];
-    let p = n[Math.floor(n.length / 2)]
-    let [left, mid, right] = [[],[],[]];
-    for (let i = 0; i < n.length; i++) {
-        const num = n[i];
-        if (num < p) left.push(num)
-        if (num > p) right.push(num)
-        if (num === p) mid.push(num)
-    }
-    return [...sortArray(left), ...mid, ...sortArray(right)]
+   if (n.length <= 1) return n
+   let left = [], mid = [], right = []
+   let p = Math.floor((n.length / 2))
+ p = n[p]
+   for (let i = 0; i < n.length; i++) {
+       const e = n[i];
+       if (e < p) {
+           left.push(e)
+       } else if (e > p) {
+           right.push(e)
+       } else {
+           mid.push(e)
+       }
+   }
+   
+   return [...sortArray(left), ...mid, ...sortArray(right)]
 }
