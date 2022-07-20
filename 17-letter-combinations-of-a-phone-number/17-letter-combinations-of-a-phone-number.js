@@ -1,6 +1,7 @@
 /**
  * Backtracking
- * Time and Space: O(n*4)
+ * Time: O(n* 4^n)
+    Space: O(n)
  */
 var letterCombinations = function(digits) {
     if (!digits) return []
