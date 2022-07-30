@@ -1,27 +1,47 @@
 /**
- * DFS, recursion, use two variables
- * Time and Space: O(n)
+ * parent pointers, two loops, time and space O(n)
  */
 var lowestCommonAncestor = function(root, p, q) {
-    let parent = undefined, child = undefined
-    const dfs = (n, v1, v2) => {
+    if (!p || !q) return false;
+    let mainNode = null;
+    const find = (n, t, sign) => {
         if (!n) return;
-        let mainV = false
-        if (n.val === p.val || n.val === q.val) mainV = true
-
-        if (mainV && v1 || mainV && v2 || v1 && v2) {
-            parent = n;
-            return true
+        if (n.val === t.val) {
+            if (sign === "p") n.pFound = true;
+            if (sign === "q") n.qFound = true;
+        }
+        if (n.qFound && n.pFound) {
+            if (!mainNode) mainNode = n;
+            return n;
+        }
+        if (n.val === t.val) {
+            return n
         }
 
-        let left = dfs(n.left, mainV || v1, v2)
-        let right = dfs(n.right, v1, mainV || v2)
-        if (mainV && left || left && right || mainV && right) {
-            parent = n;
+        let n1 = find(n.left, t, sign)
+        let n2 = find(n.right, t, sign)
+
+        if (n1) {
+            if (n1.pFound) n.pFound = true
+            if (n1.qFound) n.qFound = true
+            if (n.qFound && n.pFound) {
+                if (!mainNode) mainNode = n;
+                return n;
+            }
+            return n
         }
-        return left || right || mainV
-   
+        if (n2) {
+            if (n2.pFound) n.pFound = true
+            if (n2.qFound) n.qFound = true
+            if (n.qFound && n.pFound) {
+                if (!mainNode) mainNode = n;
+                return n;
+            }
+            return n
+        }
+        return;
     }
-    dfs(root, false, false)
-    return parent
-}
+    let result = find(root, p, "p")
+    let result2 = find(root, q, "q")
+    return mainNode
+};
