@@ -1,6 +1,7 @@
 /**
  * bit manipulation
- * O(1) time and space
+ * space O(1) 
+ * time O(log n) we're shifting the n bits
  */
  var divide = function(n, d) {
     if (n === 0 || d === 0) return 0
@@ -21,8 +22,8 @@
         n -= tempd
     }
     if (isNegative) return -result
-    if (result >= 2147483648) {
-        return 2147483648 - 1
+    if (result >= 2**31) {
+        return 2**31 - 1
     }
     return result
 };
