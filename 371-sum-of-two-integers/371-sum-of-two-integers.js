@@ -1,7 +1,6 @@
 /**
- * @param {number} a
- * @param {number} b
- * @return {number}
+ * Space: O(1)
+ * Time: O(1) each integer only has 32 bits
  */
 const getSum = (a, b) => {
     while (b !== 0) {
