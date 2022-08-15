@@ -1,6 +1,6 @@
 /**
- * Time O(n + m) for nodes in a and b
- * Space: O(n + m)
+ * Time O(n) for nodes in longest list
+ * Space: O(n + 1)  = O(n) ...1 extra bit for adding two numbers
  */
  var addTwoNumbers = function(a, b) {
     let v1, v2, sum, root, curr, carry = 0
