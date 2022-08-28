@@ -10,14 +10,21 @@
  * @param {TreeNode} root
  * @return {number}
  */
+/**
+ * Time: O(n)
+ * Space: O(h) height of tree is average   O(n) is worst case
+ */
 var diameterOfBinaryTree = function(root) {
-    let max = 0;
-    const dfs = (n) => {
-        if (!n) return 0;
-        let left = dfs(n.left)
-        let right = dfs(n.right)
-        max = Math.max(max, left, right, left + right)
-        return Math.max(left, right) + 1;
+    let max = 0
+    const dfs = (node) => {
+        if (!node) return 0
+
+        let left = dfs(node.left)
+        let right = dfs(node.right)
+
+        max = Math.max(left, right, left + right, max)
+
+        return Math.max(left, right) + 1
     }
     dfs(root)
     return max
