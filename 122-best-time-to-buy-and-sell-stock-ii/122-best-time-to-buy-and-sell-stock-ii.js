@@ -1,26 +1,18 @@
 /**
- * State var: i for idx of prices  t for buying/selling
- *              (stands for maxProfit for that day .... end )
- * Base Case: 0 for out of bounds or t === 1 && i === prices.length-1
- * 
+ * DP, Time: O(n), Space: O(1)
  */
-// Top Down
- var maxProfit = function(prices, fee) {
-    let memo = [...new Array(prices.length+1)].map(a => [...new Array(3)].fill(-Infinity))
-    const dp = (i, t) => {
-        if (i === prices.length-1 && t === 1 || i >= prices.length){
-            return 0;
-        }
-        if (memo[i][t] !== -Infinity) return memo[i][t]
+var maxProfit = function(prices) {
+    let maximum = 0, currMax = 0, currMin = prices[0];
     
-        if (t === 1) {
-           return memo[i][t] = Math.max(dp(i+1,t),
-                - prices[i] + dp(i+1, 0))
-        } else {
-            return memo[i][t] = Math.max(dp(i+1, t),
-                prices[i] + dp(i+1, 1))
-            
+    for (let i = 1; i < prices.length; i++) {
+        let sum = prices[i] - prices[i-1];
+        let sum2 = prices[i] - currMin
+
+        currMax = Math.max(sum + currMax, sum2, currMax)
+        currMin = Math.min(currMin, prices[i])
+        if (i === prices.length-1) {
+            maximum = Math.max(maximum, currMax)
         }
     }
-    return dp(0, 1)
+    return maximum;
 };
