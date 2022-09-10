@@ -1,29 +1,35 @@
-/**
- * bit manipulation
- * space O(1) 
- * time O(log n) we're shifting the n bits
- */
- var divide = function(n, d) {
-    if (n === 0 || d === 0) return 0
+var divide = function(dividend, divisor) {
     let isNegative = false;
+    if (dividend < 0 && divisor > 0 || dividend > 0 && divisor < 0) {
+        isNegative = true;
+    }
+    divisor = Math.abs(divisor)
+    dividend = Math.abs(dividend)
     let result = 0;
-    if ((d < 0 || n < 0) && !(d < 0 && n < 0)) isNegative = true;
-    n = Math.abs(n)
-    d = Math.abs(d)
 
-    while (n >= d) {
-        let count = 1, temp = n, tempd = d
-        while (tempd <= (temp >> 1)){
-            count <<= 1
-            temp >>= 1
-            tempd <<= 1
+    const isResultTooBig = () => {
+        if (result > 2**31) {
+            if (isNegative) result = -result
+            if (result > 2**31 -1) return 2**31 - 1
+            if (result < (-(2**31)) ) return -(2**31)
         }
-        result += count
-        n -= tempd
     }
-    if (isNegative) return -result
-    if (result >= 2**31) {
-        return 2**31 - 1
+
+    while (dividend >= divisor) {
+        let tempD = dividend, tempDivide = divisor, count = 1
+
+        while ((tempD >> 1) >= tempDivide) {
+            count <<= 1
+            tempD = tempD >> 1
+            tempDivide = tempDivide << 1
+        }
+        result += count;
+        dividend -= tempDivide
+        isResultTooBig();
     }
+    if (isNegative) result = -result
+
+    if (result > (2**31 -1)) return 2**31 - 1
+    if (result < (-(2**31)) ) return -(2**31)
     return result
 };
