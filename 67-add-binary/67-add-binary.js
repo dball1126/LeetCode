@@ -1,7 +1,3 @@
-/**
- * Time: O(m) size of b
- * Space: O(1)
- */
 var addBinary = function(a, b) {
     a = BigInt(`0b${a}`)
     b = BigInt(`0b${b}`)
