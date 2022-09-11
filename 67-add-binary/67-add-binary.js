@@ -1,3 +1,6 @@
+/**
+ * Time: O(n + m)...a string + b string
+ */
 var addBinary = function(a, b) {
     a = BigInt(`0b${a}`)
     b = BigInt(`0b${b}`)
