@@ -1,5 +1,5 @@
 /**
- * Time: O(m) m = b
+ * Time: O(1) -1000 and 1000 only have 32 bits
  * Space: O(1)
  */
 var getSum = function(a, b) {
