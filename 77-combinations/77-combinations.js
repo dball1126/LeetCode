@@ -1,6 +1,5 @@
 /**
  * Backtracking.
- * Time and Space: O(n * m)
  */
 const combine = (n, k) => {
     let combos = [];
