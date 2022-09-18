@@ -1,22 +1,23 @@
 /**
- * @param {number} n
- * @param {number} k
- * @return {number[][]}
+ * Backtracking.
+ * Time and Space: O(n * m)
  */
-var combine = function(n, k) {
-    if (!n) return []
-    let result = []
-    const helper = (j, curr) => {
-        if (curr.length === k) return curr
-        if (j > n) return []
-
-        for (let i = j; i <= n; i++) {
-            let combo = helper(i+1, [...curr, i])
-            if (combo && combo.length === k) {
-                result.push(combo)
-            }
+const combine = (n, k) => {
+    let combos = [];
+    const getCombos = (j, curr) => {
+        if (j > n) return;
+        curr.push(j)
+        if (curr.length === k) {
+            combos.push([...curr])
+            return;
+        }
+        for (let i = j+1; i <= n; i++) {
+            getCombos(i, curr)
+            curr.pop();
         }
     }
-    helper(1, [])
-  return result;
-};
+    for (let i = 1; i <= n; i++) {
+        getCombos(i, [])
+    }
+    return combos;
+}
