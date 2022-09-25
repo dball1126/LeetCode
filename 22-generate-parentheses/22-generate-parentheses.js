@@ -1,12 +1,9 @@
-/**************************************
- * Time and Space: O(2^n) (count the call stacks...the loop is constant)
- **************************************/
 var generateParenthesis = function(n) {
     if (!n) return []
     let max = 2 * n, str = "()", result = new Set();
 
     const backtrack = (i, curr, open, close) => {
-        if (close > open) return;
+        if (close > open || open > max/2 || close > max/2) return;
         if (curr.length >= max && open === close && !result.has(curr)) {
             return result.add(curr)
         }
@@ -25,3 +22,5 @@ var generateParenthesis = function(n) {
     backtrack(0, "", 0, 0)
     return Array.from(result)
 };
+
+console.log(generateParenthesis(3))
