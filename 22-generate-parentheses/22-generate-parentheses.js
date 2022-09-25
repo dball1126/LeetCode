@@ -3,7 +3,7 @@ var generateParenthesis = function(n) {
     let max = 2 * n, str = "()", result = new Set();
 
     const backtrack = (i, curr, open, close) => {
-        if (close > open ) return;
+        if (close > open || open > max/2 || close > max/2) return;
         if (curr.length >= max && open === close && !result.has(curr)) {
             return result.add(curr)
         }
