@@ -11,8 +11,7 @@
  * @return {number}
  */
 /**
- * Time: O(h) + O(h) + O(1) = O(h)
- * Space: O(h)
+    Time and Space: O(n)
  */
 const treeHeights = (n) => {
     if (!n) return {max: 0, min: 0};
