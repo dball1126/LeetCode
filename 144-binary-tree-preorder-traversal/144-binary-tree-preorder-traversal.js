@@ -15,7 +15,14 @@
  * DFS
  * Time and space: O(n)
  */
- var preorderTraversal = function(n) {
-     if (!n) return [];
-     return [n.val, ...preorderTraversal(n.left), ...preorderTraversal(n.right)]
- }
+var preorderTraversal = function(n) {
+    if (!n) return [];
+    let curr = n, stack = [], result = [];
+    while (curr || stack.length) {
+        if (!curr) curr = stack.pop();
+        result.push(curr.val);
+        if (curr.right) stack.push(curr.right);
+        curr = curr.left;
+    }
+    return result;
+}
