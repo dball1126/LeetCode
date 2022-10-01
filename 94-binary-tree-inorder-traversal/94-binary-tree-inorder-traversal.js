@@ -1,9 +1,9 @@
 /**
- * time: O(n)
- * space: average (-)(log n)
- * worst O(n)
+ * Left, Root, Right
+ * DFS
+ * Time & Space: O(n)
  */
-const inorderTraversal = (root) => {
-if (!root) return []
-return [...inorderTraversal(root.left), root.val, ...inorderTraversal(root.right)]
-} 
+const inorderTraversal = (n) => {
+    if (!n) return []
+    return [...inorderTraversal(n.left), n.val, ...inorderTraversal(n.right)]
+}
