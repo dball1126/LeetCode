@@ -10,12 +10,23 @@
  * @param {TreeNode} root
  * @return {number[]}
  */
-/**
- * DFS
- * Left, Right, Root
- * Time and Space: O(n)
- */
- var postorderTraversal = function(root) {
-    if (!root) return [];
-    return [...postorderTraversal(root.left), ...postorderTraversal(root.right), root.val]
-};
+var postorderTraversal = function(root) {
+    if (!root) return []
+    let result = [], prev = null, curr = root, stack = []
+    while (curr || stack.length) {
+        while (curr && curr.left && curr.left.val !== prev) {
+            stack.push(curr)
+            curr = curr.left
+        }
+        if (!curr) curr = stack.pop()
+        if (curr.right && curr.right.val !== prev) {
+            stack.push(curr)
+            curr = curr.right
+        } else if (prev !== curr.val) {
+            result.push(curr.val)
+            prev = curr.val
+            curr = null
+        }
+    }
+    return result;
+}
