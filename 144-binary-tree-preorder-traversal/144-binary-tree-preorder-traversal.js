@@ -10,7 +10,12 @@
  * @param {TreeNode} root
  * @return {number[]}
  */
-var preorderTraversal = function(root) {
-    if (!root) return []
-    return [root.val, ...preorderTraversal(root.left), ...preorderTraversal(root.right)]
-}
+/**
+ * Root, left, right
+ * DFS
+ * Time and space: O(n)
+ */
+ var preorderTraversal = function(n) {
+     if (!n) return [];
+     return [n.val, ...preorderTraversal(n.left), ...preorderTraversal(n.right)]
+ }
