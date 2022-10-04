@@ -22,7 +22,7 @@ var findOrder = function(n, p) {
     }
     while (q.length) {
         let n = q.shift();
-        if (visited.has(n)) continue
+        // if (visited.has(n)) continue
         if (indegrees[n] <= 0) {
             result.push(n)
             visited.add(n)
