@@ -16,16 +16,14 @@ var findOrder = function(n, p) {
         pMap.set(i, new Set())
     }
     createPrerequistesMap(pMap, p, indegrees)
-    let result = [], q = [], visited = new Set()
+    let result = [], q = []
     for (let i = 0; i < n; i++) {
         if (indegrees[i] === 0) q.push(i)
     }
     while (q.length) {
         let n = q.shift();
-        // if (visited.has(n)) continue
         if (indegrees[n] <= 0) {
             result.push(n)
-            visited.add(n)
         }
         let arr = Array.from(pMap.get(n))
 
