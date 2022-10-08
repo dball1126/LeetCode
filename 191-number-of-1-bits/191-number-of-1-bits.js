@@ -1,12 +1,9 @@
-/**
- * Time: O(1)...only 32 bits
- * Space: O(1)
- */
-const hammingWeight = (n) => {
-    let count = 0;
-    while ( n !== 0) {
-        count++;
-        n &= (n-1)
-    }
-    return count
-}
+// Time and Space: O(1)
+var hammingWeight = function(n) {
+   let count = 0;
+   while (n !== 0) {
+       n &= (n - 1)
+       count++
+   }
+   return count
+};
