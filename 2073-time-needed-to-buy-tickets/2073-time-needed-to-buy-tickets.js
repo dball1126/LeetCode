@@ -1,7 +1,4 @@
-/**
- * Time & Space: O(n)
- * Queue of indexes
- */
+
 var timeRequiredToBuy = function(tickets, k) {
     let time = 0, queue = tickets.map((v, i) => i)
     while (queue.length) {
