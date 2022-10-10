@@ -16,7 +16,7 @@ var criticalConnections = function(n, nums) {
             adjList.get(node).forEach(next => {
                 if (next !== parent) {
                     let v = dfs(next, node)
-                    if (v > distance) {
+                    if (distance < v) {
                         connections.push([node, next])
                     }
                     times.set(node, Math.min(times.get(node), v))
