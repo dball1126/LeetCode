@@ -1,6 +1,7 @@
 /**
  * Dynamic Programming
- * Time and space: O(n)
+ * Time: O(n * m)  n for coins * m for amount
+ * Space: O(m) m for amount
  */
 var coinChange = function(coins, amount) {
     if (amount === 0) return 0
