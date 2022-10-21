@@ -32,7 +32,7 @@ class Trie {
 
 /**
  * Time Complexity: O(n * m) n for words...m for word length
- * Space Complexity: O(n)
+ * Space Complexity: O(m)
  */
 const longestWord = (words) => {
     let trie = new Trie(words), longWord = ''
