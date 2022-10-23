@@ -1,9 +1,8 @@
 /**
  * Time: O(n) for nodes in tree
- * Space: O(n) it's really n /2 but we round up to n
- * the size of the Queue.
+ * Space: O(n)
  */
-var zigzagLevelOrder = function(root) {
+ var zigzagLevelOrder = function(root) {
     if (!root) return [];
     let paths = [], dir = "left", queue = [[root]];
     while (queue.length) {
