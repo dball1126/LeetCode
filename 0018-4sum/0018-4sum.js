@@ -1,4 +1,4 @@
-/**
+/** two loops + two pointer
  * Time: O(n*3)
  * Space: O(1) if you don't count the output array
  */
