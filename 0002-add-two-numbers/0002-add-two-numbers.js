@@ -11,8 +11,8 @@
  * @return {ListNode}
  */
 /**
- * Time: O(n + m) for l1 and l2
- * Space: O(1) if not counting the output list
+ * Time: O(max(m, n)) for l1 and l2
+ * Space: O(max(n, m) + 1) for output list
  */
 var addTwoNumbers = function(l1, l2) {
     let carry = 0, root = null, curr = null;
@@ -46,6 +46,5 @@ var addTwoNumbers = function(l1, l2) {
         node = new ListNode(carry)
         curr.next = node
     }
-
     return root
 };
