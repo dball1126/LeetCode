@@ -1,5 +1,6 @@
 /**
- * Time: O(n) where n is the smaller between n and m
+ * Time: 
+ * O(1) due to a constant amount of 32 bits in an integer
  * Space: O(1)
  */
 var getSum = function(a, b) {
