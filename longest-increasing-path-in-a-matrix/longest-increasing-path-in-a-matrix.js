@@ -2,6 +2,16 @@
  * @param {number[][]} matrix
  * @return {number}
  */
+// Base Case: 0 if out of boudns, 1 as default
+// State Var: r, c for indexes of matrix
+// Recurrence Relation:
+// dp(r, c):  val = matrix[r][c]
+//      for dir of dirs
+//          if dir > val
+//              val = Math.max(val, dp( dir ) + 1)
+//
+//      return val
+//
 // 2D Top-Down Dynamic Programming
 // Time & Space: O(r * c) ...row * columns
 var longestIncreasingPath = function(matrix) {
