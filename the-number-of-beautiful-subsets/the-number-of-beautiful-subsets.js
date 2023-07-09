@@ -4,7 +4,7 @@
  * @return {number}
  */
 // Backtracking
-// Time: O(!n * n)....n for nums length
+// Time: O(2^n * n)....n for nums length
 // Space: O(n)
 var beautifulSubsets = function(nums, k) {
     let result = 0, len = nums.length
