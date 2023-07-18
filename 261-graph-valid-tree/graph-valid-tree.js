@@ -1,5 +1,6 @@
 // Union Find with path compression
-// Time and Space: O(V + E)...v for vertices(n) and e for edges
+// Time: O(V)...we can iterate through at most n-1 edges before we break out of the loop
+// Space: O(V)...for root and rank arrays
 // Find operation is considered amortized time...which is constant
 var validTree = function(n, edges) {
     let root = new Array(n), rank = new Array(n), connected = 0
