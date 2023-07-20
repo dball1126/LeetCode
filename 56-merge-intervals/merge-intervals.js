@@ -4,8 +4,9 @@
  */
 
 
+
 // Time: O(n * log(n))...sorting dominates
-// Space: O(1)...output array is not normally counted.
+// Space: O(log(n))...for the sorted array unless it's done in-place
 var merge = function(intervals) {
     intervals.sort((a, b) => a[0] - b[0])
     let x = undefined, y = undefined, intrvls = [], len = intervals.length
