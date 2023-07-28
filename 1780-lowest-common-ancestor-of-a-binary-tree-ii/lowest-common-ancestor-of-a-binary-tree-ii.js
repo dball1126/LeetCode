@@ -11,6 +11,8 @@
  * @param {TreeNode} q
  * @return {TreeNode}
  */
+// Recursive Depth-First-Search
+// Time and Space: O(n)
 var lowestCommonAncestor = function(rootNode, p, q) {
     if (!p || !q || !rootNode) return null
     let node = null;
