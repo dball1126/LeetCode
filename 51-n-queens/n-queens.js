@@ -8,6 +8,7 @@ var solveNQueens = function(n) {
             let copy = []
             for (let i = 0; i < n; i++) {
                 let str = ""
+            
                 for (let j = 0; j < n; j++) {
                     str += board[i][j]
                 }
