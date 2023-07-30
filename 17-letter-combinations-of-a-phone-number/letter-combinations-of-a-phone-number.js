@@ -2,7 +2,7 @@
  * @param {string} digits
  * @return {string[]}
  */
-// Time: O(4^n)...n is digits length and 4 is the numbers
+// Time: O(4^n)...n is digits length and 4 is the num of ltrs
 // Space: O(n)
 var letterCombinations = function(digits) {
     if (!digits) return []
