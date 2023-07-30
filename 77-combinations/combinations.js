@@ -16,7 +16,6 @@ var combine = function(n, k) {
             backtrack(i+1, curr);
             curr.pop();
         }
-
     }
     backtrack(1, [])
     return result;
