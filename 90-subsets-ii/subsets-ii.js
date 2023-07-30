@@ -1,7 +1,5 @@
-/**
- * @param {number[]} nums
- * @return {number[][]}
- */
+// Time: O((n^2) * n)...sorting is dominated
+// Space: O(n)
 var subsetsWithDup = function(nums) {
     nums.sort((a, b) => a - b)
     const result = [], resultSet = new Set();
