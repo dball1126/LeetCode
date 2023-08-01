@@ -3,7 +3,7 @@
  * @return {number[][]}
  */
 
-// Time: O((2^n) * n)...we have 2 states to the power of nums length * copying nums
+// Time: O(n!)
 // Space: O(n)...we have n call stacks and n in our set at any given time.
 var permute = function(nums) {
     let result = [], set = new Set()
