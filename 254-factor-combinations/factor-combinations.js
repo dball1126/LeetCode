@@ -2,7 +2,8 @@
  * @param {number} n
  * @return {number[][]}
  */
-// Time: O((f^log(n) + n))...f = between n/2 & log(n), log(n) = recursion tree height
+// # of factors is log(n)
+// Time: O( (log(n)^log(n)) * log(n) )...log(n) for number of factors in the factors array
 // Space: log(n)
 var getFactors = function(n) {
     if (n <= 1) return []
