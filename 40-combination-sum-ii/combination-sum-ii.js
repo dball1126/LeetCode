@@ -3,8 +3,7 @@
  * @param {number} target
  * @return {number[][]}
  */
-
-// Time: O((n ^t) * n)
+// Time: O((n ^n) * n)
 // Space: O(n)
 var combinationSum2 = function(nums, tgt) {
     let result = [], set = new Set()
