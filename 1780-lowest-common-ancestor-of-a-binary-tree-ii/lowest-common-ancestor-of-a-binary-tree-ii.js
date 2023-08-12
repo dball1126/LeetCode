@@ -11,29 +11,29 @@
  * @param {TreeNode} q
  * @return {TreeNode}
  */
-// Recursive Depth-First-Search
-// Time and Space: O(n)
-var lowestCommonAncestor = function(rootNode, p, q) {
-    if (!p || !q || !rootNode) return null
-    let node = null;
-    
-    const dfs = (root) => {
-        if (node) return;
-        if (!root) return;
+var lowestCommonAncestor = function(root, p, q) {
+    let found1 = found2 = result = null
 
-        let left = dfs(root.left), right = dfs(root.right)
-        let found = root.val === p.val || root.val === q.val
-   
-        if ((found && left) || (found && right) || (left && right)) {
-            return node = root;
+    const dfs = (node) => {
+        if (!node) return;
+
+        if (p && node.val === p.val) found1 = p
+        if (q && node.val === q.val) found1 = q
+
+        if (found1 && found2) return node
+
+        let left = dfs(node.left)
+        let right = dfs(node.right)
+        let v = ((p && node.val === p.val) || (q && node.val === q.val))
+        if ((left && right || right && v || left && v) && !result) {
+            return  result = node;
         }
-
-        if (root.val === p.val) return root;
-        if (root.val === q.val) return root;
         if (left) return left
         if (right) return right
+        if (v) return v
+
     }
 
-    dfs(rootNode)
-    return node;
+    dfs(root)
+    return result
 };
