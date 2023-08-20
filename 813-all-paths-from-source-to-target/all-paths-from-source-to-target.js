@@ -2,7 +2,7 @@
  * @param {number[][]} graph
  * @return {number[][]}
  */
-// Time and Space: O(V * E)
+// Time and Space: O(V + E)
 var allPathsSourceTarget = function(graph) {
     if (!graph.length) return []
     const paths = [], queue = [[[0]]]
