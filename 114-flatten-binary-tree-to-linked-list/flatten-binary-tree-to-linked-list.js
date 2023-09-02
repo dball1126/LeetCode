@@ -10,6 +10,9 @@
  * @param {TreeNode} root
  * @return {void} Do not return anything, modify root in-place instead.
  */
+// DFS, STACK
+// Time: O(n)
+// Space: log(n)
 var flatten = function(root) {
     let copyR = null, curr = root, stack = []
 
