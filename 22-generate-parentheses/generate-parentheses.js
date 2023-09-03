@@ -2,23 +2,18 @@
  * @param {number} n
  * @return {string[]}
  */
-// Backtracking
-// Time: O(2^(n*2))
-// Space: O(n*2)
 var generateParenthesis = function(n) {
-    const result = [], N = n*2
-    const backtrack = (inn, out, curr) => {
-        if (N === curr.length && inn === out) {
-            return result.push(curr)
-        }
-        if (inn+out > N) return;
-        if (inn < n) {
-            backtrack(inn+1, out, curr + "(")
-        }
-        if (out < n && inn > out) {
-            backtrack(inn, out+1, curr + ")")
-        }
+    let result = []
+
+    const backtrack = (o, c, curr) => {
+        if (o > n || c > n || c > o) return;
+        if (o === n && c === n) return result.push(curr)
+
+        backtrack(o+1, c, curr + "(")
+
+        backtrack(o, c +1, curr + ")")
     }
-    backtrack(0,0,"")
-    return result;
+    backtrack(0, 0, "")
+
+    return result
 };
