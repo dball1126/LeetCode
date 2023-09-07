@@ -11,8 +11,6 @@
  * @return {TreeNode[]}
  */
 // Dynamic prorgramming / Backtracking
-// Time: O(n*2)
-// Space: O(n)
 var generateTrees = function(n) {
     const memo = new Map()    
     const generate = (s, e) => {
