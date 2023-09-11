@@ -19,7 +19,7 @@ var maxSlidingWindow = function(nums, k) {
         }
         result.push(nums[stack[0]])
 
-        while (stack.length && stack[0] <= s) {
+        while (stack.length && stack[0] <= s) { // slide left pointer right
             stack.shift()
         }
         s++
