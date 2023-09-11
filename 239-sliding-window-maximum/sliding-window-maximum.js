@@ -4,8 +4,7 @@
  * @return {number[]}
  */
 // Sliding Window & STACK
-// Time: O(n)
-// Space: O(1)
+// Time & Space: O(n)
 var maxSlidingWindow = function(nums, k) {
     let result = [], s = 0, e = 0, n = nums.length, stack = []
     while (e < n) { // slide right pointer right
