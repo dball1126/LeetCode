@@ -19,8 +19,8 @@ var isValidBST = function(root) {
 
         if (!nde) continue;
         if (nde.val <= min || nde.val >= max) return false;
-        if (nde.left) stack.push([nde.left, min, nde.val])
-        if (nde.right) stack.push([nde.right, nde.val, max])
+        stack.push([nde.left, min, nde.val])
+        stack.push([nde.right, nde.val, max])
     }
     return true;
 };
