@@ -1,5 +1,6 @@
 // Top-Down: Dynamic programming
-// Time and Space: O(n)
+// Time: O(n^2)
+// Space: O(n)
 var longestPalindrome = function(str) {
     let n = str.length, max = [0,0], longest = ""
     const dp = (i, j) => {
