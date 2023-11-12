@@ -2,21 +2,21 @@
  * @param {number[]} nums
  * @return {number[][]}
  */
-// Time: O((2^n) * n)
+// Backtracking
+// Time: O(2^n * n)
 // Space: O(n)
 var subsets = function(nums) {
-    let result = []
-    const backtrack = (idx, curr) => {
-        result.push([...curr])
-        if (idx >= nums.length) return
+    const result = [], n = nums.length
 
-        for (let i = idx; i < nums.length; i++) {
-            const v = nums[i];
-            curr.push(v)
-            backtrack(i+1, curr)
+    const backtrack = (curr, idx) => {
+        result.push([...curr])
+        if (idx >= n) return;
+        for (let i = idx; i < n; i++) {
+            curr.push(nums[i])
+            backtrack(curr, i+1)
             curr.pop()
         }
     }
-    backtrack(0, [])
-    return result
+    backtrack([], 0)
+    return result;
 };
