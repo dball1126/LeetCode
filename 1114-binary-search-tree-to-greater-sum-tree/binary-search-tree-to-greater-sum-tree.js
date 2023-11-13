@@ -13,7 +13,6 @@
 // Inorder Traversal
 // Time and Space: O(n)
 var bstToGst = function(root) {
-
     let curr = root, stack = [], inorder = []
     while (curr || stack.length) {
         while (curr && curr.left) {
@@ -24,8 +23,6 @@ var bstToGst = function(root) {
         inorder.push(curr)
         curr = curr.right
     }
-    
-
     const n = inorder.length
 
     for (let i = n-1; i >= 0; i--) {
