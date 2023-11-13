@@ -10,20 +10,27 @@
  * @param {TreeNode} root
  * @return {TreeNode}
  */
-// Depth-First-Search
+// Inorder Traversal
 // Time and Space: O(n)
 var bstToGst = function(root) {
-    
-    const getAllNodes = (nde) => {
-        if (!nde) return []
-        return [...getAllNodes(nde.left), nde, ...getAllNodes(nde.right)]
+
+    let curr = root, stack = [], inorder = []
+    while (curr || stack.length) {
+        while (curr && curr.left) {
+            stack.push(curr)
+            curr = curr.left
+        }
+        if (!curr) curr = stack.pop();
+        inorder.push(curr)
+        curr = curr.right
     }
-    const nodes = getAllNodes(root)
-    const n = nodes.length
+    
+
+    const n = inorder.length
 
     for (let i = n-1; i >= 0; i--) {
-        const val = i + 1 < n ? nodes[i+1].val : 0
-        nodes[i].val += val        
+        const val = i + 1 < n ? inorder[i+1].val : 0
+        inorder[i].val += val        
     }
     return root;
 };
