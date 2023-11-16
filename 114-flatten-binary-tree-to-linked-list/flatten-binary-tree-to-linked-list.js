@@ -10,27 +10,19 @@
  * @param {TreeNode} root
  * @return {void} Do not return anything, modify root in-place instead.
  */
-// DFS, STACK
-// Time: O(n)
-// Space: log(n)
 var flatten = function(root) {
-    let copyR = null, curr = root, stack = []
-
+    let curr = root, stack = [], prev = null;
+    
     while (curr || stack.length) {
-        if (!curr) curr = stack.pop();
-        if (copyR) {
-            copyR.right = curr
-            copyR.left = null
-            copyR = curr
-        } else {
-            copyR = curr
+        if (!curr) curr = stack.pop()
+        if (prev) {
+            prev.right = curr
         }
         if (curr.right) stack.push(curr.right)
-        if (curr.left) {
-            curr = curr.left
-        } else {
-            curr = null
-        }
+        let temp = curr.left
+        curr.left = null
+        prev = curr
+        curr = temp
     }
-    return root
+    return root;
 };
