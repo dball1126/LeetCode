@@ -1,5 +1,5 @@
 
-// Greedy
+
 // Time: O(n)
 // Space: O(1)
 var maxProfit = function(prices) {
