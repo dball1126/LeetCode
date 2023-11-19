@@ -2,7 +2,7 @@
  * @param {number[]} nums
  * @return {boolean}
  */
-// Gredy
+// Greedy
 // Time: O(n)
 // Space: O(1)
 var canJump = function(nums) {
