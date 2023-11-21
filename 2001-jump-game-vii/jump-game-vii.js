@@ -16,7 +16,6 @@ var canReach = function(s, minJump, maxJump) {
         let newMin = Math.min(i + maxJump, n-1)
         if ((i + minJump) <= newMin) {
  
-            if (newMin <= min) continue;
             let begin = Math.max(min+1, i + minJump)
 
             for (let j = begin; j <= newMin; j++) {
