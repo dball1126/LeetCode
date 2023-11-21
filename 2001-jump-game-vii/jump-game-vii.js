@@ -18,8 +18,10 @@ var canReach = function(s, minJump, maxJump) {
             let begin = Math.max(min+1, i + minJump)
 
             for (let j = begin; j <= newMin; j++) {
-                // console.log("J" + j)
-                if (s[j] === '0') queue.push(j)
+                if (s[j] === '0') {
+                    if (j === n-1) return true
+                     queue.push(j)
+                }
             }
             min = newMin
         }
