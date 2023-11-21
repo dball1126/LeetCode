@@ -4,6 +4,8 @@
  * @param {number} maxJump
  * @return {boolean}
  */
+// Greedy
+// Time and Space: O(n)
 var canReach = function(s, minJump, maxJump) {
     let queue = [0], n = s.length, min = 0
 
@@ -26,6 +28,5 @@ var canReach = function(s, minJump, maxJump) {
             min = newMin
         }
     }
-
     return false;
 };
