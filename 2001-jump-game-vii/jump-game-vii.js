@@ -21,7 +21,7 @@ var canReach = function(s, minJump, maxJump) {
             for (let j = begin; j <= newMin; j++) {
                 if (s[j] === '0') {
                     if (j === n-1) return true
-                    if (Math.min(j + maxJump, n-1 > newMin)) {
+                    if (Math.min(j + maxJump, n-1 > newMin) && (i + minJump) <= newMin) {
                         queue.push(j)
                     }
                 }
