@@ -4,8 +4,7 @@
  * @return {boolean}
  */
 // Queue
-// Time: O(n)
-// Space: log(n)
+// Time & Space: O(n)
 var canReach = function(nums, start) {
     
     const queue =  [start], n = nums.length
@@ -24,3 +23,4 @@ var canReach = function(nums, start) {
     }
     return false;
 };
+
