@@ -2,6 +2,9 @@
  * @param {TreeNode} root
  * @return {number}
  */
+// Recursive Depth-First-Search
+// Dynamic Programming
+// Time and Space: O(n) (space can be O(h) for height of tree)
 var rob = function(root) {
     const dfs = (nde) => {
         if (!nde) return [0, 0]
