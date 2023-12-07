@@ -12,7 +12,7 @@
  */
 // Top-down Dynamic Programming
 // Time: O((2^n) / 2) ...we skip even numbers hence why it's divided by two
-// Space: O(n * (2^n))
+// Space: O(n * (2^n))...we store up to n nodes during each stack in the memo map
 var allPossibleFBT = function(num) {
     const memo = new Map()
 
