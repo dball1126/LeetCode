@@ -10,9 +10,9 @@
  * @param {number} n
  * @return {TreeNode[]}
  */
-// Recursive Depth-First-Search
-// Time: O((2^n) * n)
-// Space: O(n)
+// Top-down Dynamic Programming
+// Time: O((2^n) / 2) ...we skip even numbers hence why it's divided by two
+// Space: O(n * (2^n))
 var allPossibleFBT = function(num) {
     const memo = new Map()
 
@@ -20,7 +20,7 @@ var allPossibleFBT = function(num) {
         if (n <= 0) return []
         if (n === 1) return [new TreeNode(0)]
         if ((n / 2) === 0) return []
-        if (memo.has(n)) return [...memo.get(n)]
+        if (memo.has(n)) return memo.get(n)
         const trees = []
 
         for (let i = 2; i <= n; i+=2) {
