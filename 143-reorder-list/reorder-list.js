@@ -1,31 +1,31 @@
-// Stack
+// Two-pointer technique
 // Time and Space: O(n)
 var reorderList = function(root) {
-    let head = null, stack = []
+    let head = null, queue = []
     while (root) {
-        stack.push(root)
+        queue.push(root)
         root = root.next
     }
-    let s = 0, e = stack.length-1
+    let s = 0, e = queue.length-1
     while (s <= e) {
 
         if (s === e) {
-            if (head) head.next  = stack[s]
-            stack[s].next = null
+            if (head) head.next  = queue[s]
+            queue[s].next = null
             break;
         }
 
         if (!head) {
-            head = stack[s]
+            head = queue[s]
         } else {
-            head.next = stack[s]
+            head.next = queue[s]
         }
 
-        stack[s].next = stack[e]
-        stack[e].next = null;
-        head = stack[e]
+        queue[s].next = queue[e]
+        queue[e].next = null;
+        head = queue[e]
         s+=1; e--;
     }
-    return stack[0]
+    return queue[0]
 };
 
