@@ -10,9 +10,11 @@
  * @param {ListNode} head
  * @return {boolean}
  */
+ // Linked List
+ // Time: O(n)
+ // Space: O(1)
 var hasCycle = function(head) {
     let tortise = head, hare = head;
-    let tNum = 1, hareNum = 2
     if (!head) return false;
     if (hare) hare = hare.next;
     while (tortise && hare) {
