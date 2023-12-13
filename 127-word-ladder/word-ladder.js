@@ -35,7 +35,7 @@ var ladderLength = function(beginWord, endWord, wordList) {
         const wrdSet = wordMap.get(wrd)
         if (!wrdSet) continue;
         if (wrdSet.has(endWord)) {
-            ladder = Math.min(count+1, ladder); continue;
+           return ladder = Math.min(count+1, ladder); continue;
         }
         for (let cWrd of Array.from(wordMap.get(wrd))) {
             if (visited.has(cWrd)) continue;
