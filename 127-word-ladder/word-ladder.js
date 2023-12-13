@@ -5,8 +5,8 @@
  * @return {number}
  */
 // Breadth-First-Search
-// Time: O(n^2 * m^2)...n for words...m for words length
-// Space: O(n * m)...word * word length
+// Time: O(n^2 * m)...n for words...m for words length
+// Space: O(n^2)...word * word length
 var ladderLength = function(beginWord, endWord, wordList) {
     let ladder = Infinity, wordMap = new Map(), bfs = [[beginWord, 1]], visited = new Set();;
     wordList.unshift(beginWord)
