@@ -5,7 +5,7 @@
  * @return {number}
  */
 // Bi-directional Breadth-First-Search
-// Time & Space: O(n * m^2)...n for words and m for word length
+// Time & Space: O(n * m^2)/2 = O(n * m^2)...n for words and m for word length (if n and m are not limited to 8 and 4 chars)
 var minMutation = function(startGene, endGene, bank) {
     bank.unshift(startGene)
     const mutations = new Map(), n = bank.length
@@ -61,3 +61,4 @@ var minMutation = function(startGene, endGene, bank) {
     }
     return -1
 };
+
