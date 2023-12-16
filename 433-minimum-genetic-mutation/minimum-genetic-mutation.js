@@ -32,8 +32,11 @@ var minMutation = function(startGene, endGene, bank) {
         if (endQueue.length) {
             [endWord, endCount] = endQueue.shift();
             endVisited.set(endWord, endCount);
-            if (startVisited.has(endWord) && wordFound) {
+            if (startVisited.has(endWord)) {
                 return endCount + startVisited.get(endWord)
+            }
+            if (endVisited.has(startWord)) {
+                return startCount + endVisited.get(startWord)
             }
         }
         const handleQueuedItem = (mainWord, queue, visited, count) => {
