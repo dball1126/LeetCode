@@ -4,7 +4,7 @@
  * @return {number}
  */
 // Time: O(n^2)
-// Space: O(1)...two variables and vowels size is 5
+// Space: O(1)...5 variables and vowels size is 5
 var beautifulSubstrings = function(s, k) {
     let total = 0, v = 0, c = 0, vowels = new Set(['a','e','i','o','u']), n = s.length
     
