@@ -10,16 +10,13 @@ var sequenceReconstruction = function(nums, sequences) {
     let visited = new Set(), map = new Map(), n = nums.length+1, queue = []
     const indegrees = new Array(n).fill(0)
     for (let i = 0; i < sequences.length; i++) {
-
         for (let J = 0; J < sequences[i].length-1; J++) {
             const x = sequences[i][J], y = sequences[i][J+1]
-            
             if (!map.has(x)) map.set(x, new Set())
             if (!(map.get(x).has(y))) {
                 map.get(x).add(y)
                 indegrees[y]++
             }
-        
         }
     }
     indegrees.forEach((n, i) => { if (n === 0 && i !== 0) queue.push([i, 1]) })
