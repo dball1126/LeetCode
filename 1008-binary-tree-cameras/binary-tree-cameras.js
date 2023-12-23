@@ -29,6 +29,6 @@ var minCameraCover = function(root) {
             return [l1+r1+1, 0 , 1]
         }
     }
-    let [coins, needs, isCam]  = dfs(root, null)
+    let [coins, needsCamera, isCamera]  = dfs(root, null)
     return coins
 };
