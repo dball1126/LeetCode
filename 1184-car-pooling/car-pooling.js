@@ -83,13 +83,15 @@ class Node {
 
     }
 }
+
+
 /**
  * @param {number[][]} trips
  * @param {number} capacity
  * @return {boolean}
  */
 
-// Heap
+// Sorting + min Heap
 // Time O(n * log(n) + O(n * log(n)) + O(1) = O(n * log(n))
 // Space: O(n)
 var carPooling = function(trips, capacity) {
