@@ -13,7 +13,7 @@
  * @return {TreeNode}
  */
 // Recursive Depth-First-Search
-// Time and Space: O(n)
+// Time and Space: O(h)
 var trimBST = function(root, low, high) {
     if (!root) return null;
     let left = root.left, right = root.right
