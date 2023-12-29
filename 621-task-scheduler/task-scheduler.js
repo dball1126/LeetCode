@@ -82,7 +82,7 @@ class MaxHeapO { // Object version
         return this.array[1];
     }
 }
-
+// Priority Queue. Max Heap
 // Time: O(n)...map and max heap will be max size of 26
 // Space: O(1)...map and max heap will be max size of 26
 var leastInterval = function(tasks, n) {
