@@ -12,7 +12,7 @@
  */
 // Linked List traversal
 // Time: O(n + m)
-// Space: O(1)
+// Space: O(1)...output doesn't count
 var mergeTwoLists = function(list1, list2) {
     let newHead = null, curr = null;
     
