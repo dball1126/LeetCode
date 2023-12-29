@@ -32,6 +32,13 @@ var mergeTwoLists = function(list1, list2) {
         }
         curr = temp;
         if (!newHead) newHead = curr;
+        if (!list1 && list2) {
+            curr.next = list2
+            break;
+        } else if (list1 && !list2) {
+            curr.next = list1;
+            break;
+        }
     }
     return newHead;
 };
