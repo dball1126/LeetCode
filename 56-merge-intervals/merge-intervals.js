@@ -4,7 +4,7 @@
  */
 // Sort and merge arrays
 // Time: O(n * log(n))
-// Space: O(1)...output doesn't count;
+// Space: O(1)...sorting is done in-place
 var merge = function(nums) {
     nums.sort((a,b) => a[0] - b[0]);
     let s = undefined, e = undefined, result = []
