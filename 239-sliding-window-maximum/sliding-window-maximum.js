@@ -5,7 +5,7 @@
  */
 // Sliding Window + Monotonic Deque
 // Time: O(n)...since elements can be at most checked twice.
-// Space: O(k)...for the stack length
+// Space: O(k)...for the queue length
 var maxSlidingWindow = function(nums, k) {
     let result = [], queue = [], s = 0, n = nums.length
     let e = 0
