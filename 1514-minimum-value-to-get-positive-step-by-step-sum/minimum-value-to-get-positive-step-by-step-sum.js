@@ -2,7 +2,7 @@
  * @param {number[]} nums
  * @return {number}
  */
-// Dynamic Programming
+// Prefix Sum / Dynamic Programming
 // Time: O(n)
 // Space: O(1)
 var minStartValue = function (nums) {
