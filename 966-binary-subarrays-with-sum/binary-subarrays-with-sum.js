@@ -3,6 +3,8 @@
  * @param {number} goal
  * @return {number}
  */
+// Prefix Sum | Dynamic Programming
+// Time and Space: O(n)
 var numSubarraysWithSum = function(nums, goal) {
     let prefixSum = 0, map = new Map(), count = 0, n = nums.length;
 
