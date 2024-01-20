@@ -2,9 +2,8 @@
  * @param {number[]} nums
  */
 var NumArray = function(nums) {
-    this.nums = nums;
-    let prev = 0
-    this.dp = nums.map(a => prev = a +  prev)
+    let prefixSum = 0
+    this.dp = nums.map(a => prefixSum += a)
 };
 
 /** 
@@ -13,9 +12,9 @@ var NumArray = function(nums) {
  * @return {number}
  */
 NumArray.prototype.sumRange = function(left, right) {
-    let val = left -1 >= 0 ? this.dp[left-1] : 0
-    return this.dp[right] - val
+    return this.dp[right] - (left-1 >= 0 ? this.dp[left-1] : 0)
 };
+
 
 /** 
  * Your NumArray object will be instantiated and called as such:
