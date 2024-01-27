@@ -85,7 +85,7 @@ class MinHeap { // Object version
 }
 
 // Minimum Heap, Priority Queue
-// Time: O((n * log(k)) + (k  * log(k))) = (n + O(1)) + (n * log(k) + O(1)) + (k * log(k))
+// Time: O((n * log(k)) = (n + O(1)) + (n * log(k) + O(1)) + (k * log(k)) // n dominates k
 // Space: O(n + k)
 var topKFrequent = function(nums, k) {
     let minHeap = new MinHeap(), n = nums.length, result = [], map = new Map()
