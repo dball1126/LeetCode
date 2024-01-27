@@ -4,6 +4,7 @@
  * @param {number} upper
  * @return {number[][]}
  */
+// Two-pointer technique
 // Time: O(n)
 // Space: O(1)...not counting output array
 var findMissingRanges = function(nums, lower, upper) {
