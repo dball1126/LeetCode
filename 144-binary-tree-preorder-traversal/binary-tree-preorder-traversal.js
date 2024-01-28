@@ -2,13 +2,13 @@
 // Time and Space: O(n)
 // Iterative
 var preorderTraversal = function(root) {
-    let stack = [], curr = root, result = []
+    let stack = [], result = []
 
-    while (curr || stack.length) {
-        if (!curr) curr = stack.pop();
-        result.push(curr.val);
-        if (curr.right) stack.push(curr.right)
-        curr = curr.left
+    while (root || stack.length) {
+        if (!root) root = stack.pop();
+        result.push(root.val);
+        if (root.right) stack.push(root.right)
+        root = root.left
     }
     return result;
 };
