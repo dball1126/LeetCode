@@ -1,7 +1,14 @@
 // Depth First Search
 // Time and Space: O(n)
-// Recursive
+// Iterative
 var preorderTraversal = function(root) {
-    if (!root) return []
-    return [root.val, ...preorderTraversal(root.left), ...preorderTraversal(root.right)]
+    let stack = [], curr = root, result = []
+
+    while (curr || stack.length) {
+        if (!curr) curr = stack.pop();
+        result.push(curr.val);
+        if (curr.right) stack.push(curr.right)
+        curr = curr.left
+    }
+    return result;
 };
