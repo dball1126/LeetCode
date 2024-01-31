@@ -4,27 +4,23 @@
  * @return {number[][]}
  */
 // Backtracking
-// Time: O((2^n) * n)...being explicit here by pointing out that we're copying the array
-// Space: O(2^n)
-var combinationSum = function(nums, tgt) {
-    let result = [], n = nums.length
+// Time: O(N ^ (t/n))
+// Space: O(t/n)
+var combinationSum = function(candidates, target) {
+    const combinations = []
+    const backtrack = (i, curr, sum) => {
+        if (i >= candidates.length) return;
+        if (sum === target) return combinations.push([...curr])
 
-    const backtrack = (curr, sum, idx) => {
-        if (sum === tgt) {
-            return result.push([...curr])
-        }
-
-        if (idx >= n) return;
-
-        for (let i = idx; i < n; i++) {
-            
-            if ((sum + nums[i] )<= tgt) {
-                curr.push(nums[i])
-                backtrack(curr, sum + nums[i], i)
+        for (let j = i; j < candidates.length; j++) {
+            let val = candidates[j]
+            if (val + sum > sum && val + sum <= target) {
+                curr.push(val)
+                backtrack(j, curr, sum + val)
                 curr.pop();
             }
         }
     }
-    backtrack([], 0, 0)
-    return result;
+    backtrack(0, [], 0)
+    return combinations
 };
