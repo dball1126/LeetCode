@@ -5,30 +5,34 @@
  * @param {number} destination
  * @return {boolean}
  */
-// DFS, STACK
-// Time and Space: O(n)
-var validPath = function(n, edges, src, dest) {
-    const adjList = new Map(), stack = [src], visited = new Set()
+// Depth-First-Search
+// Time and Space: O(V + E)
+var validPath = function(n, edges, source, destination) {
+    if (source === destination) return true;
+    const adjList = new Map(), visited = new Set(), stack = []
 
-    for (let [x, y] of edges) {
-        if (!adjList.has(x)) adjList.set(x, [])
-        if (!adjList.has(y)) adjList.set(y, [])
-        adjList.get(x).push(y)
-        adjList.get(y).push(x)
+    for (let [x , y] of edges) {
+        if (!adjList.has(x)) adjList.set(x, new Set());
+        if (!adjList.has(y)) adjList.set(y, new Set());
+        adjList.get(x).add(y);
+        adjList.get(y).add(x);
     }
+
+    if (adjList.has(source)) stack.push(source)
+
     while (stack.length) {
         const nde = stack.pop();
-        visited.add(nde)
-        if (nde === dest) return true
+        visited.add(nde);
+        if (nde === destination) return true;
         if (adjList.has(nde)) {
-            const arr = adjList.get(nde)
-            for (let node of arr) {
-                if (node === dest) return true
-                if (!visited.has(node)) {
-                    stack.push(node);
-                    visited.add(node);
+            const nodes = adjList.get(nde)
+            if (nodes.has(destination)) return true;
+            Array.from(nodes).forEach(n => {
+                if (!visited.has(n)) {
+                    visited.add(n)
+                    stack.push(n);
                 }
-            }
+            })
         }
     }
     return false;
