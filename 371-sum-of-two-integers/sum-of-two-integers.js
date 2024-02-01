@@ -5,10 +5,10 @@
  */
 var getSum = function(a, b) {
     
-    while ((a & b) !== 0) {
-        let tempB = a ^ b
-        a = (a & b) << 1
-        b = tempB
+    while (a & b) {
+        let reamining = a ^ b;
+        b = ((a & b) << 1)
+        a = reamining;
     }
-    return a ^ b
+    return a ^ b;
 };
