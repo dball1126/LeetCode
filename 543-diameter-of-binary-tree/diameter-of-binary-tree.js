@@ -11,7 +11,8 @@
  * @return {number}
  */
 // Recurisve Depth-First-Search
-// Time and Space: O(n)
+// Time: O(n)
+// Space: O(h)...h for height of a balanced tree...O(n) in the worse case
 var diameterOfBinaryTree = function(root) {
     let result = 0
     
