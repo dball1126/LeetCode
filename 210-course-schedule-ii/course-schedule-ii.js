@@ -3,6 +3,8 @@
  * @param {number[][]} prerequisites
  * @return {number[]}
  */
+// Topological Sort
+// Time and SpacE: O(V + E)
 const findOrder = (numCourses , pre) => {
     let indegrees = new Array(numCourses ).fill(0), map = new Map(), result = []
     const queue = new Queue();
