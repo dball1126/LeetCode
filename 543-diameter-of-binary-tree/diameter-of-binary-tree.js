@@ -10,23 +10,18 @@
  * @param {TreeNode} root
  * @return {number}
  */
-var diameterOfBinaryTree = function(nde) {
+// Recurisve Depth-First-Search
+// Time and Space: O(n)
+var diameterOfBinaryTree = function(root) {
+    let result = 0
+    
+    let dfs = (node) => {
+        if (!node) return 0;
 
-    let max = 0;
-
-    const dfs = (root) => {
-        if ( !root ) return  0;
-        if ( !root.left && !root.right ) return  1;
-
-        let left = dfs(root.left)
-        let right = dfs(root.right)
-
-        let next = Math.max(left, right)
-
-        max = Math.max(max, next, left + right)
-        return next +1
+        let left = dfs(node.left), right = dfs(node.right)
+        result = Math.max(result, left, right, left + right)
+        return Math.max(left, right) + 1
     }
-
-    dfs(nde)
-    return max
+    dfs(root)
+    return result
 };
