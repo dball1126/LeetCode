@@ -3,12 +3,9 @@ class TNode {
         this.val = val; this.isWord = isWord; this.keys = new Map();
     }
 }
-/**
- * @param {string[]} words
- * @return {string}
- */
+
 // Trie Data Structure
-// Time & Space: O(w + l)...w for words, l for word length
+// Time & Space: O(w + l)...w for # of words, l for each word length
 var longestWord = function(words) {
     let result = '', n = words.length, trie = new TNode();
 
