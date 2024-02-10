@@ -3,7 +3,8 @@
  * @return {string[]}
  */
 // Backtracking
-// Time & Space: O(4^n)...O(4^9)
+// Time: O(4^n)
+// Space: O(n)
 var letterCombinations = function(digits) {
     if (!digits.length) return []
     let phoneMap = new Map([["2", "abc"],["3","def"],["4","ghi"],["5","jkl"],["6","mno"]
