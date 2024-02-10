@@ -3,24 +3,28 @@
  * @return {string[]}
  */
 // Backtracking
-// Time: O(4^n)
-// Space: O(n)
+// Time & Space: O(4^n)...O(4^9)
 var letterCombinations = function(digits) {
-    if (!digits) return []
-    const digitsMap = new Map([["2", ["a","b","c"]],["3", ["d","e","f"]],
-    ["4", ["g","h","i"]],["5", ["j","k","l"]],
-    ["6", ["m","n","o"]],["7", ["p","q","r","s"]],
-    ["8", ["t","u","v"]],["9", ["w","x","y","z"]]])
-    const combos = []
+    if (!digits.length) return []
+    let phoneMap = new Map([["2", "abc"],["3","def"],["4","ghi"],["5","jkl"],["6","mno"]
+    ,["7","pqrs"],["8","tuv"],["9","wxyz"]]);
+    let result = [], n = digits.length 
 
-    const backtrack = (idx, s) => {
-        if (s.length === digits.length) return combos.push(s)
-        if (idx >= digits.length) return;
-        const arr = digitsMap.get(digits[idx])
-        for (let i = 0; i < arr.length; i++) {
-            backtrack(idx+1, s + arr[i])
+    const backtrack = (curr, idx) => {
+        if (curr.length === n) return result.push(curr)
+        if (idx >= n) return;
+
+        for (let i = idx; i < n; i++) {
+            
+            let arr = phoneMap.get(digits[i])
+
+            for (let j = 0; j < arr.length; j++) {
+                const v = arr[j];
+                backtrack( curr + v, i+1)
+            }
+            
         }
     }
-    backtrack(0, "")
-    return combos
+    backtrack("", 0)
+    return result;
 };
