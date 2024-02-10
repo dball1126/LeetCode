@@ -3,7 +3,7 @@
  * @return {number[][]}
  */
 // Backtracking
-// Time: O(2^n)
+// Time: O(n * 2^n)...we copy the array
 // Space: O(n)...bounded by height of tree and length of curr
 var subsets = function(nums) {
     let result = [], n = nums.length
