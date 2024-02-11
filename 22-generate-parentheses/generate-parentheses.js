@@ -3,20 +3,20 @@
  * @return {string[]}
  */
 // Backtracking
-// Time: O(4^n)
-// Space: O(n*2)  = O(n)
+// Time: O(2^(n*2))
+// Space: O(n*2)
 var generateParenthesis = function(n) {
-    let result = []
-
-    const backtrack = (o, c, curr) => {
-        if (o > n || c > n || c > o) return;
-        if (o === n && c === n) return result.push(curr)
-        backtrack(o+1, c, curr + "(")
-        backtrack(o, c +1, curr + ")")
+    let result = [];
+    const backtrack = (curr, open, close) => {
+        if (curr.length === n*2) return result.push(curr)
+        
+        if (open < n) {
+            backtrack(curr + "(", open + 1, close)
+        }
+        if (close < n && close < open) {
+            backtrack(curr + ")", open, close+1)
+        }
     }
-    backtrack(0, 0, "")
-    return result
+    backtrack("", 0, 0)
+    return result;
 };
-console.log(
-generateParenthesis(3))
-///[ '((()))', '(()())', '(())()', '()(())', '()()()' ]
