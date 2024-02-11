@@ -3,8 +3,8 @@
  * @return {string[]}
  */
 // Backtracking
-// Time: O(2^(n*2))
-// Space: O(n*2)
+// Time: O(2^(n*2))...2 choices during each iteration
+// Space: O(n*2)...max length of recursion stack
 var generateParenthesis = function(n) {
     let result = [];
     const backtrack = (curr, open, close) => {
