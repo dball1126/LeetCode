@@ -3,20 +3,24 @@
  * @param {number} k
  * @return {number[][]}
  */
-// Time: O(n * (2^k))
+// Backtracking
+// Time: O(n!)
 // Space: O(k)
 var combine = function(n, k) {
     const result = []
-    const backtrack = (idx, curr) => {
-        if (curr.length === k) return result.push([...curr]);
-        if (idx > n) return;
+
+    const backtrack = (curr, idx) => {
+        if (curr.length === k) return result.push([...curr])
+        if (idx > n) return
 
         for (let i = idx; i <= n; i++) {
-            curr.push(i);
-            backtrack(i+1, curr);
-            curr.pop();
+            if (curr.length < k) {
+                curr.push(i)
+                backtrack(curr, i+1)
+                curr.pop()
+            }
         }
     }
-    backtrack(1, [])
+    backtrack([], 1)
     return result;
 };
