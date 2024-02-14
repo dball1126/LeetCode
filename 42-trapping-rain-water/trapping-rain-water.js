@@ -1,43 +1,39 @@
-/**
- * @param {number[]} height
- * @return {number}
- */
-// Stack
-// Time and Space: O(n)...for the stack and traversing the array
-var trap = function(wtr) {
-    let rainWater = 0, stack = []
-    
-    for (let i = 0; i < wtr.length; i++) {
-        let v = wtr[i]
+// Monotonic Stack
+// Time and Space: O(n)
+var trap = function(heights) {
+    let max = 0, stack = [], n = heights.length
 
-        if (!stack.length && v > 0) {stack.push(i); continue;}
-        if (!stack.length && v <= 0) continue;
+    for (let i = 0; i < n; i++) {
+        if (stack.length && heights[stack[0]] <= heights[i]) {
+            let maxVal = (i - stack[0]) * heights[stack[0]]
 
-        first = wtr[stack[0]]
-        
-        if (v >= first) { // collect rain water because we will ensure the max height is always at the beginning
-            while (stack.length !== 1) {
-                rainWater += (first - wtr[stack.pop()])
+            while (stack.length) {
+                maxVal -= heights[stack.pop()]
             }
-            stack[0] = i // insert new max height
-        } else {
-            stack.push(i) // we have not found the max height yet
+            max += maxVal
         }
+        stack.push(i)
     }
-    // find right boundary height...it cannot be the last height
-    while (stack.length >= 2 && wtr[stack[stack.length-2]] >= wtr[stack[stack.length-1]]) {
-        stack.pop();
-    }
-    // remove boundaries and now calculate...max will now be on the right as we traverse left since the leftMax is guaranteed to be biggest
-    let rightMax = wtr[stack.pop()]
-    let leftMax = stack.shift();
+
+
     while (stack.length) {
-        let val = wtr[stack.pop()]
-        if (val < rightMax) {
-            rainWater += (rightMax - val)
-        } else {
-            rightMax = val;
+
+        while (stack.length >= 2 && heights[stack[stack.length-1]] < heights[stack[stack.length-2]]) {
+            stack.pop()
         }
+        let r = stack.pop()
+        let l = -Infinity
+        val = heights[r]
+        
+        while (stack.length && heights[stack[stack.length-1]] <= heights[r]) {
+            val += heights[stack.pop()]
+        }
+        if (!stack.length) break
+
+        l = stack[stack.length-1]
+        let maxVal = ((r - l) * heights[r]) - val
+        max += maxVal
     }
-    return rainWater;
+
+    return max
 };
