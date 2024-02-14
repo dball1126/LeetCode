@@ -3,8 +3,8 @@
  * @return {number[][]}
  */
 // Backtracking
-// Time: O(n * n!) + O(1) + O(n*n)  + (n * log(n)) = O(n!)
-// Space: O(n) 
+// Time & Space: O(n!)
+ 
 var permuteUnique = function(nums) {
     nums.sort((a, b) => a - b)
     const result = [], n = nums.length
