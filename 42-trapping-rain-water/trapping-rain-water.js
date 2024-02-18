@@ -1,39 +1,29 @@
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
 // Monotonic Stack
 // Time and Space: O(n)
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
 var trap = function(heights) {
-    let max = 0, stack = [], n = heights.length
+    let result = 0, stack = [], i = 0, n = heights.length
+    const top = () => stack[stack.length-1]
+    while (i < n) {
 
-    for (let i = 0; i < n; i++) {
-        if (stack.length && heights[stack[0]] <= heights[i]) {
-            let maxVal = (i - stack[0]) * heights[stack[0]]
+        if (stack.length && heights[top()] <= heights[i]) {
+            let middle = stack.pop()
+            if (!stack.length) continue;
+            let minHeight = Math.min(heights[top()], heights[i]) - heights[middle]
 
-            while (stack.length) {
-                maxVal -= heights[stack.pop()]
-            }
-            max += maxVal
+            result += ((i - top() - 1) * minHeight )
+        } else {
+            stack.push(i);
+            i++;
         }
-        stack.push(i)
     }
-
-
-    while (stack.length) {
-
-        while (stack.length >= 2 && heights[stack[stack.length-1]] < heights[stack[stack.length-2]]) {
-            stack.pop()
-        }
-        let r = stack.pop()
-        let l = -Infinity
-        val = heights[r]
-        
-        while (stack.length && heights[stack[stack.length-1]] <= heights[r]) {
-            val += heights[stack.pop()]
-        }
-        if (!stack.length) break
-
-        l = stack[stack.length-1]
-        let maxVal = ((r - l) * heights[r]) - val
-        max += maxVal
-    }
-
-    return max
+    
+    return result;
 };
