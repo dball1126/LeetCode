@@ -1,3 +1,8 @@
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
 class MinHeapNum {
     constructor() {
        this.array = [undefined];
@@ -76,18 +81,18 @@ class MinHeapNum {
         return this.array.length
     }
 }
-/**
- * @param {number[]} nums
- * @param {number} k
- * @return {number}
- */
+// Time: O(n * log(k))
+// Space: O(k)
 var findKthLargest = function(nums, k) {
-    const minHeap = new MinHeapNum()
+    let minHeap = new MinHeapNum()
+
     for(let n of nums) {
-        minHeap.insert(n)
-        if (minHeap.size()-1 > k) {
+        if (minHeap.size()-1 < k) {
+            minHeap.insert(n)
+        } else if (minHeap.peek() < n) {
             minHeap.poll()
+            minHeap.insert(n)
         }
     }
-    return minHeap.poll()
+    return minHeap.peek()
 };
