@@ -2,43 +2,27 @@
  * @param {character[][]} grid
  * @return {number}
  */
-// Union Find with path compression and union by rank
-// Time: O(n * m * 4 + O(1) * amortized time) = O(n * m)
-// Space: O(n * m * 2) = O(n * m)
+// Depth-First-Search
+// Time and Space: O(n * m)...rows * columns
 var numIslands = function(grid) {
     let n = grid.length, m = grid[0].length, islands = 0
-    let rank = new Array(n * m).fill(1), root = [...new Array(n * m).keys()]
-    let dirs = [[1,0], [-1,0], [0, 1], [0, -1]]
-
-    const find = (i) => root[i] = i === root[i] ? i : find(root[i]) // path compression
-    const union = (i, j) => {
-        let p1 = find(i), p2 = find(j)
-        if (p1 === p2) return;
-        if (rank[p1] > rank[p2]) { // union by rank
-            root[p2] = p1
-        } else if (rank[p2] > rank[p1]) {
-            root[p1] = p2
-        } else {
-            rank[p1]++
-            root[p2] = p1
-        }
-        islands--
+    const visited = [...new Array(n+1)].map(a => [...new Array(m+1)].fill(false))
+    const dirs = [[-1,0],[1,0],[0,-1],[0,1]]
+    
+    const dfs = (r, c) => {
+        if (r < 0 || c < 0 || r >= n || c >= m) return;
+        if (grid[r][c] !== '1' || visited[r][c]) return;
+        visited[r][c] = true;
+        dirs.forEach(([x,y]) => {
+            dfs(r+x, c+y)
+        })
     }
-    for (let i = 0; i < n; i++) { // build array
-        for (let j = 0; j < m; j++) {
-            if (grid[i][j] === "1") islands++
-        }
-    }
-    for (let i = 0; i < n; i++) {
-        for (let j = 0; j < m; j++) {
-            
-            for (let [c, r] of dirs) {
-                if ((i + c) >= 0 && (j + r) >= 0 && (i + c) < n && (j + r) < m) {
-                    if (grid[i][j] === "1" && grid[i+c][j+r] === "1") {
 
-                        union((i * m) + j, (i+c) * m + (j + r))
-                    }
-                }
+    for (let r = 0; r < n; r++) {
+        for (let c = 0; c < m; c++) {
+            if (grid[r][c] === '1' && visited[r][c] === false) {
+                islands++;
+                dfs(r, c)
             }
         }
     }
