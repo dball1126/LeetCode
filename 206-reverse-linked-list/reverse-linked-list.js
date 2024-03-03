@@ -9,21 +9,13 @@
  * @param {ListNode} head
  * @return {ListNode}
  */
-// Time: O(n)
-// Space: O(1)...if we don't count the output
 var reverseList = function(head) {
-    let prev = null, curr = head;
-
-    while (curr) {
-        let temp = curr.next;
-        if (!prev) {
-            curr.next = null;
-            prev = curr;
-        } else {
-            curr.next = prev
-            prev = curr;
-        }
-        curr = temp
+    let prev = null
+    while (head) {
+        let next = head.next;
+        head.next = prev;
+        prev = head;
+        head = next;
     }
     return prev;
 };
