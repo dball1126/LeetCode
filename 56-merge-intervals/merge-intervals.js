@@ -2,28 +2,25 @@
  * @param {number[][]} intervals
  * @return {number[][]}
  */
-// Sort and merge arrays
-// Time: O(n * log(n))
-// Space: O(1)...sorting is done in-place
-var merge = function(nums) {
-    nums.sort((a,b) => a[0] - b[0]);
-    let s = undefined, e = undefined, result = []
+// Time: O(n * log(n))...sorting dominates
+// SpacE: O(1)
+// Sort and then merge
+var merge = function(intervals) {
+    let l = undefined, r = undefined, result = []
+    intervals.sort((a,b) => a[0] - b[0])
 
-    for (let [x, y] of nums) {
-        if (s === undefined && e === undefined) {
-            s = x; e = y;
+    for (let [x, y] of intervals) {
+        if (l === undefined) {
+            l = x; r = y;
+        } else if (r < x) {
+            result.push([l,r])
+            l = x; r = y;
         } else {
-            if (e < x) {
-                result.push([s,e])
-                s = x; e = y;
-            } else {
-                s = Math.min(s, x)
-                e = Math.max(y, e)
-            }
+            r = Math.max(r, y)
         }
     }
-    if (s !== undefined && e !== undefined) {
-        result.push([s,e])
+    if (l !== undefined) {
+        result.push([l, r])
     }
     return result;
 };
