@@ -1,12 +1,3 @@
-class Node {
-    key = ""; val = 0; hops = 0
-    constructor(key,val, hops) {
-        this.key = key
-        this.val = val
-        this.hops = hops
-    }
-}
-
 class MinHeap { // Object version
     constructor() {
        this.array = [null];
@@ -83,45 +74,51 @@ class MinHeap { // Object version
     peek() {
         return this.array[1];
     }
+
+    size() {
+        return this.array.length-1
+    }
 }
 
-
-/** Dijkstra Algorithm
- * Time: O(V + (E * k) * log(E * k)) E for edges, V for nodes, K for stops
- * Space: O(V + E * K)
- */
-var findCheapestPrice = function(n, flights, src, dst, k) {
-    const buildAdjList = () => {
-        let list = new Map()
-        for(let [x, y, price] of flights) {
-            if (!list.has(x)) list.set(x, new Map())
-            list.get(x).set(y, new Node(y, price, 0))
-        }
-        return list;
+class Node {
+    constructor(val, key, stops) {
+        this.val = val; this.key = key; this.stops = stops;
     }
-    let minHeap = new MinHeap(), adjList = buildAdjList(), visited = new Map(),  min = Infinity
-    let newNode = new Node(src, 0, 0)
-    minHeap.insert(newNode)
+}
+// Time: O((V + E) * log(v))
+// Space: O(E)...for edges in heap or adjList
+var findCheapestPrice = function(n, flights, src, dst, stops) {
+    let adjList = new Map(), minHeap = new MinHeap(), result = Infinity, visited = new Map()
+
+    for (let [f, t, p] of flights) {
+        if (!adjList.has(f)) adjList.set(f, [])
+        adjList.get(f).push([t, p])
+    }
+
+    if (adjList.has(src)) minHeap.insert(new Node(0, src, 0))
+
     while (!minHeap.isEmpty()) {
-        let node = minHeap.poll()
-        
-        if(!visited.has(node.key)){
-            visited.set(node.key, node.hops + 1)
-        } else if (visited.get(node.key) > node.hops) {
-            visited.set(node.key, node.hops + 1)
+        let nde = minHeap.poll();
+        if (nde.key === dst) {
+            return result = Math.min(nde.val, result)
+        }
+        if (!visited.has(nde.key)) {
+            visited.set(nde.key, nde.stops)
+        } else if (visited.get(nde.key) > nde.stops) {
+            visited.set(nde.key, nde.stops)
         } else {
             continue;
         }
-        if (adjList.has(node.key)) {
-            let keys = adjList.get(node.key)
-            if (keys.has(dst)) {
-                min = Math.min(min, node.val + keys.get(dst).val)
-            }
-            if (node.hops >= k) continue
-            for(let [key, n] of keys) {
-                minHeap.insert(new Node(key, node.val + n.val, node.hops +1))
-            }
+
+        if (adjList.has(nde.key)) {
+            for (let [k, v] of  adjList.get(nde.key)) {
+                if (k === dst) {
+                    result = Math.min(result, nde.val + v)
+                } else if (nde.stops + 1 <= stops) {
+                    minHeap.insert(new Node(nde.val + v, k, nde.stops + 1))
+                }
+            } 
         }
     }
-    return min === Infinity ? -1 : min
+    return result === Infinity ? -1 : result;
 };
