@@ -1,34 +1,37 @@
-
 /**
  * @param {number} numCourses
  * @param {number[][]} prerequisites
  * @return {number[]}
  */
 // Topological Sort
-// Time and SpacE: O(V + E)
-const findOrder = (numCourses , pre) => {
-    let indegrees = new Array(numCourses ).fill(0), map = new Map(), result = []
-    const queue = new Queue();
-    for(let [k, v] of pre) {
-        if (!map.has(v)) map.set(v, []);
-        indegrees[k]++;
-        map.get(v).push(k);
-    }
-    for (let i = 0; i < indegrees.length; i++) {
-        if (indegrees[i] === 0) queue.enqueue(i)
+// Time and Space: O(V + E)...vertex + edge
+var findOrder = function(courses, pre) {
+    let indegrees = [...new Array(courses)].fill(0)
+    const adjList = new Map(), result = []
+
+    for (let [v, k] of pre) {
+        if (!adjList.has(k)) adjList.set(k, [])
+        adjList.get(k).push(v)
+        indegrees[v]++
     }
 
-    while (!queue.isEmpty()) {
-        let node = queue.dequeue();
-        result.push(node);
-        if (map.has(node)) {
-            map.get(node).forEach(nde => {
-                indegrees[nde]--
-                if ( indegrees[nde] === 0) {
-                    queue.enqueue(nde)
+    let queue = []
+    indegrees.forEach((v, i) => {
+        if (v === 0) queue.push(i)
+    })
+
+    while (queue.length) {
+        let nde = queue.shift();
+        result.push(nde)
+
+        if (adjList.has(nde)) {
+            for (let n of adjList.get(nde)) {
+                indegrees[n]--
+                if (indegrees[n] === 0) {
+                    queue.push(n)
                 }
-            })
+            }
         }
     }
-   return result.length === numCourses  ? result : []
-}
+    return result.length === courses ? result : []
+};
