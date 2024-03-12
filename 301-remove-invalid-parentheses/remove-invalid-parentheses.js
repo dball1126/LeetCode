@@ -2,6 +2,8 @@
  * @param {string} s
  * @return {string[]}
  */
+// Time Complexity: O(n * 2^T)...T is the number of removals...n for checking the parentheses
+// Space Complexity: O(n)
 var removeInvalidParentheses = function(s) {
     let open = 0, close = 0, str = "", result = new Set(), n = s.length
 
@@ -47,7 +49,7 @@ var removeInvalidParentheses = function(s) {
         return close === open
     }
 
-    const backtrack = (idx, removes, curr) => { // O(n * 2^T)...T is the number of removals...n for checking the parentheses
+    const backtrack = (idx, removes, curr) => { 
 
         if (removes === diff) {
             let val = curr + s.slice(idx)
@@ -64,7 +66,7 @@ var removeInvalidParentheses = function(s) {
             curr += v;
         }
     }
-
+    if (!newStr.length) return [""]
     backtrack(0, 0, "")
     return result.size === 0 ? [""] : Array.from(result)
 };
