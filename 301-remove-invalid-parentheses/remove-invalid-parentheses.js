@@ -1,12 +1,21 @@
-/**
- * @param {string} s
- * @return {string[]}
- */
+const validParentheses = (str) => { // O(n)
+    let open = 0, close = 0;
+    for (let v of str) {
+        if (v === ")" && open <= close) {
+            return false;
+        } else if (v === ")") {
+            close++;
+        } else if (v === "(") {
+            open++;
+        }
+    }
+    return close === open
+}
+// Backtracking
 // Time Complexity: O(n * 2^T)...T is the number of removals...n for checking the parentheses
 // Space Complexity: O(n)
 var removeInvalidParentheses = function(s) {
     let open = 0, close = 0, str = "", result = new Set(), n = s.length
-
     for (let i = 0; i < n; i++) { // O(n)
         const v = s[i];
         if (v === ")" && open <= close) {
@@ -16,8 +25,7 @@ var removeInvalidParentheses = function(s) {
         } else if (v === ")") {
             close++; str += v;
         } else {
-            str += v;
-        }
+            str += v;}
     }
     open = 0; close = 0;
     let newStr = ""
@@ -30,34 +38,16 @@ var removeInvalidParentheses = function(s) {
         } else if (v === ")") {
             close++; newStr =  v + newStr;
         } else {
-            newStr =  v + newStr;
-        }
+            newStr =  v + newStr;}
     }
     let diff = (s.length - newStr.length)
-
-    const validParentheses = (str) => { // O(n)
-        let open = 0, close = 0;
-        for (let v of str) {
-            if (v === ")" && open <= close) {
-                return false;
-            } else if (v === ")") {
-                close++;
-            } else if (v === "(") {
-                open++;
-            }
-        }
-        return close === open
-    }
-
     const backtrack = (idx, removes, curr) => { 
-
         if (removes === diff) {
             let val = curr + s.slice(idx)
             if (validParentheses(val)) result.add(val)
             return
         }
         if (idx >= n) return
-
         for (let i = idx; i < n; i++) {
             const v = s[i]
             if (v === "(" || v === ")") {
@@ -66,7 +56,6 @@ var removeInvalidParentheses = function(s) {
             curr += v;
         }
     }
-    if (!newStr.length) return [""]
-    backtrack(0, 0, "")
+    if (newStr.length) backtrack(0, 0, "")
     return result.size === 0 ? [""] : Array.from(result)
-};
+}; 
