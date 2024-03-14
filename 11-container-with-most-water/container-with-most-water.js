@@ -3,18 +3,19 @@
  * @return {number}
  */
 // Two-Pointer
-// Time: O(n), Space: O(1)
+// Time: O(n)
+// Space: O(1)
 var maxArea = function(height) {
-    let n = height.length, max = 0;
-    let s = 0, e = n-1
+    
+    let s = 0, e = height.length-1, max = -Infinity
+
     while (s < e) {
-        let v = Math.min(height[s],height[e]) * (e-s)
-        max = Math.max(max, v)
-        if (height[s] <= height[e]) {
-            s++
-        } else {
-            e--
-        }
+        let maxHeight = Math.min(height[s], height[e])
+
+        max = Math.max(max,( maxHeight * (e-s)))
+
+        height[s] <= height[e] ? s++ : e--
     }
-    return max
+    
+    return max;
 };
