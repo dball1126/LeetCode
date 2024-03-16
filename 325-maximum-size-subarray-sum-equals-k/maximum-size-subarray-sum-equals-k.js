@@ -3,20 +3,22 @@
  * @param {number} k
  * @return {number}
  */
-// Prefix Sum | Dynamic Programming
+// Prefix Sums
 // Time and Space: O(n)
 var maxSubArrayLen = function(nums, k) {
-    let prefixSum = 0, map = new Map(), n = nums.length, max = -Infinity;
-
+    let prefixSums = new Map(), n = nums.length;
+    prefixSums.set(0, -1)
+    let sum = 0, max = 0;
     for (let i = 0; i < n; i++) {
-        prefixSum += nums[i];
-        
-        if (prefixSum === k) {
-            max = Math.max(max, i + 1)
-        } else if (map.has(prefixSum - k)) {
-            max = Math.max(max, i - map.get(prefixSum - k))
+        const v = nums[i];
+        sum += v
+
+        if (prefixSums.has(sum - k)) {
+            max = Math.max(max, i - prefixSums.get(sum - k))
         }
-        if (!map.has(prefixSum)) map.set(prefixSum, i)
+
+        if (!prefixSums.has(sum)) prefixSums.set(sum, i)
     }
-    return max === -Infinity ? 0 : max;
+
+    return max
 };
