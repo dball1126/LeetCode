@@ -1,5 +1,5 @@
 // Union Find
-// Time: O(((n * l)^2) + (n * (l * log(l))))
+// Time: O((n * l) + (n * (l * log(l))))
 // Space: O(n * l)
 var accountsMerge = function(accounts) {
     let n = accounts.length;
