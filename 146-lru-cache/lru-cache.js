@@ -1,0 +1,74 @@
+class Node {
+    constructor(key, val) {
+        this.key = key;
+        this.val = val;
+        this.prev = null;
+        this.next = null;
+    }
+}
+var LRUCache = function(capacity) {
+    this.head = new Node();
+    this.tail = new Node();
+    this.head.next = this.tail;
+    this.tail.prev = this.head;
+    this.capacity = capacity;
+    this.map = new Map();
+};
+
+/** 
+ * @param {number} key
+ * @return {number}
+ */
+LRUCache.prototype.get = function(key) {
+    if (!this.map.has(key)) return -1;
+    let nde = this.map.get(key)
+    this.delete(nde.key)
+    this.add(nde.key, nde.val)
+    return nde.val
+};
+
+/** 
+ * @param {number} key 
+ * @param {number} value
+ * @return {void}
+ */
+LRUCache.prototype.put = function(key, value) {
+    if (this.map.size < this.capacity) {
+        this.delete(key)
+        this.add(key, value)
+    } else if (this.map.has(key) && this.capacity === this.map.size) {
+        this.delete(key)
+        this.add(key, value)
+    } else {
+        let head = this.head.next;
+        this.delete(head.key)
+        this.delete(key)
+        this.add(key, value)
+    }
+};
+
+LRUCache.prototype.add = function(key, value) {
+    const nde = new Node(key, value);
+    const tail = this.tail.prev;
+    tail.next = nde;
+    nde.prev = tail;
+    nde.next = this.tail;
+    this.tail.prev = nde;
+    this.map.set(key, nde)
+}
+LRUCache.prototype.delete = function(key, value) {
+    if (!this.map.has(key)) return;
+    const nde = this.map.get(key);
+    let prev = nde.prev, next = nde.next;
+    prev.next = next;
+    next.prev = prev;
+    this.map.delete(key)
+}
+
+
+/** 
+ * Your LRUCache object will be instantiated and called as such:
+ * var obj = new LRUCache(capacity)
+ * var param_1 = obj.get(key)
+ * obj.put(key,value)
+ */
