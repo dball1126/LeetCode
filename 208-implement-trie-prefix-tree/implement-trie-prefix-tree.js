@@ -1,12 +1,11 @@
 class Node {
-    constructor(val, isWord) {
-        this.val = val;
-        this.isWord = isWord
-        this.keys = new Map()
+    constructor() {
+        this.keys = new Map();
+        this.isWord = false;
     }
 }
 var Trie = function() {
-    this.root = new Node()
+    this.trie = new Node()
 };
 
 /** 
@@ -14,15 +13,14 @@ var Trie = function() {
  * @return {void}
  */
 Trie.prototype.insert = function(word) {
-    let copy = this.root;
+    let root = this.trie;
     for (let i = 0; i < word.length; i++) {
-        const c = word[i];
-        if (!copy.keys.has(c)) {
-            copy.keys.set(c, new Node(c, false))
-        }
-        copy = copy.keys.get(c)
-        if (i === word.length-1) copy.isWord = true;
+        let c = word[i]
+        if (!root.keys.has(c)) root.keys.set(c, new Node(c))
+        root = root.keys.get(c)
+        if (i === word.length-1) root.isWord = true;
     }
+
 };
 
 /** 
@@ -30,12 +28,12 @@ Trie.prototype.insert = function(word) {
  * @return {boolean}
  */
 Trie.prototype.search = function(word) {
-    let copy = this.root;
+    let root = this.trie;
     for (let i = 0; i < word.length; i++) {
-        const c = word[i];
-        if (!copy.keys.has(c)) return false;
-        copy = copy.keys.get(c)
-        if (i === word.length-1 && copy.isWord) return true;
+        let c = word[i]
+        if (!root.keys.has(c)) return false;
+        root = root.keys.get(c)
+        if (i === word.length -1 && root.isWord) return true;
     }
     return false;
 };
@@ -45,17 +43,15 @@ Trie.prototype.search = function(word) {
  * @return {boolean}
  */
 Trie.prototype.startsWith = function(prefix) {
-    let copy = this.root;
+    let root = this.trie;
     for (let i = 0; i < prefix.length; i++) {
-        const c = prefix[i];
-        if (!copy.keys.has(c)) return false;
-        copy = copy.keys.get(c)
-        if (i === prefix.length-1) return true;
+        let c = prefix[i]
+        if (!root.keys.has(c)) return false;
+        root = root.keys.get(c)
+        if (i === prefix.length -1) return true;
     }
     return false;
 };
-
-
 /** 
  * Your Trie object will be instantiated and called as such:
  * var obj = new Trie()
