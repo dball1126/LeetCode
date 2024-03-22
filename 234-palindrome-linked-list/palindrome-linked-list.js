@@ -11,19 +11,22 @@
  */
 // Linked List Traversal
 // Two-pointer
-// Time and Space: O(n)
+// Time: O(n)
+// Space: O(1)
 var isPalindrome = function(head) {
-    const order = []
+    let tail = head;
+    head.prev = null
+    while (tail && tail.next !== null) {
+        let temp = tail
+        tail = tail.next;
+        tail.prev = temp;
+    }
 
-    while (head) {
-        order.push(head)
+    while (head && tail) {
+        if (head.val !== tail.val) return false;
         head = head.next;
+        tail = tail.prev
     }
-    let l = 0, r = order.length-1
 
-    while ( l <= r) {
-        if (order[l].val !== order[r].val) return false;
-        l++; r--;
-    }
     return true;
 };
