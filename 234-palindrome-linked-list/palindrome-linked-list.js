@@ -9,7 +9,7 @@
  * @param {ListNode} head
  * @return {boolean}
  */
-// Linked List Traversal
+// Rerverse in-place Linked List Traversal
 // Two-pointer
 // Time: O(n)
 // Space: O(1)
