@@ -2,41 +2,39 @@
  * @param {string} s
  * @return {string}
  */
-// Stack type of approach
-// Time and Space: O(n)
+// Two variables and 2 passes
+// Time & Space: O(n)  2n = O(n)
 var minRemoveToMakeValid = function(s) {
+    let open = 0, close = 0, str = ""
     
-    let result = "", open = 0, close = 0
-
-    for (let c of s) {
-        if (c === "(") {
+    for (let c of s) { // handle closed brackets // O(n)
+        if (c === ")") {
+            if (open <= close) continue;
+            
+            str += c
+            close++;
+        } else if (c === "(") {
             open++
-            result += c
-        } else if (c === ")") {
-            if (close+1 > open) continue
-            close++
-            result += c
+            str += c
         } else {
-            result += c
+            str += c
         }
     }
+    close = 0, open = 0;
+    let returnStr = ""
+    for (let i = str.length-1; i >= 0; i--) { // handle open brackets // O(n)
+        let c = str[i]
+        if (c === '(') {
+            if (close <= open) continue;
 
-    if (open === close) return result
-    open = 0, close = 0
-let newResult = ""
-
-    for (let i = result.length-1; i >= 0; i--) {
-        let c = result[i]
-        if (c === "(") {
-            if (close+1 > open) continue
-            close++
-            newResult = c + newResult
-        } else if (c === ")") {
+            returnStr =  c + returnStr
             open++
-            newResult = c + newResult
+        } else if (c === ")") {
+            close++
+            returnStr = c + returnStr
         } else {
-            newResult = c + newResult
+            returnStr = c + returnStr
         }
     }
-    return newResult
+    return returnStr;
 };
