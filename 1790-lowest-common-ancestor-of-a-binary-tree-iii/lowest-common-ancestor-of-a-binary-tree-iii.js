@@ -12,34 +12,39 @@
  * @param {Node} node
  * @return {Node}
  */
-// Depth First Search
-// Time and Space: O(n)
+// Recursive Depth-First-Search
+// two pointers
 var lowestCommonAncestor = function(p, q) {
-    let pNde = false, qNde = false, result
-    const getRoot = (nde) => {
-        return nde.parent && nde.parent !== null ? getRoot(nde.parent) : nde
+    let ancestor, pNode, qNode
+    let root;
+    const getParent = (nde) => { // O(n) time, O(h) space if tree is balanced
+        if (!nde) return;
+        root = nde;
+        getParent(nde.parent)
     }
-    
-    const dfs = (root) => {
-        if (result) return;
-        if (!root) return false;
+    getParent(p)
+    const dfs = (nde) => { // O(n) time, O(h) space if the tree is balanced
+        if (ancestor || !nde) return;
 
-        let left = dfs(root.left), right = dfs(root.right)
-        let l = (root.val === p.val)
-        let r = (root.val === q.val)
-      
-        if (!pNde && l) pNde = true
-        if (!qNde && r) qNde = true
-        if (!result) {
-            if ((left && right) || (l & right) || (r && left) 
-            || (r && right)
-            || (l && left)) {
-                result = root
-            }
+        if (!pNode && nde.val === p.val) {
+            pNode = nde;
+        } else if (!qNode && nde.val === q.val) {
+            qNode = nde;
         }
-        return left || right || l || r
+
+        let left = dfs(nde.left), right = dfs(nde.right)
+
+        if ((left && nde.val === q.val) || 
+            (left && nde.val === p.val) ||
+            (left && right) || 
+            (right && nde.val === p.val) ||
+            (right && nde.val === q.val)
+            ) {
+            if (!ancestor) ancestor = nde;
+        }
+
+        return left || right || nde.val === q.val || nde.val === p.val;
     }
-    
-    dfs(getRoot(p))
-    return result
-};  
+    dfs(root)
+    return ancestor;
+};
