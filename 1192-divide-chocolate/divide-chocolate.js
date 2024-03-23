@@ -5,6 +5,7 @@
  */
 // Binary Search
 // Time:(n * log(m))...n for sweets in sweetness...m for max sum range of 1...sum
+// Space: O(1)
 var maximizeSweetness = function(sweetness, k) {
     k += 1
     let low = 1, high = 0
