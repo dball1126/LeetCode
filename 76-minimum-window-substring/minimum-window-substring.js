@@ -9,7 +9,7 @@
 var minWindow = function(s, t) {
     let map = new Map()
     let l = 0, r = 0, n = s.length
-    let minString = ""
+    let minIdxL, minIDxR;
 
     for (let c of t) {
         if (!map.has(c)) map.set(c, 0)
@@ -26,10 +26,13 @@ var minWindow = function(s, t) {
 
         if (count === 0) {
             while (l <= r && count === 0) { // slide left pointer right
-                let string = s.substring(l, r+1)
-                if (!minString || string.length < minString.length) {
-                    minString = string
+
+                if (minIdxL === undefined) {
+                    minIdxL = l, minIDxR = r
+                } else if ((r - l) < (minIDxR - minIdxL)) {
+                    minIdxL = l, minIDxR = r
                 }
+
                 if (map.has(s[l])) {
                     map.set(s[l], map.get(s[l]) + 1)
                     if (map.get(s[l]) > 0) count++
@@ -38,6 +41,12 @@ var minWindow = function(s, t) {
             }
         }
         r++
+    }
+    let minString = ""
+    if (minIdxL !== undefined) {
+        for (let i = minIdxL; i <= minIDxR; i++) {
+            minString += s[i]
+        }
     }
     return minString
 };
