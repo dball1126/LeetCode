@@ -7,6 +7,7 @@
 // Time : O(n)...for s
 // Space: O(m)...for t
 var minWindow = function(s, t) {
+    if (t.length > s.length) return ""
     let map = new Map()
     let l = 0, r = 0, n = s.length
     let minIdxL, minIDxR;
