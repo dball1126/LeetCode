@@ -1,36 +1,43 @@
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {string}
+ */
 // Sliding Window
-// Time: O(n + m)
-// Space: O(m)
-var minWindow = function(str, t) {
-    if (t.length > str.length) return ""
-    if (str === t) return str;
-    let map = new Map(), count = 0, s = 0, e = 0, n = str.length, result = "", curr = ""
+// Time : O(n)...for s
+// Space: O(m)...for t
+var minWindow = function(s, t) {
+    let map = new Map()
+    let l = 0, r = 0, n = s.length
+    let minString = ""
 
     for (let c of t) {
         if (!map.has(c)) map.set(c, 0)
         map.set(c, map.get(c) + 1)
     }
-    count = map.size;
+    let count = map.size
 
-    while (e < n) {
-        curr += str[e];
+    while (r < n) { // slide right pointer right
+        let v = s[r]
+        if (map.has(v)) {
+            map.set(v, map.get(v) - 1)
+            if (map.get(v) === 0) count--
+        }
 
-        if (map.has(str[e])) {
-            map.set(str[e], map.get(str[e]) - 1)
-            if (map.get(str[e]) === 0) count--;
-        }
-        while (s <= e && count === 0) {
-            if (!result.length || curr.length < result.length) {
-                result = curr;
+        if (count === 0) {
+            while (l <= r && count === 0) { // slide left pointer right
+                let string = s.substring(l, r+1)
+                if (!minString || string.length < minString.length) {
+                    minString = string
+                }
+                if (map.has(s[l])) {
+                    map.set(s[l], map.get(s[l]) + 1)
+                    if (map.get(s[l]) > 0) count++
+                }
+                l++
             }
-            if (map.has(str[s])) {
-                map.set(str[s], map.get(str[s]) + 1)
-                if (map.get(str[s]) > 0) count++
-            }
-            s++
-            curr = curr.slice(1)
         }
-        e++
+        r++
     }
-    return result;
+    return minString
 };
