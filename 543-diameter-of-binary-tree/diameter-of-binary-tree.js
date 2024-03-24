@@ -10,19 +10,24 @@
  * @param {TreeNode} root
  * @return {number}
  */
-// Recurisve Depth-First-Search
+// Recursive Depth-First-Search
 // Time: O(n)
-// Space: O(h)...h for height of a balanced tree...O(n) in the worse case
+// Space: O(h) if tree is balanced
 var diameterOfBinaryTree = function(root) {
-    let result = 0
-    
-    let dfs = (node) => {
-        if (!node) return 0;
 
-        let left = dfs(node.left), right = dfs(node.right)
-        result = Math.max(result, left, right, left + right)
+    let diameter = 0
+
+    const dfs = (nde) => {
+        if (!nde) return 0
+
+
+
+        let left = dfs(nde.left), right = dfs(nde.right)
+        diameter = Math.max(diameter, left, right, left + right)
+
         return Math.max(left, right) + 1
     }
     dfs(root)
-    return result
+
+    return diameter
 };
