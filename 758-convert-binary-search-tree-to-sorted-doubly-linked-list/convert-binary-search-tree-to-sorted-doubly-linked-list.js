@@ -11,30 +11,23 @@
  * @param {Node} root
  * @return {Node}
  */
-// iterative preorder traversal
-// root, left, right
+// InOrder Traversal
 // Time and Space: O(n)
 var treeToDoublyList = function(root) {
-    if (!root) return root;
-    let curr = root, stack = [], preorder = []
+    if (!root) return root
 
-    while (curr || stack.length) {
-        while (curr && curr.left) {
-            stack.push(curr)
-            curr = curr.left;
-        }
-        if (!curr) curr = stack.pop();
-        preorder.push(curr)
-        curr = curr.right
+
+    const inOrderDfs = (nde) => { // O(n)
+        if (!nde) return []
+        return [...inOrderDfs(nde.left), nde, ...inOrderDfs(nde.right)]
     }
-
-
-    for (let i = 0; i < preorder.length; i++) {
-        let prev = i-1 < 0 ? preorder.length-1 : i-1
-        let next = i+1 > preorder.length-1 ? 0 : i+1
-        let nde = preorder[i]
-        nde.left = preorder[prev];
-        nde.right = preorder[next];
+    const inorder = inOrderDfs(root)
+    for (let i = 0; i < inorder.length; i++) { // O(n)
+        let next = i+1 < inorder.length ? inorder[i+1] : inorder[0]
+        let prev = i-1 >= 0 ? inorder[i-1] : inorder[inorder.length-1]
+        let curr = inorder[i]
+        curr.left = prev;
+        curr.right = next;
     }
-    return preorder[0]
+    return inorder[0]
 };
