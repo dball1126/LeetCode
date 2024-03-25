@@ -2,21 +2,19 @@
  * @param {string} s
  * @return {number}
  */
-// Two variable approach...we can use a stack too.
-// TIme: O(n)
-// Space: O(1)
-var minAddToMakeValid = function(str) {
-    let open = 0, close = 0, add = 0
-
-    for(let i = 0; i < str.length; i++)  {
-        let v = str[i]
-
-        if (v === ')' && open <= close) {
-            add++
+var minAddToMakeValid = function(s) {
+   let open = 0, close = 0
+   let parenthesesToAdd = 0
+   for (let c of s) {
+     if (c === ")") {
+        if (open <= close) {
+            parenthesesToAdd++
         } else {
-            v === "(" ? open++ : close++
+            close++;
         }
-    }
-    if (open !== close) return add + (open - close)
-    return add
+     } else if (c === "(") {
+        open++;
+     }
+   }
+   return parenthesesToAdd + (open - close)
 };
