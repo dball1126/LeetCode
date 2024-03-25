@@ -3,36 +3,40 @@
  * @param {string} word
  * @return {boolean}
  */
-// Backtracking
-// Time: O((r*c) * 4^w)...r for rows, c for cols, w for word.length
-//Space: O(w + (r*c))...for word length
+// Time: O(n * m * w * 4)...n for rows...m for cols...w for length of word and 4 for dirs (we can drop the 4)
+// Space: O(n * m * m)
 var exist = function(board, word) {
-    let valid = false, visited = new Set(), dirs = [[1,0],[-1,0],[0,1],[0,-1]];
     let n = board.length, m = board[0].length
-    const backtrack = (rX, cY, curr) => {
-        let val = curr + board[rX][cY]
-        if (valid || val.length === word.length && val === word) {
-            return valid = true;
+    let wL = word.length
+    const dirs = [[1,0],[-1,0],[0,1],[0,-1]]
+    let pathFound = false;
+
+    const wordSearch = (r, c, i, visited) => {
+        if (pathFound) return true;
+        if (i === wL-1 && board[r][c] === word[i]) return true;
+
+        visited[r][c] = true;
+        for (let [x, y] of dirs) { // 4
+
+            if ((r+x) < 0 || (c +y) < 0 || (r+x) >= n || (c+y)  >= m) continue;
+            if (board[r+x][c+y] !== word[i+1] || visited[r+x][c+y]) continue;
+
+            visited[r+x][c+y] = true;
+            let result = wordSearch(r+x, c+y, i+1, visited)
+            visited[r+x][c+y] = false;
+            if (result) return pathFound = true;
         }
-        if (val[val.length-1] === word[val.length-1]) {
-            dirs.forEach(([x, y]) => {
-                const r = rX + x, c = cY + y
-                let key = r + "" + c
-                if (!visited.has(key)) {
-                    if (r >= 0 && c >= 0 && r < n && c < m) {
-                        visited.add(rX + "" + cY)
-                        backtrack(r, c, val)
-                        visited.delete(rX + "" + cY)
-                    }
-                }
-            })
-        }
+        return false;
     }
-    for (let r = 0; r < n; r++) {
+
+    for (let r = 0; r < n; r++) { 
         for (let c = 0; c < m; c++) {
-            backtrack(r, c, "")
-            if (valid) break
+            if (board[r][c] === word[0]) {
+                const visited = [...new Array(n)].map(a => [...new Array(m)].fill(false))
+                let result = wordSearch(r, c, 0, visited)
+                if (result) return true;
+            }
         }
     }
-    return valid;
+    return false;
 };
