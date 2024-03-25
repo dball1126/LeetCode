@@ -2,14 +2,19 @@
  * @param {number[][]} intervals
  * @return {boolean}
  */
-// Time: O(n * log(n))...sorting dominates
-// Space: O(1)
 var canAttendMeetings = function(intervals) {
-    intervals.sort((a,b) => a[0] - b[0])
-    for (let i = 0; i < intervals.length-1; i++) {
-        if (intervals[i][1] > intervals[i+1][0]) {
+    intervals.sort((a, b) => a[0] - b[0])
+
+    let x, y;
+    for (let [newX, newY] of intervals) {
+        if (x === undefined) {
+            x = newX, y = newY
+        } else if (newX < y) {
             return false;
+        } else {
+            x = newX; y = newY;
         }
     }
+
     return true;
 };
