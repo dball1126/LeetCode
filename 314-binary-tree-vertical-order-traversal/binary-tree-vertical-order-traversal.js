@@ -10,33 +10,39 @@
  * @param {TreeNode} root
  * @return {number[][]}
  */
-// Time and Space: O(n)...(ignoring the unshift operator runs at n time since we aren't using a real queue)
 var verticalOrder = function(root) {
     if (!root) return []
-    let cols = new Set(), minCol = Infinity;
+    let minCol = 0
+    let order = new Map()
 
-    const getCols = (node, col) => {
-        if (!node) return;
+    const getColDfs = (nde, col) => {
+        if (!nde) return;
         minCol = Math.min(minCol, col)
-        cols.add(col)
-
-        getCols(node.left, col - 1)
-        getCols(node.right, col + 1)
+        if (!order.has(col)) order.set(col, [])
+        getColDfs(nde.left, col - 1)
+        getColDfs(nde.right, col + 1)
     }
-    getCols(root, 0)
+    getColDfs(root, 0)
 
-    let result = [...new Array(cols.size)].map(a => [])
+    // level order traversal (we should be using a real queue)
     let queue = [[[root, 0]]]
-    while (queue.length) {
-        let level = queue.shift(), nextLevel = []
+    while(queue.length) {
+        const level = queue.shift()
+        const nextLevel = []
 
-        for (let [n, c] of level) {
-            result[c + Math.abs(minCol)].push(n.val)
-            if (n.left) nextLevel.push([n.left, c - 1])
-            if (n.right) nextLevel.push([n.right, c + 1])
+        for (let [nde, col] of level) {
+            order.get(col).push(nde.val)
+
+            if (nde.left) nextLevel.push([nde.left, col - 1])
+            if (nde.right) nextLevel.push([nde.right, col + 1])
         }
         if (nextLevel.length) queue.push(nextLevel)
     }
-    return result
-};
 
+    let result = []
+    while (order.has(minCol)) {
+        result.push(order.get(minCol))
+        minCol++
+    }
+    return result;
+};
