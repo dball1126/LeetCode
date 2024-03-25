@@ -40,22 +40,20 @@
  * @param {NestedInteger[]} nestedList
  * @return {number}
  */
-// Depth First Search
-// Time and Space: O(n)
 var depthSum = function(nestedList) {
-    let result = 0
+    let sum = 0, depth = 1;
 
-    const dfs = (depth, arr) => {
-        for (let i = 0; i < arr.length; i++) {
-            const n = arr[i]
-            if (!n.isInteger()) {
-                dfs(depth+1, n.getList())
+    const dfs = (nestedList, dep) => {
+        for (let item of nestedList) {
+            if (item.isInteger()) {
+                sum += (dep * item.getInteger())
             } else {
-                result += (n.getInteger() * depth)
+                let list = item.getList()
+                dfs(list, dep+1)
             }
         }
     }
-    dfs(1, nestedList)
+    dfs(nestedList, depth)
 
-    return result
+    return sum;
 };
