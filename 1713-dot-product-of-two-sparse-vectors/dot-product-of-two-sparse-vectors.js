@@ -11,16 +11,15 @@ var SparseVector = function(nums) {
  * @param {SparseVector} vec
  * @return {number}
  */
-
-// Array Traversal
-// Time & Space: O(n)
 SparseVector.prototype.dotProduct = function(vec) {
-    let total = 0
-    for (let i = 0; i < this.nums.length; i++) {
-        total += (this.nums[i] * vec.nums[i])
+    let sum = 0
+    let vecNums = vec.nums;
+    for (let i = 0; i < vecNums.length; i++ ) {
+        sum += (vecNums[i] * this.nums[i])
     }
-    return total
+    return sum;
 };
+
 
 // Your SparseVector object will be instantiated and called as such:
 // let v1 = new SparseVector(nums1);
