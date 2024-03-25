@@ -1,45 +1,51 @@
+/**
+ * @param {string} s
+ * @return {number}
+ */
 // Stack
-// Time and Space: O(n)
+// Time: O(n)
 var calculate = function(s) {
-    let result = 0, stack = []
-    let newStr = ""
-    for (let c of s) {
-        newStr += c !== " " ? c : ""
-    }
-    s = newStr;
+    let arr = []
+    for (let i = 0; i < s.length; i++) { // pre-processing  // O(n)
+        if (s[i] === " ") continue;
 
-    for (let i = 0; i < s.length; i++) {
-        let v = s[i]
-        if (v === " ") continue;
-        if ((v >= "0" && v <= "9") || v === "+" || v === "-") {
-            if (v >= "0" && v <= "9") {
-                while (s[i+1] >= "0" && s[i+1] <= "9") {
-                    i++;
-                    v += s[i]
-                }
-            }
-            stack.push(v)
-        } else {
-            i++;
-            let val = s[i]; 
+        if (s[i] >= "0" && s[i] <= "9") {
+            let v = s[i]
             while (s[i+1] >= "0" && s[i+1] <= "9") {
                 i++;
-                val += s[i]
+                v += s[i]
             }
-            let v1 = parseInt(stack.pop()), v2 = parseInt(val)
-            if (v === "*") stack.push(v1 * v2)
-            if (v === "/") stack.push(Math.floor(v1 / v2))
+            arr.push(parseInt(v))
+        } else {
+            arr.push(s[i])
         }
     }
+    let stack = []
+    for (let i = 0; i < arr.length; i++) {
+
+        if (arr[i] === "*") {
+            let v1 = stack.pop();
+            i++;
+            let v2 = arr[i]
+            stack.push(v1 * v2)
+        } else if (arr[i] === "/") {
+            let v1 = stack.pop();
+            i++;
+            let v2 = arr[i]
+            stack.push(Math.floor(v1 / v2))
+        } else {
+            stack.push(arr[i])
+        }
+    }
+
     stack.reverse()
     while (stack.length) {
-        if (stack.length === 1) return parseInt(stack[0])
-        let v1 = parseInt(stack.pop());
+        if (stack.length === 1) return stack[0]
+        let v1 = stack.pop();
         let opt = stack.pop();
-        let v2 = parseInt(stack.pop());
-
+        let v2 = stack.pop();
+        if (opt === "-") stack.push(v1 - v2)
         if (opt === "+") stack.push(v1 + v2)
-        if (opt === "-") stack.push(Math.floor(v1 - v2))
     }
-    return result;
+
 };
