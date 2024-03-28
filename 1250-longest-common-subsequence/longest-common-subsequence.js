@@ -1,14 +1,24 @@
-// Bottom-Up Dynamic Programming
-// Time and Space O(n * m)
-var longestCommonSubsequence = function(s1, s2) {
-    const n = s1.length, m = s2.length
-    const dp = [...new Array(n+1)].map(a => [...new Array(m+1)].fill(0))
+/**
+ * @param {string} text1
+ * @param {string} text2
+ * @return {number}
+ */
+// Top-Down Dynamic Programming
+// Time and Space: O(n * m)...n for text1 length and m for text2 length
+var longestCommonSubsequence = function(text1, text2) {
+    let n = text1.length, m = text2.length;
+    const memo = [...new Array(n+1)].map(a => [...new Array(m+1)].fill(-Infinity))
 
-    for (let i = n-1; i >= 0; i--) {
-        for (let j = m-1; j >= 0; j--) {
-            let v = s1[i] === s2[j] ? 1 : 0
-            dp[i][j] = Math.max(v + dp[i+1][j+1], dp[i+1][j], dp[i][j+1])
+    const dp = (i, j) => {
+        if (i >= n || j >= m) return 0;
+        if (memo[i][j] !== -Infinity) return memo[i][j]
+        memo[i][j] = 0
+        
+        if (text1[i] === text2[j]) {
+            return memo[i][j] = 1 + dp(i+1, j+1)
+        } else {
+            return memo[i][j] = Math.max(dp(i+1, j), dp(i, j+1))
         }
     }
-    return dp[0][0]
+    return dp(0, 0)
 };
