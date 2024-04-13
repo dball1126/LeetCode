@@ -10,25 +10,29 @@
  * @param {number} n
  * @return {TreeNode[]}
  */
-// Dynamic prorgramming / Backtracking
+// Top-Down Dynamic Programming
+// Time: O(n^2)
+// Space: O(n)
 var generateTrees = function(n) {
-    const memo = new Map()    
-    const generate = (s, e) => {
-        if (e < s) return [null]
-        if (s === e) return [new TreeNode(s)]
-        if (memo.has(s + "" + e)) return [...memo.get(s + "" + e)]
-        const allCombos = []
-        for (let i = s; i <= e; i++) {
-            let left = generate(s, i-1)
-            let right = generate(i+1, e)
-            for(let l of left) {
-                for (let r of right) {
-                    allCombos.push(new TreeNode(i, l, r))
+    const memo = new Map()
+    const intervals = (l, r) => {
+        if (l > r) return [null]
+        let k = l + ":" + r
+        if (memo.has(k)) return memo.get(k)
+        const combos = []
+        for (let i = l; i <= r; i++) {
+            let left = intervals(l, i-1)
+            let right = intervals(i+1, r)
+            for (let lef of left) {
+                for (let rht of right) {
+                    let node = new TreeNode(i)
+                    node.left = lef; node.right = rht;
+                    combos.push(node)
                 }
             }
         }
-        memo.set(s + "" + e, allCombos)
-        return allCombos
+        memo.set(k, combos)
+        return combos
     }
-    return generate(1, n)
+    return intervals(1, n)
 };
