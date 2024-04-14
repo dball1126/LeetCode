@@ -4,7 +4,7 @@
  * @return {boolean}
  */
 // Top-down Dynamic Programming
-// Time: O(n * m)...n for s length and m for number of words in wordDict + their length
+// Time: O(n * m * k)...n for s length and m for number of words in wordDict...k for word length
 // Space: O(n)
 var wordBreak = function(s, wordDict) {
     let n = s.length
