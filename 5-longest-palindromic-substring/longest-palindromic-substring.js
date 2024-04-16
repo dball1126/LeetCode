@@ -1,25 +1,33 @@
-// Top-Down: Dynamic programming
-// Time: O(n^2)
-// Space: O(n)
+/**
+ * @param {string} s
+ * @return {string}
+ */
+// Top-down Dynamic Programming
+// Palindromes
+// Time & Space: O(n^2)
 var longestPalindrome = function(str) {
-    let n = str.length, max = [0,0], longest = ""
-    const dp = (i, j) => {
-        if (i < 0 || j >= n) return 0
+    let longest = ""
+    let n = str.length
+    let memo = [...new Array(n)].map(a => [...new Array(n)])
 
-        let v = i === j ? 1 : 0
-        if (str[i] === str[j]) {
-            if (i !== j) v = 2
-            v = v + dp(i-1, j+1)
-            if (j - i >= (max[1] - max[0])) max = [i, j]
-        }
-        return  v
+    const dp  = (i, j, curr) => {
+        if (i < 0 || j >= n) return ""
+        if (str[i] !== str[j]) return ""
+        if (memo[i][j] !== undefined) return memo[i][j]
+        curr = str[i] + curr + str[j]
+
+        if (longest.length < curr.length) longest = curr;
+        dp(i-1, j+1, curr)
+        return memo[i][j] = curr
     }
+
     for (let i = 0; i < n; i++) {
-        dp(i, i)
-        dp(i, i+1)
-    }
-    for (let i = max[0]; i <= max[1]; i++) {
-        longest += str[i]
+        if (longest.length < 1) longest = str[i]
+        dp(i-1, i+1, str[i])
+        if (str[i] === str[i+1]) {
+            if (longest.length < 2) longest = str[i] + str[i+1]
+            dp(i-1, i+2, str[i] + str[i+1])
+        }
     }
     return longest
 };
