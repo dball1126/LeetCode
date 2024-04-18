@@ -1,26 +1,32 @@
 /**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
  * @param {TreeNode} root
  * @return {number}
  */
-// Recursive Depth-First-Search
-// Dynamic Programming
-// Time and Space: O(n) (space can be O(h) for height of tree)
+// DP On Trees
+// Top-Down Dynamic Programming
+// Time and Space: O(n)
 var rob = function(root) {
+    
     const dfs = (nde) => {
-        if (!nde) return [0, 0]
-        if (!nde.left && !nde.right) {
-            return [nde.val, 0]
-        }
+        if (!nde) return [0,0]
 
-        const [p1, pp1] = dfs(nde.left)
-        const [p2, pp2] = dfs(nde.right)
+        let [Lval, Lprev] = dfs(nde.left)
+        let [Rval, Rprev] = dfs(nde.right)
 
-        const prev = pp1 + pp2 + nde.val
-        const prevprev = Math.max(p1+p2, p1+pp2, p2 + pp1, pp1+pp2)
-        return [prev, prevprev]
+        let newCurr = Math.max(nde.val + Lprev + Rprev, Lval + Rval);
+        let newPrev = Math.max(Lprev + Rprev, Lval + Rval);
+
+        return [newCurr, newPrev]
     }
 
-    const [prev, prevprev] = dfs(root)
-
-    return Math.max(prev, prevprev)
+    let [curr, prev] = dfs(root)
+    return Math.max(curr, prev)
 };
