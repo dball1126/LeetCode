@@ -1,5 +1,4 @@
 var countDigitOne = function(n) {
-    
     n += ""
     let memo = new Map()
     const digitDP = (sum, idx, len, tight) => {
