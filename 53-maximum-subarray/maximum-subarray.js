@@ -2,22 +2,13 @@
  * @param {number[]} nums
  * @return {number}
  */
+// Bottom-Up Dynamic Programming
+// Time: O(n), Space: O(1)
 var maxSubArray = function(nums) {
-    if (!nums.length) return 0
-    let max = nums[0], n = nums.length
-    const memo = [...new Array(n)]
-
-    const dp = (i) => {
-        if (i === n-1) {
-            max = Math.max(max, nums[n-1])
-            return nums[n-1]
-        }
-        if (memo[i] !== undefined) return memo[i]
-        let next = dp(i+1)
-       memo[i] = Math.max(nums[i], nums[i] + next)
-       max = Math.max(memo[i], max)
-       return memo[i]
+    let max = nums[0] || 0, len = nums.length
+    for (let i = 1; i < len; i++) {
+        nums[i] = Math.max(nums[i], nums[i] + nums[i-1])
+        max = Math.max(max, nums[i])
     }
-    dp(0)
     return max
 };
