@@ -2,20 +2,23 @@
  * @param {number} n
  * @return {number}
  */
+// Bottom-up Dynamic Programming
+// Fibonacci Pattern.
+// Time & Space: O(n)
 var climbStairs = function(n) {
-    
-    let memo = [...new Array(n+1)]
+    let dp = [...new Array(n)]
+    dp[n-1] = 1
 
-    const getStairs = (num) => {
-        if (num === 0) return 1;
-        if (memo[num] !== undefined) return memo[num]
-
-        if (num >= 2) {
-            return memo[num] = getStairs(num-1) +  getStairs(num-2)
+    for (let i = n-2; i >= 0; i--) {
+        let v1 = 0, v2 = 0
+        if (i+2 >= n) {
+            v2 = 1
         } else {
-            return memo[num] = getStairs(num-1)
+            v2 = dp[i+2]
         }
-
+        v1 = dp[i+1]
+        
+        dp[i] = v1 + v2
     }
-    return getStairs(n)
+    return dp[0]
 };
