@@ -3,8 +3,7 @@
  * @return {number}
  */
 // Digit DP
-// Time: O(n * 10)...n being the length of n
-// Time & Space: O(10 * log(n))
+// Time:  log10(n)
 var countDigitOne = function(n) {
     n += ""
     let len = n.length;
@@ -26,3 +25,4 @@ var countDigitOne = function(n) {
     }
     return dp(0, true, 0)
 };
+console.log(countDigitOne(13)) // = 6
