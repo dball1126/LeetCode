@@ -1,25 +1,28 @@
+/**
+ * @param {number} n
+ * @return {number}
+ */
+// Digit DP
+// Time: O(n * 10)...n being the length of n
+// Time & Space: O(10 * log(n))
 var countDigitOne = function(n) {
     n += ""
+    let len = n.length;
     let memo = new Map()
-    const digitDP = (sum, idx, len, tight) => {
+    const dp = (idx, tight, sum) => {
         if (idx >= len) return sum;
-        let res = 0
-        let maxD = tight ? +n[idx] : 9
-        let k = sum + ":" + idx + ":" + tight
-        if (memo.has(k)) {
-            return memo.get(k)
-        }
-        
-        for (let i = 0; i <= maxD; i++) {
-            
+        let k = idx + ":" + sum + ":" + tight
+        if (memo.has(k)) return memo.get(k)
+        let maxD = 9
+        if (tight) maxD = parseInt(n[idx])
+        let ans = 0;
+        for(let i = 0; i <= maxD; i++ ) {
+            let newTight = tight && i === maxD ? true : false;
             let x = i === 1 ? 1 : 0
-            let newTight = tight && i === maxD
-
-            res += digitDP(sum + x, idx+1, len, newTight)
+            ans += dp(idx+1, newTight, sum + x)  
         }
-        memo.set(k, res)
-        return res
+        memo.set(k, ans)
+        return ans
     }
-
-    return digitDP(0, 0, n.length, true)
+    return dp(0, true, 0)
 };
