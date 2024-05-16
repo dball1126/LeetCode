@@ -3,22 +3,27 @@
  * @param {number} amount
  * @return {number}
  */
+// Top-Down Dynamic Programming
+// Time: O(n * m)...coins * amt
+// space: O(m)...amt
 var coinChange = function(coins, amount) {
-    if (amount === 0) return 0
-    let memo = [...new Array(amount+1)]
+    const memo = [...new Array(amount+1)], n = coins.length
 
-    const dp = (amt) => {
-        if (amt === 0) return 0
-        if (amt < 0) return Infinity
-        if (memo[amt] !== undefined) return memo[amt]
-        memo[amt] = Infinity
-        for (let i = 0; i < coins.length; i++) {
-            if (amt - coins[i] >= 0  && (amt - coins[i]) < amt) {
-                memo[amt] = Math.min(memo[amt], 1 + dp(amt - coins[i]))
+    const dp = (a) => {
+        if (a === 0) return 0;
+        let ans = Infinity
+
+        if (memo[a] !== undefined) return memo[a]
+
+        for (let i = 0; i < n; i++) {
+            let v = coins[i]
+
+            if ((a - v) >= 0 && (a - v) < a) {
+                ans = Math.min(ans, dp(a - v) + 1)
             }
         }
-        return memo[amt]
+        return memo[a] = ans
     }
-    dp(amount)
-    return (memo[amount] === Infinity || memo[amount] === undefined) ? -1 : memo[amount]
+    let result = dp(amount)
+    return result === Infinity ? -1 : result;
 };
