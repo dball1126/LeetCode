@@ -1,25 +1,18 @@
-/**
- * @param {number[]} nums
- * @return {boolean}
- */
-// Top Down Dynamic Programming
-// Time and Space: O(n * m)...n for nums in array and m for total sum divided by two
 var canPartition = function(nums) {
-    let max = nums.reduce((acc, v) => acc + v), n = nums.length;
-    if (max & 1) return false;
-    max = Math.floor(max / 2)
+    let sum = nums.reduce((acc, v) => acc +v)
+    if (sum & 1) return false;
+    sum = Math.floor(sum / 2)
+    let n = nums.length
+    const memo = [...new Array(n)].map(a => [...new Array(sum)])
 
-    const memo = [...new Array(n)].map(a => [...new Array(max)])
+    const dp = (idx, s) => {
+        if (s === 0) return true;
+        if (idx >= n) return false;
+        if (s < 0) return false;
+        if (memo[idx][s] !== undefined) return memo[idx][s]
 
-    const dp = (idx, curr) => {
-        if (curr === max) return true;
-        if (curr > max || idx >= n) return false;
-        if (nums[idx] + curr === max) return true;
-        if (memo[idx][curr] !== undefined) return memo[idx][curr]
-
-        let pos1 = dp(idx+1, curr), pos2 = dp(idx+1, curr + nums[idx])
-
-        return memo[idx][curr] = (pos1 || pos2)
+        let v = (s - nums[idx]) === 0 || dp(idx+1, s) || dp(idx+1, s - nums[idx])
+        return memo[idx][s] = v
     }
-    return dp(0,0)
+    return dp(0, sum)
 };
