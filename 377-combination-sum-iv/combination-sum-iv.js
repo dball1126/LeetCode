@@ -3,24 +3,19 @@
  * @param {number} target
  * @return {number}
  */
-// Top-down Dynamic Programming
+// Bottom-Up Dynamic Programming
 // Time: O(n * m)...n for nums and m for target
 // Space: O(m)
 var combinationSum4 = function(nums, target) {
-    const memo = [...new Array(target+1)]
+    const memo = [...new Array(target+1)].fill(0)
+    memo[0] = 1
 
-    const dp = (t) => {
-        if (t === 0) return 1;
-        if (memo[t] !== undefined) return memo[t]
-        memo[t] = 0
-        for (let num of nums) {
-            if (t - num >= 0 && t - num < t) {
-                memo[t] += dp(t - num)
+    for (let t = 1; t <= target; t++) {
+        for (let c of nums) {
+            if (t -c >= 0) {
+                memo[t] += memo[t - c]
             }
         }
-        return memo[t]
     }
-    const result =  dp(target)
-    return result
+    return memo[target]
 };
-console.log(combinationSum4([1,2,3],4))
