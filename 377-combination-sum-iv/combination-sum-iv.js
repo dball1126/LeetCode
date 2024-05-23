@@ -4,10 +4,9 @@
  * @return {number}
  */
 // Top-down Dynamic Programming
-// Time: O(n * m)...n for nums and t for target
+// Time: O(n * m)...n for nums and m for target
 // Space: O(m)
 var combinationSum4 = function(nums, target) {
-    const n = nums.length;
     const memo = [...new Array(target+1)]
 
     const dp = (t) => {
@@ -24,3 +23,4 @@ var combinationSum4 = function(nums, target) {
     const result =  dp(target)
     return result
 };
+console.log(combinationSum4([1,2,3],4))
