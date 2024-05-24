@@ -2,20 +2,24 @@
  * @param {number[][]} obstacleGrid
  * @return {number}
  */
-// DP on Grids
-// Top-Down Dynamic Programming
-// Time and Space: O(n^2)
+// Bottom-Up Dynamic Programming. DP on a Grid.
+// Time and Space: O(r * c)...for rows and cols
 var uniquePathsWithObstacles = function(obstacleGrid) {
-    let n = obstacleGrid.length, m = obstacleGrid[0].length
-
-    const memo = [...new Array(n)].map(a => [...new Array(m)])
-
-    const dp = (r, c) => {
-        if (r === n-1 && c === m-1) return obstacleGrid[r][c] === 0 ? 1 : 0
-        if (r >= n || c >= m || obstacleGrid[r][c] === 1) return 0
-        if (memo[r][c] !== undefined) return memo[r][c]
-
-        return memo[r][c] = (dp(r+1, c) + dp(r, c+1))
+    
+    let row = obstacleGrid.length, col = obstacleGrid[0].length
+    const dp = [...new Array(row+1)].map(a => [...new Array(col+1)].fill(0))
+    
+    if (obstacleGrid[row-1][col-1] !== 1) {
+        dp[row-1][col-1] = 1
     }
-    return dp(0,0)
+
+    for (let r = row-1; r >= 0; r--) {
+        for (let c = col-1; c >= 0; c--) {
+            if (obstacleGrid[r][c] !== 1) {
+                dp[r][c] += (dp[r][c+1] + dp[r+1][c])
+            }
+        }
+    }
+
+    return dp[0][0]
 };
