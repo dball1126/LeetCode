@@ -5,19 +5,18 @@
  */
 // Bottom-Up Dynamic Programming
 // Time: O(n * m)...n for coins and m for amount
-// Space: O(m)
+// Space: O(m) for amounht
 var coinChange = function(coins, amount) {
-    const memo = [...new Array(amount+1)].fill(Infinity)
-    memo[0] = 0
-    for (let i = 1; i <= amount; i++) {
+    let dp = [...new Array(amount+ 1)].fill(0)
 
+    for (let a = 1; a <= amount; a++) {
+        let v = Infinity
         for (let c of coins) {
-            if (i - c === 0) {
-                memo[i] = 1
-            } else if (i - c >= 0 && i - c < i) {
-                memo[i] = Math.min(memo[i], (memo[i-c]  + 1))
+            if (a -c >= 0) {
+                v = Math.min(v, dp[a - c]+1)
             }
         }
+        dp[a] = v
     }
-    return memo[amount] === Infinity ? -1 : memo[amount]
+    return dp[amount] === Infinity ? -1 : dp[amount]
 };
