@@ -3,30 +3,25 @@
  * @return {number}
  */
 // Bottom-Up Dynamic Programming
-// Time and Space: O(n^2)
+// Time: O(r * c)...r for rows and c for columns
+// Space: O(1)
 var minFallingPathSum = function(matrix) {
-    let min = Infinity
+    let row = matrix.length, col = matrix[0].length
 
-    for (let r = 0; r < matrix.length; r++) {
-        for(let c = 0; c < matrix[0].length; c++) {
-            
-            let lPrev = Infinity, rPrev = Infinity, tPrev = Infinity
-            if (r-1 >= 0) {
-                tPrev = matrix[r-1][c]
-                if (c-1 >= 0) {
-                    lPrev = matrix[r-1][c-1]
-                } 
-                if (c+1 < matrix[0].length) {
-                    rPrev = matrix[r-1][c+1]
-                }
-            }
-            if (r !== 0) {
-                matrix[r][c] += Math.min(lPrev, rPrev, tPrev)
-            }
-            
-            if (r === matrix.length-1) {
-                min = Math.min(min, matrix[r][c])
-            }
+    for (let r = 1; r < row; r++) {
+
+        for (let c = 0; c < col; c++) {
+            let left = Infinity, mid = matrix[r-1][c], right = Infinity
+            if (c-1 >= 0) left = matrix[r-1][c-1]
+            if (c+1 < col) right = matrix[r-1][c+1]
+            let v = matrix[r][c]
+            matrix[r][c] = Math.min(mid + v, left+v, right + v)
+        }
+    }
+    let min = Infinity
+    for (let r = row-1; r < row; r++) {
+        for (let c = 0; c < col; c++) {
+            min = Math.min(min, matrix[r][c])
         }
     }
     return min
