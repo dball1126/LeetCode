@@ -2,25 +2,28 @@
  * @param {number[]} nums
  * @return {number}
  */
+// Top-Down Dynamic Programming
+// Time: O(n^2)
+// Space: O(n)
 var lengthOfLIS = function(nums) {
-    let n = nums.length, max = 0;
-    let memo = [...new Array(n)]
-
-    const dfs = (idx) => {
-        if (idx >= n) return 0
-        if (memo[idx] !== undefined) return memo[idx]
-        let val = 1;
-        for (let i = idx+1; i < n; i++) {
-            if (nums[idx] < nums[i]) {
-                val = Math.max(val, dfs(i) + 1)
+    if (!nums.length) return 0
+    let max = 1, n = nums.length
+    const memo = [...new Array(n+1)]
+    
+    const dp = (i) => {
+        if (i >= n) return memo[i] = 0;
+        if (i === n-1) return memo[i] = 1;
+        if (memo[i] !== undefined) return memo[i]
+        let v = 0
+        dp(i+1)
+        for (let j = i+1; j < n; j++) {
+            if (nums[i] < nums[j]) {
+                v = Math.max(v, dp(j))
             }
         }
-        max = Math.max(max, val)
-        return memo[idx] = val
+        max = Math.max(max, v+1)
+        return memo[i] = v + 1
     }
-    for (let i = 0; i < n; i++) {
-        dfs(i)
-    }
-    
-    return max;
+    dp(0)
+    return max
 };
