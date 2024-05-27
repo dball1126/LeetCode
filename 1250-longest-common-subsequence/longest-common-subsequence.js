@@ -5,17 +5,15 @@
  */
 var longestCommonSubsequence = function(text1, text2) {
     let n = text1.length, m = text2.length
-    const memo = [...new Array(n)].map(a => [...new Array(m)])
+    let memo = [...new Array(n+1)].map(a=> [...new Array(m+1)])
 
     const dp = (i, j) => {
         if (i >= n || j >= m) return 0
         if (memo[i][j] !== undefined) return memo[i][j]
-        if (text1[i] === text2[j]) {
-            return memo[i][j] = Math.max(1 + dp(i+1,j+1), dp(i,j+1), dp(i+1,j))
-        } else {
-            return memo[i][j] = Math.max(dp(i+1,j), dp(i,j+1))
-        }
-    }
 
-    return dp(0, 0)
+        let v1 = dp(i+1, j), v2 = dp(i, j+1), v3 = 0;
+        if (text1[i] === text2[j]) v3 = 1 + dp(i+1, j+1)
+        return memo[i][j] = Math.max(v1,v2,v3)
+    }
+    return dp(0,0)
 };
