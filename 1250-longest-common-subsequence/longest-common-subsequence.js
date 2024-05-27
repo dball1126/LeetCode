@@ -3,6 +3,8 @@
  * @param {string} text2
  * @return {number}
  */
+// Bottom Up Dynamic Programming
+// Time and Space: O(n * m)...n for input 1 length and m for input 2 length
 var longestCommonSubsequence = function(text1, text2) {
     let n = text1.length, m = text2.length
     let dp = [...new Array(n+1)].map(a=> [...new Array(m+1)].fill(0))
