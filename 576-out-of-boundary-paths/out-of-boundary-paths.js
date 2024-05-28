@@ -7,20 +7,28 @@
  * @return {number}
  */
 var findPaths = function(m, n, maxMove, startRow, startColumn) {
-    let memo = [...new Array(m+1)].map(a => [...new Array(n+1)].map(a =>
-                [...new Array(maxMove+1)]))
-        const dirs = [[1,0],[-1,0],[0,1],[0,-1]]
-    let mod = 10**9+7
-    const dp = (r, c, move) => {
-        if (r < 0 || c < 0 || r >= m || c >= n) return 1
-        if (move >= maxMove) return 0
-        if (memo[r][c][move] !== undefined) return memo[r][c][move]
+    
+    let dp = [...new Array(m+1)].map(a => [...new Array(n+1)].map(a => [...new Array(maxMove+1)].fill(0)))
+    const dirs = [[1,0],[-1,0],[0,1],[0,-1]]
+    const mod = 10**9+7
+    for (let mv = 0; mv < maxMove; mv++) {
 
-        let v = 0
-        for (let [x, y] of dirs) {
-            v += (dp(r+x, c+y, move+1) % mod)
+        for (let r = 0; r < m; r++) {
+            for (let c = 0; c < n; c++) {
+
+                for (let [x, y] of dirs) {
+
+                    let rX = r + x, cY = c + y;
+
+                    if (rX < 0 || cY < 0 || rX >= m || cY >= n) {
+                        dp[r][c][mv] += 1
+                    } else {
+                        dp[r][c][mv] = ((dp[rX][cY][mv-1] || 0) + dp[r][c][mv]) % mod
+                    }
+                }
+            }   
         }
-        return memo[r][c][move] = v % mod;
     }
-    return dp(startRow, startColumn, 0)
+
+    return dp[startRow][startColumn][maxMove-1] || 0
 };
