@@ -3,22 +3,20 @@
  * @param {number} target
  * @return {number}
  */
-// Top-Down Dynamic Programming
-// Time and Space: O(n * m)...n for nums and m for target
 var findTargetSumWays = function(nums, target) {
+    
     let n = nums.length
-    let memo = new Map()
-
-    const dp = (idx, t) => {
-        if (idx === n && t === 0) return 1;
-        if (idx >= n) return 0;
-        let k = idx + ":" + t
+    const memo = new Map()
+    const dp = (i, tgt) => {
+        if (i >= n) return tgt === target ? 1 : 0
+        let k = i + ":" + tgt
+        let v1 = 0
         if (memo.has(k)) return memo.get(k)
 
-        let v = dp(idx+1, t + nums[idx]) + dp(idx+1, t - nums[idx])
-        memo.set(k, v)
-        return v
-    }
+        let way1 = dp(i+1, tgt - nums[i]), way2 = dp(i+1, tgt + nums[i])
 
-    return dp(0, target)
+        memo.set(k, way1 + way2 + v1)
+        return way1 + way2
+    }
+    return dp(0, 0)
 };
