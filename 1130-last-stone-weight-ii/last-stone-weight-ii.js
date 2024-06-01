@@ -2,8 +2,10 @@
  * @param {number[]} stones
  * @return {number}
  */
- 
-// Time and Space: O(n * m)...n for stones and m for half the total sum
+ // Top-Down Dynamic Programming
+// 0/1 Knapsack (Bounded)
+// Time: O(n * m)...n for stones and m for half the total sum
+// Space: O(m)
 var lastStoneWeightII = function(stones) {
     let sum = stones.reduce((acc, v) => acc + v)
     let half = Math.ceil(sum / 2), n = stones.length
