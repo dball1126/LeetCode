@@ -13,9 +13,9 @@ var canPartition = function(nums) {
     sum = Math.floor(sum / 2)
     const dp = [...new Array(n+1)].map(a => [...new Array( sum + 1)].fill(false))
 
-    for (let arr of dp) arr[0] = true;
+    for (let arr of dp) arr[0] = true; // base case
 
-    const row = dp.length, column = dp[0].length;
+    const row = dp.length, column = dp[0].length; 
 
     for (let r = 1; r < row; r++) {
 
