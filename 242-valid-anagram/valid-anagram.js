@@ -3,20 +3,20 @@
  * @param {string} t
  * @return {boolean}
  */
-// Time: O(n + m)
-// Space: O(n)
+// Hash Map
+// Time and Space: O(n + m)...n for s and m for t
 var isAnagram = function(s, t) {
-    if (s.length !== t.length) return false;
-    let map = new Map();
-    for (let c of s) {
-        if (!map.has(c)) map.set(c, 0)
-        map.set(c, map.get(c) + 1)
+    let map = new Map()
+
+    for (let i = 0; i < s.length; i++) {
+        if (!map.has(s[i])) map.set(s[i], 0)
+        map.set(s[i], map.get(s[i]) + 1)
     }
 
-    for (let c of t) {
-        if (!map.has(c)) return false;
-        map.set(c, map.get(c) - 1)
-        if (map.get(c) === 0) map.delete(c)
+    for (let i = 0; i < t.length; i++) {
+        if (!map.has(t[i])) return false
+        map.set(t[i], map.get(t[i]) -1 )
+        if (map.get(t[i]) === 0) map.delete(t[i])
     }
     return map.size === 0
 };
