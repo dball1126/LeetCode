@@ -1,20 +1,21 @@
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
 // Stack
-// Time: O(n)
-// Space: O(1)
+// Time and Space: O(n)
 var isValid = function(s) {
-    const stack = [], n = s.length;
+    let stack = [], n = s.length
 
     for (let i = 0; i < n; i++) {
-        const v = s[i];
-        if ((v === ")" && "(" !== stack.pop())) {
-            return false;
-        } else if (v === "]" && "[" !== stack.pop()) {
-            return false;
-        } else if (v === "}" && "{" !== stack.pop()) {
-            return false;
-        }
+        let v = s[i]
         if (v === "(" || v === "[" || v === "{") {
             stack.push(v)
+        } else {
+            let v2 = stack.pop();
+            if (v === ")" && v2 !== "(") return false;
+            if (v === "]" && v2 !== "[") return false;
+            if (v === "}" && v2 !== "{") return false;
         }
     }
     return stack.length === 0
