@@ -10,6 +10,9 @@
  * @param {ListNode} list2
  * @return {ListNode}
  */
+// Linked Lists Traversal
+// Time O(n + m), n for length of list1 and m for length of list2
+// Space: O(1) not counting output var
 var mergeTwoLists = function(list1, list2) {
     let head = null, curr= null
 
