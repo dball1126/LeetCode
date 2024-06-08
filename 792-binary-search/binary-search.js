@@ -3,21 +3,23 @@
  * @param {number} target
  * @return {number}
  */
+// Binary Search
+// Time: O(log(n))
+// Space: O(1)
 var search = function(nums, target) {
     
     let l = 0, r = nums.length-1
 
-    while (l <= r) {
-        let mid = Math.floor((r + l) / 2)
+    while ( l <= r) {
+        let m = Math.floor( (r + l) / 2)
 
-        if (nums[mid] === target) {
-            return mid;
-        } else if (nums[mid] > target) {
-            r = mid - 1
+        if (nums[m] === target) {
+            return m
+        } else if (nums[m] < target) {
+            l = m+1
         } else {
-            l = mid + 1
+            r = m-1
         }
     }
-
     return -1
 };
