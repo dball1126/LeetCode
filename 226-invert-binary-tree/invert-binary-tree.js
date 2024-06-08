@@ -10,16 +10,13 @@
  * @param {TreeNode} root
  * @return {TreeNode}
  */
-// Time and Space: O(n)
 var invertTree = function(root) {
-    const bfs = [root]
-    while (bfs.length) {
-        let nde = bfs.shift();
-        if (!nde) continue;
-        let left = nde.left, right = nde.right
-        nde.right = left; nde.left = right;
-        if (left) bfs.push(left)
-        if (right) bfs.push(right)
+    
+    const dfs = (node) => {
+        if (!node) return node;
+        let left = dfs(node.left), right = dfs(node.right)
+        node.right = left; node.left = right;
+        return node;
     }
-    return root
+    return dfs(root)
 };
