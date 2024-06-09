@@ -10,6 +10,9 @@
  * @param {ListNode} head
  * @return {boolean}
  */
+// Linked List Traversal
+// Time: O(n)
+// Space: O(1)
 var hasCycle = function(head) {
     if (!head) return false
     let tortoise = head, hare = head.next
