@@ -11,25 +11,24 @@
  * @param {TreeNode} q
  * @return {TreeNode}
  */
-// Depth-First-Search
-// Time and Space: O(n)
+// Recursive Depth-First-Search
+// Time: O(n)
+// Space: O(h) if the tree is balanced.
 var lowestCommonAncestor = function(root, p, q) {
-    let result = null;
+    let result
+
     const dfs = (nde) => {
-        if (result) return false;
-        if (!nde) return false;
+        if (!nde) return
 
-        let val = nde.val === p.val || nde.val === q.val;
-
-        let left = dfs(nde.left), right = dfs(nde.right);
-
+        let left = dfs(nde.left), right = dfs(nde.right)
+        let val = (p && nde.val === p.val) || (q && nde.val === q.val)
         if (!result) {
-            if (left && right || val && left || val && right) {
-                result = nde
-                return false;
+            if ((left && right) || (val && left) || (val && right)) {
+                result = nde;
             }
         }
-        return left || val || right
+
+        return left || right || nde.val === p.val || nde.val === q.val
     }
     dfs(root)
     return result;
