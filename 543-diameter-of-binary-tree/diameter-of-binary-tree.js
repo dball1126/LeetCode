@@ -10,6 +10,9 @@
  * @param {TreeNode} root
  * @return {number}
  */
+// Recursive Depth-First-Search
+// Time: O(n)
+// Space: O(h) if the tree is balanced.
 var diameterOfBinaryTree = function(root) {
     let max = 0;
     
