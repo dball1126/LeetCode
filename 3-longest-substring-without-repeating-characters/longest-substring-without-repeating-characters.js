@@ -9,13 +9,13 @@ var lengthOfLongestSubstring = function(str) {
     const map = new Map()
     let s = 0, e = 0, n = str.length
     let max = 0;
-    while (e < n) { // slide left pointer right
+    while (e < n) { // slide right pointer right
 
         if (!map.has(str[e])) map.set(str[e], 0)
         map.set(str[e], map.get(str[e]) + 1)
 
         if (map.get(str[e]) > 1) {
-            while (map.get(str[e]) > 1) {
+            while (map.get(str[e]) > 1) { // slide left pointer right
                 map.set(str[s], map.get(str[s]) - 1)
                 if (map.get(str[s]) === 0) map.delete(str[s])
                 s++
