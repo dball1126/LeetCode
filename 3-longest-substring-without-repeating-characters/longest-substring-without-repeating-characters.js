@@ -4,7 +4,7 @@
  */
 // Sliding Window
 // Time: O(n)
-// Space: O(1)
+// Space: O(k)...the size of our window(longest string without repeating chars)
 var lengthOfLongestSubstring = function(str) {
     const map = new Map()
     let s = 0, e = 0, n = str.length
@@ -17,6 +17,7 @@ var lengthOfLongestSubstring = function(str) {
         if (map.get(str[e]) > 1) {
             while (map.get(str[e]) > 1) {
                 map.set(str[s], map.get(str[s]) - 1)
+                if (map.get(str[s]) === 0) map.delete(str[s])
                 s++
             }
         } else {
