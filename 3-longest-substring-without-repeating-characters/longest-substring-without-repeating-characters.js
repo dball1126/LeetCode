@@ -3,23 +3,26 @@
  * @return {number}
  */
 // Sliding Window
-// Time and Space: O(n)
+// Time: O(n)
+// Space: O(1)
 var lengthOfLongestSubstring = function(str) {
-    let result = 0, n = str.length, s = 0, e = 0, map = new Map()
+    const map = new Map()
+    let s = 0, e = 0, n = str.length
+    let max = 0;
+    while (e < n) { // slide left pointer right
 
-    while (e < n) {
         if (!map.has(str[e])) map.set(str[e], 0)
-        map.set(str[e], map.get(str[e]) + 1);
+        map.set(str[e], map.get(str[e]) + 1)
 
-        if (map.get(str[e]) < 2) {
-            result = Math.max(result,( e - s) + 1)
-        } else {
-            while (s < e && map.get(str[e]) >= 2) {
-                map.set(str[s], map.get(str[s]) - 1);
+        if (map.get(str[e]) > 1) {
+            while (map.get(str[e]) > 1) {
+                map.set(str[s], map.get(str[s]) - 1)
                 s++
             }
+        } else {
+            max = Math.max(max, ((e - s) + 1))
         }
         e++
     }
-    return result;
+    return max;
 };
