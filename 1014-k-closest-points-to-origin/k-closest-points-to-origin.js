@@ -84,17 +84,18 @@ class Node {
 }
 
 var kClosest = function(points, k) {
-    const heap = new MinHeap()
+    const heap = [] // this should be a real heap such as const heap = new MinHeap()
 
     for (let [x, y] of points) {
         let node = new Node([x, y])
         node.val = (x - 0)**2 + (y - 0)**2
-       heap.insert(node)
+       heap.push(node)
     }
+    heap.sort((a, b) => b.val - a.val) // simulating how a heap works since we JavaScript does not have a built in version
 
     const result = []
-    while (!heap.isEmpty() && result.length !== k) {
-        let node = heap.poll()
+    while (heap.length && result.length !== k) {
+        let node = heap.pop()
         result.push(node.key)
     }
     return result
