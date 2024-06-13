@@ -1,11 +1,3 @@
-class Node {
-    constructor(key,val = 0) {
-        this.key = key
-        this.val = val
-
-    }
-}
-
 class MinHeap { // Object version
     constructor() {
        this.array = [null];
@@ -83,30 +75,27 @@ class MinHeap { // Object version
         return this.array[1];
     }
 }
+class Node {
+    constructor(key,val = 0) {
+        this.key = key
+        this.val = val
 
+    }
+}
 
-/**
- * @param {number[][]} points
- * @param {number} k
- * @return {number[][]}
- */
-// Minimum Spanning Tree
-// Time: O(n * log(n))...n is for coordinates
-// Space: O(n)
 var kClosest = function(points, k) {
-    
-    let minHeap = new MinHeap(), closestPoints = []
+    const heap = new MinHeap()
 
-    for (let [x , y] of points) {
-        let manhattanDistance = ((x - 0)**2) + ((y - 0)**2)
-        let nde = new Node([x, y], manhattanDistance)
-        minHeap.insert(nde)
+    for (let [x, y] of points) {
+        let node = new Node([x, y])
+        node.val = (x - 0)**2 + (y - 0)**2
+       heap.insert(node)
     }
 
-    while (!minHeap.isEmpty()) {
-        let nde = minHeap.poll()
-
-        closestPoints.push(nde.key)
-        if (closestPoints.length === k) return closestPoints
+    const result = []
+    while (!heap.isEmpty() && result.length !== k) {
+        let node = heap.poll()
+        result.push(node.key)
     }
+    return result
 };
