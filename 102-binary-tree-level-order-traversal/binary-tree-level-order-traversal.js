@@ -1,51 +1,36 @@
-class BFSQueue {
-    constructor() {
-        this.head = new Node();
-        this.tail = this.head;
-        this.count = 0
-    }
-    
-    enqueue(value) {
-        this.tail.next = new Node(value);
-        this.tail = this.tail.next;
-        this.count++;
-    }
-    
-    dequeue() {
-        const { value } = this.head.next;
-        this.head = this.head.next;
-        this.count--;
-        return value;
-    }
-
-    isEmpty() {
-        return this.count === 0
-      }
-}
-
-
-class Node {
-    constructor(value) {
-        this.value = value;
-        this.next;
-    }
-}
-
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[][]}
+ */
+// Breadth-First-Search
+// Time and Space: O(n)...for the nodes in root
 var levelOrder = function(root) {
-    if (!root) return [];
-    const result = [], queue = new BFSQueue();
-    queue.enqueue([root])
+    const result = []
+    const queue = []
+    if (!root) return []
+    queue.push([root])
 
-    while (!queue.isEmpty()) {
-        let level = queue.dequeue();
-        let nextLevel = [], nextResult =[]
-        for (let nde of level) {
-            nextResult.push(nde.val)
-            if (nde.left) nextLevel.push(nde.left)
-            if (nde.right) nextLevel.push(nde.right)
+    while (queue.length) {
+        const level = queue.shift()
+        const newLvl = []
+        const levelResult = []
+
+        while (level.length) {
+            let next = level.shift()
+            levelResult.push(next.val)
+            if (next.left) newLvl.push(next.left)
+            if (next.right) newLvl.push(next.right)
         }
-        result.push(nextResult)
-        if (nextLevel.length) queue.enqueue(nextLevel)
+        if (newLvl.length) queue.push(newLvl)
+        result.push(levelResult)
     }
     return result;
 };
