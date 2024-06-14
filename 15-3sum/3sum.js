@@ -2,38 +2,34 @@
  * @param {number[]} nums
  * @return {number[][]}
  */
-// Sorting & Two Pointer
-// O(n * log (n)) + O(n^2)
-// Space: O(n)...for sorting...worst case
+// Loop and Two-Pointer approach.
+// Time: O(n^2)
+// Space: O(1)...not counting output array
 var threeSum = function(nums) {
-    nums.sort((a, b) => a - b)
-    let triplets = [], n = nums.length
+    nums.sort((a,b) => a - b)
+    const result = [], n = nums.length;
 
-    for (let i = 0; i < n; i++) {
-        
-        let j = i+1
-        let v1 = nums[i], k = n-1
+    for (let i = 0; i < n-2; i++) {
+        let j = i+1, k = n-1
 
         while (j < k) {
-            let v2 = nums[j], v3 = nums[k]
+            let v1 = nums[i], v2 = nums[j], v3 = nums[k]
             let sum = v1 + v2 + v3
             if (sum === 0) {
-                triplets.push([v1,v2,v3])
-            }
-
-            if (sum <= 0) {
-                while (j < k && nums[j+1] === nums[j]) j++;
-
+                result.push([v1,v2,v3]);
+                while (j < k && nums[j] === nums[j+1]) j++;
+                j++;
+            } else if (sum < 0) {
+                while (j < k && nums[j] === nums[j+1]) j++;
                 j++
             } else {
-                while (k > j && nums[k] === nums[k-1]) k--;
-
+                while (k > j && nums[k-1] === nums[k]) k--;
                 k--
             }
         }
-            
-        while (i < n && nums[i+1] === nums[i]) i++
+        while (i < n && nums[i] === nums[i+1]) {
+            i++
+        }
     }
-
-    return triplets
+    return result;
 };
