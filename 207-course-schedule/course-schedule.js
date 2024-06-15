@@ -3,6 +3,8 @@
  * @param {number[][]} prerequisites
  * @return {boolean}
  */
+// Topological Sort
+// Time & Space: O(V + E)...for vertices and edges
 var canFinish = function(numCourses, prerequisites) {
     let count = 0, adjList = new Map(), queue = []
     const indegrees = [...new Array(numCourses).fill(0)]
