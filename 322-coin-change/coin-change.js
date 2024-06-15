@@ -3,25 +3,20 @@
  * @param {number} amount
  * @return {number}
  */
-// Bottom-Up Dynamic Programming
-// 0/1 Knapsack (Unbounded)
-// Time: O(n * m)...n for coins length and m for amount
-// Space: O(m)
 var coinChange = function(coins, amount) {
+    let dp = [...new Array(amount+1)].fill(Infinity)
+    dp[0] = 0
 
-    const dp = [...new Array( amount+ 1)].fill(Infinity)
-    dp[0] = 0;
-
-    for (let a = 1; a < dp.length; a++) {
-        let v = Infinity
+    for (let a = 1; a <= amount; a++) {
+        let min = Infinity
 
         for (let c of coins) {
-            if (a - c >= 0 && a - c < a) {
-                v = Math.min(v, 1 + dp[a - c])
+
+            if ((a - c) >= 0 && (a - c) < a) {
+                min = Math.min(min, dp[a - c] + 1)
             }
         }
-
-        dp[a] = v
+        dp[a] = min
     }
     return dp[amount] === Infinity ? -1 : dp[amount]
 };
