@@ -1,11 +1,11 @@
-class Node {
+class TNode {
     constructor() {
         this.keys = new Map();
         this.isWord = false;
     }
 }
 var Trie = function() {
-    this.trie = new Node()
+    this.root = new TNode()
 };
 
 /** 
@@ -13,14 +13,18 @@ var Trie = function() {
  * @return {void}
  */
 Trie.prototype.insert = function(word) {
-    let root = this.trie;
+    let node = this.root, len = word.length;
     for (let i = 0; i < word.length; i++) {
-        let c = word[i]
-        if (!root.keys.has(c)) root.keys.set(c, new Node(c))
-        root = root.keys.get(c)
-        if (i === word.length-1) root.isWord = true;
+        const v = word[i];
+        if (node.keys.has(v)) {
+            node = node.keys.get(v)
+        } else {
+            let newNode = new TNode()
+            node.keys.set(v, newNode)
+            node = node.keys.get(v)
+        }
+        if (i === len-1) node.isWord = true;
     }
-
 };
 
 /** 
@@ -28,14 +32,13 @@ Trie.prototype.insert = function(word) {
  * @return {boolean}
  */
 Trie.prototype.search = function(word) {
-    let root = this.trie;
-    for (let i = 0; i < word.length; i++) {
-        let c = word[i]
-        if (!root.keys.has(c)) return false;
-        root = root.keys.get(c)
-        if (i === word.length -1 && root.isWord) return true;
+    let node = this.root, len = word.length
+    for (let i = 0; i < len; i++) {
+        if (!node.keys.has(word[i])) return false;
+        node = node.keys.get(word[i])
+        if (i === len-1&& node.isWord) return true;
     }
-    return false;
+    return false
 };
 
 /** 
@@ -43,19 +46,11 @@ Trie.prototype.search = function(word) {
  * @return {boolean}
  */
 Trie.prototype.startsWith = function(prefix) {
-    let root = this.trie;
-    for (let i = 0; i < prefix.length; i++) {
-        let c = prefix[i]
-        if (!root.keys.has(c)) return false;
-        root = root.keys.get(c)
-        if (i === prefix.length -1) return true;
+    let node = this.root, len = prefix.length
+    for (let i = 0; i < len; i++) {
+        if (!node.keys.has(prefix[i])) return false;
+        node = node.keys.get(prefix[i])
+        if (i === len-1) return true;
     }
-    return false;
+    return false
 };
-/** 
- * Your Trie object will be instantiated and called as such:
- * var obj = new Trie()
- * obj.insert(word)
- * var param_2 = obj.search(word)
- * var param_3 = obj.startsWith(prefix)
- */
