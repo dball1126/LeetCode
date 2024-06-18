@@ -10,17 +10,19 @@
  * @param {TreeNode} root
  * @return {boolean}
  */
-// Iterative Depth-First-Search
-// Time and Space: O(n)
+// Recursive Depth-First-Search
+// Time: O(n)
+// Space: O(h)...h for height of tree...if the tree is balanced
 var isValidBST = function(root) {
-    let stack = [[root, -Infinity, Infinity]]
-    while (stack.length) {
-        let [nde, min, max] = stack.pop();
+    
+    const dfs = (nde, min, max) => {
+        if (!nde) return true;
 
-        if (!nde) continue;
         if (nde.val <= min || nde.val >= max) return false;
-        stack.push([nde.left, min, nde.val])
-        stack.push([nde.right, nde.val, max])
+
+        let left = dfs(nde.left, min, nde.val), right = dfs(nde.right, nde.val, max)
+
+        return left && right
     }
-    return true;
+    return dfs(root, -Infinity, Infinity)
 };
