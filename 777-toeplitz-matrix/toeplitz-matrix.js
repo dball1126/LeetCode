@@ -2,29 +2,23 @@
  * @param {number[][]} matrix
  * @return {boolean}
  */
-// Time: O(n * m)...rows * columns
-// Space: O(1)
 var isToeplitzMatrix = function(matrix) {
-    if (!matrix.length) return true;
-    const n = matrix.length, m = matrix[0].length
+    let n = matrix.length, m = matrix[0].length
 
-    for (let i = 0; i < m; i++) { // check rows
-        let r = 0, c = i
-        const v = matrix[r][c]
-        while (r+1 < n && c+1 < m) {
-            r++; c++;
-            let v2 = matrix[r][c]
-            if (v !== v2) return false;
+
+    for (let row = 0 ;row < n; row++) {
+        let c = 0, r = row
+        while (r < n-1 && c < m-1) {
+            r++; c++
+            if (matrix[r-1][c-1] !== matrix[r][c]) return false;
         }
     }
-    for (let i = 0; i < n; i++) { // check columns
-        let r = i, c = 0
-        const v = matrix[r][c]
 
-        while (r+1 < n && c+1 < m) {
-            r++; c++;
-            let v2 = matrix[r][c]
-            if (v !== v2) return false;
+    for (let col = 0; col < m; col++) {
+        let c = col, r = 0
+        while (r < n-1 && c < m-1) {
+            r++; c++
+            if (matrix[r][c] !== matrix[r-1][c-1]) return false;
         }
     }
     return true;
