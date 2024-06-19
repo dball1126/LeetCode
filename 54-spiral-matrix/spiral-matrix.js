@@ -2,28 +2,48 @@
  * @param {number[][]} matrix
  * @return {number[]}
  */
-// Matrix Traversal
-// Time: O(n * m)...rows * columns (4 dirs is constant)
-// Space: O(1)
 var spiralOrder = function(matrix) {
-    const result = [], n = matrix.length, m = matrix[0].length
-    const dirs = [[0,1],[1,0],[0,-1],[-1,0]]
-    let c = 0, r = 0, flag = true;
-    
-    while (flag) {
-        flag = false;
-        if (matrix[c][r] !== Infinity) {
-            result.push(matrix[c][r])
-            matrix[c][r] = Infinity
-        }
-        for (let [y, x] of dirs) {
+    const result = []
+    let queue = [[0,0, "R"]], n = matrix.length, m = matrix[0].length
 
-            while ((c+y) >= 0 && (r+x) >= 0 && (c+y) < n && (r+x) < m && matrix[(c+y)][(r+x)] !== Infinity) {
-                result.push(matrix[(c+y)][(r+x)])
-                matrix[(c+y)][(r+x)] = Infinity
-                c = (c+y); r = (r+x); flag = true;
+    while (queue.length) {
+        let [r, c, v] = queue.shift();
+        if (r < 0 || c < 0 || r >= n || c >= m) break
+        if (matrix[r][c] === "-") break;
+        result.push(matrix[r][c])
+        matrix[r][c] = "-"
+        if (v === "R") {
+            while (c+1 < m && matrix[r][c+1] !== "-") {
+                c++;
+                result.push(matrix[r][c])
+                matrix[r][c] = "-"
             }
+            queue.push([r+1, c, "D"])
+        } else if (v === "L") {
+            while (c-1 >= 0 && matrix[r][c-1] !== "-") {
+                c--;
+                result.push(matrix[r][c])
+                matrix[r][c] = "-";
+            }
+            queue.push([r-1, c, "U"])
+
+        } else if (v === "D") {
+            while (r+1 < n && matrix[r+1][c] !== "-") {
+                r++;
+                result.push(matrix[r][c])
+                matrix[r][c] = "-";
+            }
+            queue.push([r, c-1, "L"])
+
+        } else if (v === "U") {
+            while (r-1 >= 0 && matrix[r-1][c] !== "-") {
+                r--;
+                result.push(matrix[r][c])
+                matrix[r][c] = "-"
+            }
+            queue.push([r, c+1, "R"])
         }
+
     }
-    return result;
+    return result
 };
