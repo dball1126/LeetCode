@@ -2,27 +2,25 @@
  * @param {number[]} nums
  * @return {number[][]}
  */
-
-// Time: O(n!)
-// Space: O(n)...we have n call stacks and n in our set at any given time.
+// Backtracking
+// Time: O(!n)
+// Space: O(n)
 var permute = function(nums) {
-    let result = [], set = new Set()
-    
-    const backtrack = (idx, curr) => {
-        if (curr.length === nums.length) return result.push([...curr])
-        if (idx >= nums.length) return;
+    const result = [], n = nums.length
 
-        for (let i = idx; i < nums.length; i++) {
-            if (!set.has(i)) {
-                const v = nums[i];
-                set.add(i)
-                curr.push(v)
-                backtrack(0, curr)
-                curr.pop()
-                set.delete(i)
+    const backtrack = (curr) => {
+        if (curr.size === n) {
+            return result.push([...Array.from(curr)])
+        }
+            console.log(curr)
+        for (let num of nums) {
+            if (!curr.has(num)) {
+                curr.add(num)
+                backtrack(curr)
+                curr.delete(num)
             }
         }
     }
-    backtrack(0, [])
+    backtrack(new Set())
     return result;
 };
