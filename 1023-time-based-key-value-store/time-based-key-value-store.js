@@ -1,7 +1,5 @@
-
 var TimeMap = function() {
-    this.timeMap = new Map()
-    this.uniId = "T:" + Math.random() * 1000
+    this.keys = new Map();
 };
 
 /** 
@@ -11,12 +9,21 @@ var TimeMap = function() {
  * @return {void}
  */
 TimeMap.prototype.set = function(key, value, timestamp) {
-    if (!this.timeMap.has(key)) {
-        this.timeMap.set(key, new Map())
-        this.timeMap.set(key + "stack", [])
+    if (!this.keys.has(key)) {
+        const keyMap = new Map();
+        keyMap.set(timestamp, value)
+        keyMap.set("max", timestamp)
+        keyMap.set("min", timestamp)
+        this.keys.set(key, keyMap)
+    } else {
+        const keyMap = this.keys.get(key)
+        const max = keyMap.get("max")
+        const min = keyMap.get("min")
+        keyMap.set(timestamp, value)
+        if (timestamp > max) keyMap.set("max", timestamp)
+        if (timestamp < min) keyMap.set("min", timestamp)
     }
-    this.timeMap.get(key).set(timestamp, value)
-    this.timeMap.get(key + "stack").push([timestamp, value])
+    
 };
 
 /** 
@@ -25,15 +32,12 @@ TimeMap.prototype.set = function(key, value, timestamp) {
  * @return {string}
  */
 TimeMap.prototype.get = function(key, timestamp) {
-    if (!this.timeMap.has(key)) return "";
-    if (!this.timeMap.get(key).has(timestamp)) {
-        let stack = this.timeMap.get(key + "stack")
-        for (let i = stack.length-1; i >= 0; i--) {
-            let [t, v] = stack[i]
-            if (t <= timestamp) return v
-        }
-        return ""
-    } else {
-        return this.timeMap.get(key).get(timestamp)
-    }
+    const keyMap = this.keys.get(key)
+    if (!keyMap) return "";
+    const max = keyMap.get("max")
+    const min = keyMap.get("min")
+    if (keyMap.has(timestamp)) return keyMap.get(timestamp)
+    if (max <= timestamp) return keyMap.get(max)
+    if (min <= timestamp) return keyMap.get(min)
+    return ""
 };
