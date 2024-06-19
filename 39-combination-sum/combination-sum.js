@@ -4,23 +4,20 @@
  * @return {number[][]}
  */
 // Backtracking
-// Time: O(N ^ (t/n))
-// Space: O(t/n)
-var combinationSum = function(candidates, target) {
-    const combinations = []
-    const backtrack = (i, curr, sum) => {
-        if (i >= candidates.length) return;
-        if (sum === target) return combinations.push([...curr])
+// O(n * (n^t))...n for the # of nums and t for target
+var combinationSum = function(nums, target) {
+    const result = [], n = nums.length
 
-        for (let j = i; j < candidates.length; j++) {
-            let val = candidates[j]
-            if (val + sum > sum && val + sum <= target) {
-                curr.push(val)
-                backtrack(j, curr, sum + val)
-                curr.pop();
-            }
+    const backtrack = (idx, curr, t) => {
+        if ( idx >= n || t < 0) return;
+        if (t === 0) return result.push([...curr])
+
+        for (let i = idx; i < n; i++) {
+            curr.push(nums[i])
+            backtrack(i, curr, t - nums[i])
+            curr.pop()
         }
     }
-    backtrack(0, [], 0)
-    return combinations
+    backtrack(0, [], target)
+    return result;
 };
