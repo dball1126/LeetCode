@@ -1,31 +1,37 @@
-/**
- * @param {number[][]} mat
- * @return {number[]}
- */
-// Matrix Traversal
-// Time: O(n * m)...rows * cols
-// Space: O(1)...not counting output array
 var findDiagonalOrder = function(mat) {
-    if (!mat.length) return []
-    let result = [], r = 0, c = 0, n = mat.length
-    let m = mat[n-1].length, dir = "U_R"
-    while ( r < n || c < m) {
-        let x = -1, y = 1
-        if (dir !== "U_R") {
-            x = 1, y = -1
-        }
+    let result = [], n = mat.length, m = mat[0].length
+    let stack = [[0, 0, "up"]]
+
+    while (stack.length) {
+        let [r, c, v] = stack.pop()
+
         result.push(mat[r][c])
-        if (r === n-1 && c === m-1) return result
-        while ((r+x) >= 0 && (r+x) < n && (c+y) >= 0 && (c+y) < m) {
-            r += x; c += y;
-            result.push(mat[r][c])
-        }
-        if (dir === "U_R") {
-            (c+1) < m ? c += 1 : r += 1
+        if (result.length === n * m) return result
+        if (v === "up") {
+            while (r > 0 && c < m-1) {
+                r--, c++
+                result.push(mat[r][c])
+            }
+            if (c + 1 < m) {
+                c++
+            } else {
+                r++
+            }
+            v = "dwn"
         } else {
-            (r+1) < n ? r += 1 : c += 1
+            while (r < n-1 && c > 0) {
+                r++; c--
+                result.push(mat[r][c])
+            }
+            if (r+1 < n) {
+                r++
+            } else {
+                c++
+            }
+            v = "up"
         }
-        dir = (dir === "U_R") ? "D_L" : "U_R"
+
+        stack.push([r, c, v])
     }
     return result;
 };
