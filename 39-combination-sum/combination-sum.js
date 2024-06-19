@@ -4,7 +4,8 @@
  * @return {number[][]}
  */
 // Backtracking
-// Time: O(n * (n^t))...n for the # of nums and t for target
+// This is a general estimation of the time/space complexities
+// Time: O(n * (n^t))...n for the # of nums and t for target 
 // Space: O(t)
 var combinationSum = function(nums, target) {
     const result = [], n = nums.length
