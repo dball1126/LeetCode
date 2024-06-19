@@ -3,21 +3,21 @@
  * @return {number[][]}
  */
 var merge = function(intervals) {
-    if (!intervals.length) return intervals;
-
     intervals.sort((a, b) => a[0] - b[0])
-    let x1, y1;
-    let result = []
-    for (let [x2, y2] of intervals ) {
+
+    let x1, y1, result = []
+
+    for (let [x, y] of intervals) {
 
         if (x1 === undefined) {
-            x1 = x2; y1 = y2;
-        } else if (x2 >= x1 && x2 <= y1) {
-            y1 = Math.max(y1, y2)
+            x1 = x, y1 = y
+        } else if (y1 >= x) {
+            x1 = Math.min(x1, x), y1 = Math.max(y, y1)
         } else {
             result.push([x1, y1])
-            x1 = x2; y1 = y2;
+            x1 = x, y1 = y
         }
+
     }
     if (x1 !== undefined) result.push([x1, y1])
     return result;
