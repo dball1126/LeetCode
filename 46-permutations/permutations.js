@@ -12,7 +12,7 @@ var permute = function(nums) {
         if (curr.size === n) {
             return result.push([...Array.from(curr)])
         }
-            console.log(curr)
+
         for (let num of nums) {
             if (!curr.has(num)) {
                 curr.add(num)
