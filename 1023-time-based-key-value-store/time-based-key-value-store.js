@@ -1,5 +1,7 @@
+
 var TimeMap = function() {
-    this.keys = new Map();
+    this.timeMap = new Map()
+    this.uniId = "T:" + Math.random() * 1000
 };
 
 /** 
@@ -9,21 +11,12 @@ var TimeMap = function() {
  * @return {void}
  */
 TimeMap.prototype.set = function(key, value, timestamp) {
-    if (!this.keys.has(key)) {
-        const keyMap = new Map();
-        keyMap.set(timestamp, value)
-        keyMap.set("max", timestamp)
-        keyMap.set("min", timestamp)
-        this.keys.set(key, keyMap)
-    } else {
-        const keyMap = this.keys.get(key)
-        const max = keyMap.get("max")
-        const min = keyMap.get("min")
-        keyMap.set(timestamp, value)
-        if (timestamp > max) keyMap.set("max", timestamp)
-        if (timestamp < min) keyMap.set("min", timestamp)
+    if (!this.timeMap.has(key)) {
+        this.timeMap.set(key, new Map())
+        this.timeMap.set(key + "stack", [])
     }
-    
+    this.timeMap.get(key).set(timestamp, value)
+    this.timeMap.get(key + "stack").push([timestamp, value])
 };
 
 /** 
@@ -32,12 +25,24 @@ TimeMap.prototype.set = function(key, value, timestamp) {
  * @return {string}
  */
 TimeMap.prototype.get = function(key, timestamp) {
-    const keyMap = this.keys.get(key)
-    if (!keyMap) return "";
-    const max = keyMap.get("max")
-    const min = keyMap.get("min")
-    if (keyMap.has(timestamp)) return keyMap.get(timestamp)
-    if (max <= timestamp) return keyMap.get(max)
-    if (min <= timestamp) return keyMap.get(min)
-    return ""
+    if (!this.timeMap.has(key)) return "";
+    if (!this.timeMap.get(key).has(timestamp)) {
+        let stack = this.timeMap.get(key + "stack")
+        let l = 0, r = stack.length-1;
+        let k = ""
+        while (l <= r) {
+            let m = Math.floor((r + l) / 2)
+            let [t, v] = stack[m]
+            if (t  > timestamp) {
+                r = m - 1
+            } else {
+                if (t <= timestamp) k = v
+                l = m + 1
+                
+            }
+        }
+        return k
+    } else {
+        return this.timeMap.get(key).get(timestamp)
+    }
 };
