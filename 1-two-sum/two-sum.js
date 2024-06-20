@@ -1,10 +1,16 @@
-// Hash Map
-// Time and Space: O(n)
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
 var twoSum = function(nums, target) {
-    const map = new Map();
-    for (let i = 0; i < nums.length; i++) {
-        const n = nums[i];
-        if (map.has(target - n)) return [i, map.get(target-n)]
-        map.set(n, i)
-    }
+    let map = new Map(), n = nums.length
+
+    for (let i = 0; i < n; i++) {
+        if (map.has(target - nums[i])) {
+            return [i, map.get(target - nums[i])]
+        } else {
+            map.set(nums[i], i)
+        }
+    }  
 };
