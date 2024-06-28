@@ -2,6 +2,9 @@
  * @param {number[][]} image
  * @return {number[][]}
  */
+// Matrix Traversal
+// Time: O(n * m)
+// Space: O(1)
 var flipAndInvertImage = function(image) {
     for (let r = 0; r < image.length; r++) {
 
