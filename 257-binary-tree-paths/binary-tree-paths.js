@@ -10,6 +10,8 @@
  * @param {TreeNode} root
  * @return {string[]}
  */
+// Iterative Dept-First-Search
+// Time and Space: O(n)
 var binaryTreePaths = function(root) {
     if (!root) return [""]
     const paths = [], stack = [["", root]]
