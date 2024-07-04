@@ -3,18 +3,22 @@
  * @param {number} n
  * @return {number}
  */
-// Top-down Dynamic Programming
-// Time and Space: O(nm * n)
 var uniquePaths = function(m, n) {
-    let memo = [...new Array(m)].map(a => [...new Array(n)])
+    
+    let dp = [...new Array(m)].map(a => [...new Array(n)].fill(0))
+    dp[0][0] = 1
 
-    const dp = (r, c) => {
-        if (r >= m || c >= n) return 0;
-        if (r === m-1 && c === n - 1) return 1;
-        if (memo[r][c] !== undefined) return memo[r][c]
+    for (let r = 0; r < m; r++) {
 
-        let v1 = dp(r+1, c), v2 = dp(r, c+1)
-        return memo[r][c] = v1 + v2
+        for (let c = 0; c < n; c++) {
+
+            let up = 0, down = 0
+            if (r-1 >= 0) up = dp[r-1][c]
+            if (c-1 >= 0) down = dp[r][c-1]
+
+            dp[r][c] += (up + down)
+
+        }
     }
-    return dp(0,0)
+    return dp[m-1][n-1] || 0
 };
