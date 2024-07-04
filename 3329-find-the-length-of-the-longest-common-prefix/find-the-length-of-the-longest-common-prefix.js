@@ -1,8 +1,3 @@
-/**
- * @param {number[]} arr1
- * @param {number[]} arr2
- * @return {number}
- */
 class Node {
     constructor() {
         this.isType1 = false;
@@ -35,11 +30,18 @@ class Node {
 // Space: O(n + m)
 var longestCommonPrefix = function(arr1, arr2) {
     const trie = new Node()
+    let terminate = true
     for (let w of arr1) trie.insert(w, trie, 1)
-    for (let w of arr2) trie.insert(w, trie, 0)
+    for (let w of arr2) {
+        let char = (w + "")[0]
+        if (trie.keys.has(char)) {
+            trie.insert(w, trie, 0)
+            terminate = false
+        }
+    }
 
     let longest = 0
-
+    if (terminate) return longest
     const searchNode = (root) => {
         if (!root) return
         for (let [k, nde] of root.keys) {
