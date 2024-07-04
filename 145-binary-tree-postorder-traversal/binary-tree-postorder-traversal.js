@@ -10,7 +10,8 @@
  * @param {TreeNode} root
  * @return {number[]}
  */
+// Left, Right, Root
 var postorderTraversal = function(root) {
-   if (!root) return []
-   return [...postorderTraversal(root.left), ...postorderTraversal(root.right), root.val] 
-};
+    if (!root) return []
+    return [...postorderTraversal(root.left), ...postorderTraversal(root.right), root.val]
+}
