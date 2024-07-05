@@ -2,20 +2,20 @@
  * @param {number[]} height
  * @return {number}
  */
-// Two-Pointer
+// Two-Pointer technique
 // Time: O(n)
 // Space: O(1)
 var maxArea = function(height) {
-    
-    let s = 0, e = height.length-1, max = -Infinity
-
+    let s = 0, e = height.length-1
+    let max = 0
     while (s < e) {
-        let maxHeight = Math.min(height[s], height[e])
 
-        max = Math.max(max,( maxHeight * (e-s)))
-
-        height[s] <= height[e] ? s++ : e--
+        max = Math.max(max, Math.min(height[s], height[e]) * (e - s))
+        if (height[s] > height[e]) {
+            e--
+        } else {
+            s++
+        }
     }
-    
-    return max;
+    return max
 };
