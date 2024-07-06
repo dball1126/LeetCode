@@ -2,21 +2,22 @@
  * @param {string} path
  * @return {string}
  */
-// Stack
-// Time and Space: O(n)
 var simplifyPath = function(path) {
-    if (!path) return ""
-    const arr = path.split("/")
-    const stack = []
+    
+    let arr = path.split("/")
+    let stack = []
 
-    for (let p of arr) {
-        if (p === "" || p === ".") continue;
-        if (p === "..") {
-            if (stack.length) stack.pop()
-        } else {
-            stack.push(p)
+    for (let i = 0; i < arr.length; i++) {
+        let v = arr[i]
+
+        if (v === ".") {
+            continue;
+        } else if (v === "..") {
+            stack.pop()
+        } else if (v !== "" && v !== " ") {
+            stack.push(v)
         }
     }
 
-    return "/"  + stack.join("/")
+    return "/" + stack.join("/")
 };
