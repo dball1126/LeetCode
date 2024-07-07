@@ -1,54 +1,76 @@
-class Node {
+
+class Node { 
     constructor(key, val) {
-        this.key = key; this.val = val; this.prev = null; this.next = null;}
-}
-var LRUCache = function(capacity) {
-    this.head = new Node(); this.tail = new Node(); this.map = new Map();
-    this.head.next = this.tail;
-    this.tail.prev = this.head;
-    this.capacity = capacity;
-};
-LRUCache.prototype.get = function(key) { // O(1)
-    if (!this.map.has(key)) return -1;
-    let nde = this.map.get(key)
-    this.delete(nde.key)
-    this.add(nde.key, nde.val)
-    return nde.val
-};
-LRUCache.prototype.put = function(key, value) { // O(1)
-    if (this.map.size < this.capacity) {
-        this.delete(key)
-        this.add(key, value)
-    } else if (this.map.has(key) && this.capacity === this.map.size) {
-        this.delete(key)
-        this.add(key, value)
-    } else {
-        let head = this.head.next;
-        this.delete(head.key)
-        this.delete(key)
-        this.add(key, value)
+        this.key = key; this.val = val; this.next = null; this.prev = null;
     }
-};
-LRUCache.prototype.add = function(key, value) { // O(1)
-    const nde = new Node(key, value);
-    const tail = this.tail.prev;
-    tail.next = nde;
-    nde.prev = tail;
-    nde.next = this.tail;
-    this.tail.prev = nde;
-    this.map.set(key, nde)
 }
-LRUCache.prototype.delete = function(key, value) { // O(1)
-    if (!this.map.has(key)) return;
-    const nde = this.map.get(key);
-    let prev = nde.prev, next = nde.next;
+
+var LRUCache = function(capacity) {
+    this.capacity = capacity;
+    this.tail = new Node()
+    this.head = new Node()
+    this.tail.next = this.head;
+    this.head.prev = this.tail;
+    this.map = new Map();
+};
+
+/** 
+ * @param {number} key
+ * @return {number}
+ */
+LRUCache.prototype.get = function(key) {
+    if (!this.map.has(key)) return -1
+    let node = this.map.get(key)
+
+    let next = node.next;
+    let prev = node.prev;
     prev.next = next;
     next.prev = prev;
-    this.map.delete(key)
-}
+    this.add(node)
+
+    return node.val;
+};
+
+LRUCache.prototype.add = function(node) {
+    let head = this.head.prev;
+    node.next = this.head;
+    this.head.prev = node;
+    node.prev = head;
+    head.next = node;
+
+};
+
+LRUCache.prototype.evict = function() {
+    if (!this.capacity) return;
+    let tail = this.tail.next;
+    tail.next.prev = this.tail;
+    this.tail.next = tail.next;
+    this.map.delete(tail.key)
+};
+
 /** 
- * Your LRUCache object will be instantiated and called as such:
- * var obj = new LRUCache(capacity)
- * var param_1 = obj.get(key)
- * obj.put(key,value)
+ * @param {number} key 
+ * @param {number} value
+ * @return {void}
  */
+LRUCache.prototype.put = function(key, value) {
+    let node = this.map.get(key)
+
+    if (node) {
+        let next = node.next;
+        let prev = node.prev;
+        prev.next = next;
+        next.prev = prev;
+        node.val = value;
+        this.add(node)    
+    } else if (this.capacity === this.map.size) {
+        this.evict();
+        node = new Node(key, value)
+        this.map.set(key, node)
+        this.add(node)
+    } else {
+        node = new Node(key, value)
+        this.map.set(key, node)
+        this.add(node)
+    }
+};
