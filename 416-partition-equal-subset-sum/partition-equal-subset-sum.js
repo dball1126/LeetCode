@@ -1,22 +1,23 @@
-// Bottom-up Dynamic Programming
-// Time and Space: O(n * m)...n for the number of nums and m for half the total sum of nums
-// Bounded Knapsack
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
 var canPartition = function(nums) {
-   
-    let sum = nums.reduce((acc, v) => acc + v, 0)
-
+    let sum = nums.reduce((acc,v) => acc + v, 0)
     if (sum % 2 !== 0) return false;
-    sum = Math.floor(sum / 2)
+    sum  = Math.floor((sum / 2))
+
     let dp = [...new Array(nums.length+1)].map(a => [...new Array(sum+1)].fill(false))
-    for (let arr of dp) arr[0] = true;
 
-    for (let r = 1; r < dp.length; r++) {
-        for (let c = 0; c < dp[r].length; c++) {
+    for (let arr of dp) arr[0] = true
 
-            if (c - nums[r-1] >= 0) {
-                dp[r][c] = dp[r-1][c - nums[r-1]] || dp[r-1][c]
+    for (let i = 1; i < dp.length; i++) {
+        for (let a = 0; a < dp[i].length; a++) {
+
+            if (a - nums[i-1] >= 0) {
+                dp[i][a] = dp[i-1][a - nums[i-1]] || dp[i-1][a]
             } else {
-                dp[r][c] = dp[r-1][c]
+                dp[i][a] = dp[i-1][a]
             }
         }
     }
