@@ -1,21 +1,17 @@
-/**
- * @param {number[]} nums
- * @param {number} target
- * @return {number}
- */
-// Bottom-Up Dynamic Programming
-// Time: O(n * m)...n for nums and m for target
-// Space: O(m)
+// Bottom-Up Dyanmic Programming
+// Time and Space: O(n * m)
 var combinationSum4 = function(nums, target) {
-    const memo = [...new Array(target+1)].fill(0)
-    memo[0] = 1
+    
+    const dp = [...new Array(target + 1)].fill(0)
+    dp[0] = 1
 
-    for (let t = 1; t <= target; t++) {
+    for (let a = 0; a <= target; a++) {
+        
         for (let c of nums) {
-            if (t -c >= 0) {
-                memo[t] += memo[t - c]
+            if (a -c >= 0) {
+                dp[a] += dp[a - c]
             }
         }
     }
-    return memo[target]
+    return dp[dp.length-1]
 };
