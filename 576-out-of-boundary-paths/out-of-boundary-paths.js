@@ -19,7 +19,7 @@ var findPaths = function(m, n, maxMove, startRow, startColumn) {
     let cMax = (startColumn + maxMove <= n) ? startColumn + maxMove : n
 
 
-    for (let s = 0; s <= maxMove; s++) { // create dp grid
+    for (let s = 0; s <= maxMove; s++) { // create dp grid, setup base cases
         for (let r = 0; r < m2; r++) {
             for (let c = 0; c < n2; c++) {
                 if (c === 0 || c === n2-1 || r === 0 || r === m2-1) { // out of bounds
