@@ -11,9 +11,9 @@ var findPaths = function(m, n, maxMove, startRow, startColumn) {
     let dp = [], dirs = [[-1,0],[1,0],[0, 1], [0, -1]]
     dp = [...new Array(maxMove+1)].map(a => [...new Array(m2)].map(a => [...new Array(n2)].fill(0)))
 
-    let rMin = (startRow - maxMove >= 0) ? startRow - maxMove  : 1
+    let rMin = (startRow - maxMove > 0) ? startRow - maxMove : 1
     let rMax = (startRow + maxMove <= m) ? startRow + maxMove : m
-    let cMin = (startColumn - maxMove >= 0) ? startColumn - maxMove + 1 : 1
+    let cMin = (startColumn - maxMove > 0) ? startColumn - maxMove  : 1
     let cMax = (startColumn + maxMove <= n) ? startColumn + maxMove : n
 
 
@@ -27,8 +27,8 @@ var findPaths = function(m, n, maxMove, startRow, startColumn) {
         }
     }
     for (let s = 1; s <= maxMove; s++) {
-        for (let r = 1; r <= m; r++) {
-            for (let c = 1; c <= n; c++) {
+        for (let r = rMin; r <= rMax; r++) {
+            for (let c = cMin; c <= cMax; c++) {
                 let val = 0;
                 for (let [x, y] of dirs) {
                     val += dp[s-1][r+x][c+y]
