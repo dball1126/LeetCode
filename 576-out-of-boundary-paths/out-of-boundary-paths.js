@@ -6,6 +6,8 @@
  * @param {number} startColumn
  * @return {number}
  */
+// Bottom-Up Dynamic Programming
+// Time and Space: O(k * n * m)...k for maxMoves, m for rows, and n for columns
 var findPaths = function(m, n, maxMove, startRow, startColumn) {
     let m2 = m+2, n2 = n+2, mod = 10**9 + 7
     let dp = [], dirs = [[-1,0],[1,0],[0, 1], [0, -1]]
