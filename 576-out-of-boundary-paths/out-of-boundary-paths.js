@@ -7,28 +7,29 @@
  * @return {number}
  */
 var findPaths = function(m, n, maxMove, startRow, startColumn) {
-    
-    let dp = [...new Array(m+1)].map(a => [...new Array(n+1)].map(a => [...new Array(maxMove+1)].fill(0)))
-    const dirs = [[1,0],[-1,0],[0,1],[0,-1]]
-    const mod = 10**9+7
-    for (let mv = 0; mv < maxMove; mv++) {
+    let m2 = m+2, n2 = n+2, mod = 10**9 + 7
+    let dp = [], dirs = [[-1,0],[1,0],[0, 1], [0, -1]]
+    dp = [...new Array(maxMove+1)].map(a => [...new Array(m2)].map(a => [...new Array(n2)].fill(0)))
 
-        for (let r = 0; r < m; r++) {
-            for (let c = 0; c < n; c++) {
-
-                for (let [x, y] of dirs) {
-
-                    let rX = r + x, cY = c + y;
-
-                    if (rX < 0 || cY < 0 || rX >= m || cY >= n) {
-                        dp[r][c][mv] += 1
-                    } else {
-                        dp[r][c][mv] = ((dp[rX][cY][mv-1] || 0) + dp[r][c][mv]) % mod
-                    }
+    for (let s = 0; s <= maxMove; s++) { // create dp grid
+        for (let r = 0; r < m2; r++) {
+            for (let c = 0; c < n2; c++) {
+                if (c === 0 || c === n2-1 || r === 0 || r === m2-1) { // out of bounds
+                    dp[s][r][c] = 1
                 }
-            }   
+            }
         }
     }
-
-    return dp[startRow][startColumn][maxMove-1] || 0
+    for (let s = 1; s <= maxMove; s++) {
+        for (let r = 1; r <= m; r++) {
+            for (let c = 1; c <= n; c++) {
+                let val = 0;
+                for (let [x, y] of dirs) {
+                    val += dp[s-1][r+x][c+y]
+                }
+                dp[s][r][c] = val % mod
+            }
+        }
+    }
+    return dp[maxMove][startRow+1][startColumn+1]
 };
