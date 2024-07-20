@@ -3,16 +3,16 @@
  * @return {number}
  */
 // Dynamic Programming
-// Time: O(n)
-// Space: O(1)
+// Time and Space: O(n)
 var countVowels = function(word) {
-    let n = word.length, dp = 0, total = 0
-    const vowels = new Set(["a","e",'i','o','u'])
+    let n = word.length, max = 0, vowels = new Set(['a','e','i','o','u'])
+    const dp = [...new Array(n)].fill(0)
+
     for (let i = 0; i < n; i++) {
-        if (vowels.has(word[i])) {
-            dp += i + 1
-        }
-        total += dp
+        let prev = dp[i-1] || 0, w = word[i]
+        let v = vowels.has(w) ? 1 + i : 0
+        dp[i] = prev + v
+        max += dp[i]
     }
-    return total
+    return max
 };
