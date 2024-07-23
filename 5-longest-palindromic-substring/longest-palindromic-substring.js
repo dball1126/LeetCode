@@ -2,29 +2,30 @@
  * @param {string} s
  * @return {string}
  */
-// Palindromes. Expand from Center
-// Time: O(n^2)
-// Space: O(1)
-var longestPalindrome = function(s) {
-    let n = s.length, minL = 0, maxL = 0
-    for (let i = 0; i < n; i++) {
-        let j = i-1, k = i+1 // handle one char at start
-        while (j >= 0 && k < n && s[j] === s[k]) { 
-            
-            if (k - j > maxL - minL) {
-                minL = j; maxL = k
-            }
-            j-=1; k++
+// Bottom-Up Dynamic Programming
+// Time and Space: O(n^2)
+var longestPalindrome = function(str) {
+    if (!str) return ""
+    let l = 0, r = 0, n = str.length
 
-        }
-        j = i; k = i+1 // handle two chars equal at start
-        while (j >= 0 && k < n && s[j] === s[k]) { 
-            if (k - j > maxL - minL) {
-                minL = j; maxL = k
+    const dp = [...new Array(n+1)].map(a =>
+               [...new Array(n+1)].fill(false))
+
+    for (let i = 0; i < n; i++) { // check all substrings
+        for (let j = i; j >= 0; j--) {
+
+            if (i === j) { // 1 letter is a palindrome
+                dp[j][i] = true
+            } else if (str[j] === str[i] && (j+1 === i || dp[j+1][i-1])) {
+                // is the current pair a palindrome and is previous a palindrome?
+                dp[j][i] = true
             }
-            j-=1; k++
+            if (dp[j][i]) { // if true these bounds are a palindrome
+                if ((i-j) > (r -l)) {
+                    l = j; r = i
+                }
+            }
         }
     }
-    return  s.substring(minL, maxL+1)
+    return str.substring(l, r +1)
 };
-
