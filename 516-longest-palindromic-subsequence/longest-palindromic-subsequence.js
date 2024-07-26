@@ -1,7 +1,8 @@
+// Bottom-Up Dynamic Programming
+// Time and Space: O(n^2)
 var longestPalindromeSubseq = function(str) {
     if (!str) return 0;
     let n = str.length, max = 1;
-
     const dp = [...new Array(n+1)].map(a =>
                [...new Array(n+1)].fill(1))
 
