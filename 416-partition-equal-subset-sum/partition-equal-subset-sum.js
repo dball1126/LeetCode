@@ -3,18 +3,21 @@
  * @return {boolean}
  */
 var canPartition = function(nums) {
-    let n = nums.length, half = nums.reduce((acc,v) => acc + v)
-    if (half % 2 !== 0) return false;
+    let n = nums.length, half = nums.reduce((acc,v)=>acc+v)
+    if (half & 1) return false
     half = Math.floor(half / 2)
-    const memo = [...new Array(half+1)].map(a => [...new Array(n+1)])
-    
-    const dp = (idx, sum) => {
-        if (sum === 0) return true;
-        if (sum < 0) return false;
-        if (idx < 0) return false;
-        if (memo[sum][idx] !== undefined) return memo[sum][idx]
-        
-        return memo[sum][idx] = dp(idx-1, sum) || dp(idx-1, sum - nums[idx])
+
+    const dp = [...new Array(n+1)].map(a => [...new Array(half+1)].fill(false))
+    for (let arr of dp) arr[0] = true;
+
+    for (let r = 1; r <= n; r++) {
+        for (let c = 1; c <= half; c++) {
+            if (c - nums[r-1] >= 0) {
+                dp[r][c] = dp[r-1][c - nums[r-1]] || dp[r-1][c]
+            } else {
+                dp[r][c] = dp[r-1][c]
+            }
+        }
     }
-    return dp(n-1, half)
+    return dp[n][half]
 };
