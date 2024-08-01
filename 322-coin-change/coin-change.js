@@ -7,15 +7,14 @@ var coinChange = function(coins, amount) {
     let n = coins.length
     let memo = [...new Array(amount + 1)]
     
-    const dp = (i, a) => {
+    const dp = (a) => {
         if (a === amount) return 0
-        if (a < 0 || i >= n) return Infinity
+        if (a < 0) return Infinity
         if (memo[a] !== undefined) return memo[a]
         let min = Infinity
-        for (let idx = i; idx < n; idx++) {
-            const c = coins[idx]
+        for (let c of coins) {
             if (a + c <= amount && a + c > a) {
-                min = Math.min(min, 1 + dp(0, a + c))
+                min = Math.min(min, 1 + dp(a + c))
             }
         }
         return memo[a] = min
