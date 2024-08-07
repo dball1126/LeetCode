@@ -1,47 +1,29 @@
-class TNode {
-    constructor() {
-        this.isWord = false; this.keys = new Map()}
-}
-
+/**
+ * @param {string} s
+ * @param {string[]} wordDict
+ * @return {boolean}
+ */
+// Bottom-Up Dyanmic Programming
+// Time: O(n^2 * m)
+// Space: O(n)
 var wordBreak = function(s, wordDict) {
-    const trie = new TNode(), n = s.length
+    let n = s.length
+    const dp = [...new Array(n+1)].fill(false)
+    dp[dp.length-1] = true
 
-    const insert = (w) => {
-        let n = w.length, root = trie
-        for (let i = 0; i < n; i++) {
-            let v = w[i]
-            if (!root.keys.has(v)) {
-                let nde = new TNode()
-                root.keys.set(v, nde)
-            }
-            root = root.keys.get(v)
-            if (i === n-1) root.isWord = true
-        }
-    }
-
-    for (let w of wordDict) insert(w)
-    let set = new Set()
-
-    const search = (idx) => {
-        if (idx >= n) return true;
-        if (set.has(idx)) return
-        set.add(idx)
-        let root = trie;
-
-        for (let i = idx; i < s.length; i++) {
-            let v = s[i]
-            if (!root.keys.has(v)) return false;
-            root = root.keys.get(v)
-            if (root.isWord) {
-                if (i === n-1) {
-                    return true;
-                } else if (search(i+1)) {
-                    return true;
+    for (let i = n-1; i >= 0; i--) {
+        let isWord = false;
+        for (let w of wordDict) {
+            let len = w.length;
+            if (len + i <= n) {
+                let word = s.substring(i, len+i)
+                if (word === w) {
+                    isWord = dp[len+i]
+                    if (isWord) break;
                 }
             }
         }
-        return false
+        dp[i] = isWord
     }
-
-    return search(0)
+    return dp[0]
 };
