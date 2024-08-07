@@ -9,7 +9,7 @@
 var wordBreak = function(s, wordDict) {
     let n = s.length
     const dp = [...new Array(n+1)].fill(false)
-    dp[dp.length-1] = true
+    dp[dp.length-1] = true // base case
 
     for (let i = n-1; i >= 0; i--) {
         let isWord = false;
