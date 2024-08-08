@@ -1,20 +1,20 @@
-// Bottom-Up Dynamic Programming
-// Time: O(n^2)
-// Space: O(n)
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
 var lengthOfLIS = function(nums) {
-    let max = -Infinity, n = nums.length;
+    let max = 1, n = nums.length
     const dp = [...new Array(n+1)].fill(1)
-    dp[0] = 1
 
-    for (let r = 0; r < n; r++) {
-        for (let c = 0; c < r; c++) {
-
-            if (nums[r] > nums[c]) {
-                dp[r] = Math.max(dp[r], dp[c] + 1)
+    for (let i = 0; i < n; i++) {
+        let v = dp[i]
+        for (let j = 0; j < i; j++) {
+            if (nums[j] < nums[i]) {
+                v = Math.max(v, dp[j] + 1)
             }
-
         }
-        max = Math.max(dp[r], max)
+        dp[i] = v
+        max = Math.max(max, dp[i])
     }
     return max;
 };
