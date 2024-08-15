@@ -11,10 +11,7 @@ var numTrees = function(n) {
         if (memo[num] !== undefined) return memo[num]
         let v = 0
         for (let i = 1; i <= num; i++) {
-            let left = 1, right = 1;
-            left = dp(i-1), right = dp(num-i)
-            
-            v += (left * right)
+            v  += (dp(i-1) * dp(num-i))
         }
         return memo[num] = v
     }
