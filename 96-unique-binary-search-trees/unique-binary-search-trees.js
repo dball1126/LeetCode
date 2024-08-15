@@ -2,24 +2,21 @@
  * @param {number} n
  * @return {number}
  */
-// Dynamic Programming
-// Catalan numbers
-// Time: O(n^2)
-// Space: O(n)
 var numTrees = function(n) {
-    let memo = new Map()
-    const intervals = (num) => {
-        if (num <= 1) return num;
-        if (memo.has(num)) return memo.get(num)
-        let val = 0
+    
+    const memo = [...new Array(n+1)]
+
+    const dp = (num) => {
+        if (num <= 1) return 1;
+        if (memo[num] !== undefined) return memo[num]
+        let v = 0
         for (let i = 1; i <= num; i++) {
             let left = 1, right = 1;
-            if (i - 1 > 1) left = intervals(i -1)
-            if (num - i > 1) right = intervals(num - i)
-            val += (left * right)
+            left = dp(i-1), right = dp(num-i)
+            
+            v += (left * right)
         }
-        memo.set(num, val)
-        return val
+        return memo[num] = v
     }
-    return intervals(n)
+    return dp(n)
 };
