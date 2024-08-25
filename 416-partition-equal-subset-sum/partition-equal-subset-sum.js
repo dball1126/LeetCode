@@ -2,6 +2,8 @@
  * @param {number[]} nums
  * @return {boolean}
  */
+// Bottom-Up Dynamic Programming
+// Time and Space: O(n * m)...n for nums...m for half the sum of all nums
 var canPartition = function(nums) {
     let n = nums.length, sum = nums.reduce((acc,v)=>acc+v)
     if (sum & 1) return false;
