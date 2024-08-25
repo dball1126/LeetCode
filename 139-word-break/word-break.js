@@ -3,27 +3,25 @@
  * @param {string[]} wordDict
  * @return {boolean}
  */
-// Bottom-Up Dyanmic Programming
-// Time: O(n^2 * m)
+// Bottom-Up Dynamic Programming
+// Time: O(n * m * k)....n for s.length...m for number of words...k for the longest word
 // Space: O(n)
 var wordBreak = function(s, wordDict) {
-    let n = s.length
-    const dp = [...new Array(n+1)].fill(false)
-    dp[dp.length-1] = true // base case
+    const dp = [...new Array(s.length+1)].fill(false)
+    dp[s.length] = true
 
-    for (let i = n-1; i >= 0; i--) {
-        let isWord = false;
+    for (let i = s.length-1; i >= 0; i--) {
+        let valid = false;
         for (let w of wordDict) {
-            let len = w.length;
-            if (len + i <= n) {
-                let word = s.substring(i, len+i)
+            if (i+w.length <= s.length) {
+                let word = s.substring(i, i+w.length)
                 if (word === w) {
-                    isWord = dp[len+i]
-                    if (isWord) break;
+                    valid = dp[i+w.length] || valid
+                    if (valid) break
                 }
             }
         }
-        dp[i] = isWord
+        dp[i] = valid
     }
     return dp[0]
 };
