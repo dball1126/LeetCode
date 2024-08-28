@@ -2,25 +2,23 @@
  * @param {string} s
  * @return {number}
  */
-// Top-Down Dynamic Programming
-// Time: O(n^2)
-// Space: O(n)
+// Bottom-Up Dynamic Programming
+// Time and Space: O(n)
 var numDecodings = function(s) {
-    let n = s.length
-    const memo = [...new Array(n)]
+    const n = s.length
+    const dp = [...new Array(n+1)].fill(0)
+    dp[s.length] = 1
 
-    const ways = (i) => {
-        if (s[i] === '0') return 0
-        if (i === n-1 || i >=n) return 1
-        if (memo[i] !== undefined) return memo[i]
-
-        if (s[i+1] === '0' && s[i] <= '2') {
-            return memo[i] = ways(i+2)
-        } else if (parseInt(s[i] + s[i+1]) <= 26) {
-            return memo[i] = ways(i+1) + ways(i+2)
-        } else {
-            return memo[i] = ways(i+1)
+    for (let i = n-1; i >= 0; i--) {
+        let v = s[i]
+        if (v === '0') continue
+        let v1 = dp[i+1], v2 = 0
+        if (i+1 < n) {
+            if (v + s[i+1] <= '26') {
+                v2 = dp[i+2]
+            }
         }
+        dp[i] = v1 + v2
     }
-    return ways(0)
+    return dp[0]
 };
