@@ -1,5 +1,5 @@
 // Top-Down Dynamic Programming
-// Time and Space: O(n * m)
+// Time and Space: O(n)
 var maxProfit = function(prices) {
     let n = prices.length
     const memo = [...new Array(n+1)].map(a => [...new Array(2)])
