@@ -12,21 +12,19 @@
  */
 // DP On Trees
 // Top-Down Dynamic Programming
-// Time and Space: O(n)
-var rob = function(root) {
-    
+// Tima nd Space: O(n)
+var rob = function(root) { 
     const dfs = (nde) => {
-        if (!nde) return [0,0]
+        if (!nde) return [0, 0]
 
-        let [Lval, Lprev] = dfs(nde.left)
-        let [Rval, Rprev] = dfs(nde.right)
+        let [Lp1, Lp2] = dfs(nde.left)
+        let [Rp1, Rp2] = dfs(nde.right)
 
-        let newCurr = Math.max(nde.val + Lprev + Rprev, Lval + Rval);
-        let newPrev = Math.max(Lprev + Rprev, Lval + Rval);
+        let v1 = Lp2 + Rp2 + nde.val, v2 = Lp1 + Rp1
+        let newP2 = Math.max(v2, Lp2 + Rp2, Rp2 + Lp1, Lp2 + Rp1), newP1 = v1;
 
-        return [newCurr, newPrev]
+        return [newP1, newP2]
     }
-
-    let [curr, prev] = dfs(root)
-    return Math.max(curr, prev)
+    const [prev1, prev2] = dfs(root)
+    return Math.max(prev1, prev2)
 };
