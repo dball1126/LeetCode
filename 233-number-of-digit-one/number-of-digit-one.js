@@ -1,28 +1,24 @@
-/**
- * @param {number} n
- * @return {number}
- */
 // Digit DP
-// Time:  log10(n)
+// Top-Down Dynamic Programming
+// Time and Space: O(n * 10) = O(n)...n is the length of our STRING input
 var countDigitOne = function(n) {
     n += ""
-    let len = n.length;
-    let memo = new Map()
+    let len = n.length
+    const memo = new Map()
     const dp = (idx, tight, sum) => {
-        if (idx >= len) return sum;
-        let k = idx + ":" + sum + ":" + tight
+        if (idx >= len) return sum
+        let k  = idx +":"+tight+":"+sum
         if (memo.has(k)) return memo.get(k)
-        let maxD = 9
+        let counter = 0, maxD = 9
         if (tight) maxD = parseInt(n[idx])
-        let ans = 0;
-        for(let i = 0; i <= maxD; i++ ) {
-            let newTight = tight && i === maxD ? true : false;
-            let x = i === 1 ? 1 : 0
-            ans += dp(idx+1, newTight, sum + x)  
+
+        for (let i = 0; i <= maxD; i++) {
+            let newTight = tight && i === maxD, c = 0
+            if (i === 1) c = 1
+            counter += dp(idx+1, newTight, sum + c)
         }
-        memo.set(k, ans)
-        return ans
+        memo.set(k, counter)
+        return counter;
     }
     return dp(0, true, 0)
 };
-console.log(countDigitOne(13)) // = 6
