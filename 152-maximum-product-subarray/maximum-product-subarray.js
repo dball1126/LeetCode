@@ -1,20 +1,16 @@
-/**
- * @param {number[]} nums
- * @return {number}
- */
 // Bottom-Up Dynamic Programming
-// Time: O(n), Space: O(1)
+// Kadane's Algorithm DP Pattern.
+// Time: O(n)
+// Space: O(1)
 var maxProduct = function(nums) {
-    const n = nums.length
-    let max = nums[0] || 0
-    let min = max
-
+    if (!nums.length) return 0
+    let n = nums.length, max = nums[0], prev1 = nums[0],prev2 = nums[0]
+    
     for (let i = 1; i < n; i++) {
-        let tempMin = min
-        min = Math.min(nums[i], nums[i] * tempMin, nums[i] * nums[i-1])
-        nums[i] = Math.max(nums[i], nums[i] * nums[i-1], nums[i] * tempMin)
-        max = Math.max(max, nums[i])
-
+        let temp1 = prev1
+        prev1 = Math.max(nums[i], prev1 * nums[i], prev2 * nums[i])
+        prev2 = Math.min(nums[i], prev2 * nums[i], temp1 * nums[i])
+        max = Math.max(max, prev1, prev2)
     }
     return max
 };
