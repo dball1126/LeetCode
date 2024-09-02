@@ -17,7 +17,7 @@ var findTheCity = function(n, edges, distanceThreshold) {
         dist[f][t] = d; dist[f][f] = 0
     }
 
-    for (let k = 0; k < n; k++) { // Floyd Marshall, compute shortest distance
+    for (let k = 0; k < n; k++) { // Floyd-Warshall, compute shortest distance
         for (let i = 0; i < n; i++) {
             for (let j = 0; j < n; j++) {
                 dist[i][j] = Math.min(dist[i][j], dist[k][i] + dist[k][j])
