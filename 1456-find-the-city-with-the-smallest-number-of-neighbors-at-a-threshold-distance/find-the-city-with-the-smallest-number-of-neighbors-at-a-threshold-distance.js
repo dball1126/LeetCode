@@ -4,7 +4,7 @@
  * @param {number} distanceThreshold
  * @return {number}
  */
-// Floyd-Marshall Algorithm
+// Floyd-Warshall Algorithm
 // Bottom-Up Dynamic Programming
 // Time: O(n^3)
 // Space: O(n^2)
@@ -38,5 +38,3 @@ var findTheCity = function(n, edges, distanceThreshold) {
     }
     return city
 };
-console.log(findTheCity( n = 4, edges = [[0,1,3],[1,2,1],[1,3,4],[2,3,1]], distanceThreshold = 4))
-// = 3 (city 3 can reach city 1 and city 2 within the distanceThreshold)
