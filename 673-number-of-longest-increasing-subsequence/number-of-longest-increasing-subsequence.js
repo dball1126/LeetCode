@@ -9,8 +9,8 @@
 var findNumberOfLIS = function(nums) {
     let n = nums.length, maxLen = 1, maxCnt = 0
 
-    const dpLen = [...new Array(n+1)].fill(1)
-    const dpCnt = [...new Array(n+1)].fill(1)
+    const dpLen = [...new Array(n+1)].fill(1) // longest lengths
+    const dpCnt = [...new Array(n+1)].fill(1) // count of longest lengths
 
     for(let i = 1; i <= n; i++) {
         let len = 1, c = 0, map = new Map([[1,1]])
@@ -29,6 +29,7 @@ var findNumberOfLIS = function(nums) {
         dpCnt[i] = c
         maxLen = Math.max(maxLen, len)
     }
+    // collect count of longest increasing subsequences
     for (let i = 0; i < n; i++) {
         if (dpLen[i] === maxLen) maxCnt += dpCnt[i]
     }
