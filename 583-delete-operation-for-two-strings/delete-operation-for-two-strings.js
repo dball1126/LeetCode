@@ -3,24 +3,23 @@
  * @param {string} word2
  * @return {number}
  */
+// Longest Common Subsequence DP Pattern
 // Bottom-Up Dynamic Programming
 // Time and Space: O(n * m)
-var minDistance = function(word1, word2) {
-    let n = word1.length, m = word2.length
-    const dp = [...new Array(n+1)].map(a => [...new Array(m+1)])
-    for (let i = 0; i <= n; i++) {
-        for (let j = 0; j <= m; j++) {
-            dp[i][j] = i+j
-        }
-    }
+var minDistance = function(w1, w2) {
+    let n = w1.length, m = w2.length
+    const dp = [...new Array(n+1)].map(a => 
+               [...new Array(m+1)].fill(Infinity)) // base case
+    for (let i = 0; i <= n; i++) dp[i][0] = i // base case
+    for (let i = 0; i <= m; i++) dp[0][i] = i // base case
 
-    for (let i = 1; i <= n; i++) {
-        for (let j = 1; j <= m; j++) {
-            if (word1[i-1] === word2[j-1]) {
-                dp[i][j] = dp[i-1][j-1]
-            } else {
-                dp[i][j] = Math.min(1 + dp[i-1][j],1 + dp[i][j-1], 2 +dp[i-1][j-1])
-            }
+    for (let r = 1; r <= n; r++) {
+        for (let c = 1; c <= m; c++) {
+
+            let v1 = Infinity, v2 = dp[r-1][c] + 1, v3 = dp[r][c-1] + 1
+            if (w1[r-1] === w2[c-1]) v1 = dp[r-1][c-1]
+
+            dp[r][c] = Math.min(v1,v2,v3)
         }
     }
     return dp[n][m]
