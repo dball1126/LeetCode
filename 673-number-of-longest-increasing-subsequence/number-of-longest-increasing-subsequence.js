@@ -8,12 +8,11 @@
 // Space: O(n)
 var findNumberOfLIS = function(nums) {
     let n = nums.length, maxLen = 1, maxCnt = 0
-
     const dpLen = [...new Array(n+1)].fill(1) // longest lengths
     const dpCnt = [...new Array(n+1)].fill(1) // count of longest lengths
 
     for(let i = 1; i <= n; i++) {
-        let len = 1, c = 0, map = new Map([[1,1]])
+        let len = 1, c = 0
         for (let j = i-1; j >= 0; j--) {
             if (nums[i] > nums[j]) {
                 if ((dpLen[j] + 1) > len) {
@@ -33,6 +32,5 @@ var findNumberOfLIS = function(nums) {
     for (let i = 0; i < n; i++) {
         if (dpLen[i] === maxLen) maxCnt += dpCnt[i]
     }
-
     return maxCnt
 };
