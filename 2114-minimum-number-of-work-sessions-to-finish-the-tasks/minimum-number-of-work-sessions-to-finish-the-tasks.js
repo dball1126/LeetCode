@@ -3,6 +3,9 @@
  * @param {number} sessionTime
  * @return {number}
  */
+// Bitmasking DP
+// Top-Down Dynamic Programming
+// Time and Space: O(n * m)...n for tasks length and m for sessionTime
 var minSessions = function(tasks, sessionTime) {
     let n = tasks.length, memo = new Map()
     const done = (1 << n) - 1
