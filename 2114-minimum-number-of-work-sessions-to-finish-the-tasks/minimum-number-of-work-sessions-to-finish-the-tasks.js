@@ -5,25 +5,27 @@
  */
 var minSessions = function(tasks, sessionTime) {
     let n = tasks.length, memo = new Map()
-    let done = (1 << n) - 1 // also our max visited metric
-    
-    const dp = (mask, t) => {
-        if (mask === done) return 0;
-        let ans = Infinity, k = mask +':' + t;
-        if (memo.has(k)) return memo.get(k);
-        if (t !== sessionTime) {
-            ans = dp(mask, sessionTime) + 1
-        }
+    const done = (1 << n) - 1
 
+    const dp = (mask, time) => {
+        if (mask === done) return 0
+        let k = mask + ":" + time;
+        if (memo.has(k)) return memo.get(k)
+        
+        let minimumSessions = Infinity
+        if (time !== sessionTime) {
+            minimumSessions = dp(mask, sessionTime) + 1
+        }
         for (let i = 0; i < n; i++) {
             let v = tasks[i]
-            if (t -v >= 0 && (mask & (1 << i)) === 0) {
-                ans = Math.min(ans,
-                    dp(mask | (1 << i), t - v))
+            if (( mask & (1 << i)) === 0) {
+                if (time - v >= 0) {
+                    minimumSessions = Math.min(minimumSessions, dp((mask | (1 << i)), time - v))
+                }
             }
         }
-        memo.set(k, ans)
-        return ans
+        memo.set(k, minimumSessions)
+        return minimumSessions
     }
-    return dp(0,0)
+    return dp(0, 0)
 }
