@@ -4,9 +4,9 @@
  * @return {number}
  */
 var minSessions = function(tasks, sessionTime) {
-    const n = tasks.length;
-    const done = (1 << n) - 1, memo = new Map();
-
+    let n = tasks.length, memo = new Map()
+    let done = (1 << n) - 1 // also our max visited metric
+    
     const dp = (mask, t) => {
         if (mask === done) return 0;
         let ans = Infinity, k = mask +':' + t;
@@ -25,5 +25,5 @@ var minSessions = function(tasks, sessionTime) {
         memo.set(k, ans)
         return ans
     }
-    return dp(0, 0)
-};
+    return dp(0,0)
+}
