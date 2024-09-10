@@ -2,18 +2,19 @@
  * @param {number} n
  * @return {number}
  */
+// Fibonacci DP Pattern
 // Bottom-Up Dynamic Programming
-// Fibonacci Numbers (Pattern)
-// Time and Space: O(n)
+// Time: O(n)
+// Space: O(1)
 var climbStairs = function(n) {
-    
-        const dp = [...new Array(n+1)].fill(0)
-        dp[0] = 1;
+    if (n === 1) return 1;
+    if (n === 2) return 2;
+    let stairs1 = 2, stairs2 = 1
 
-        for (let i = 1; i <= n; i++) {
-            let v2 = 0
-            if (i-2 >= 0) v2 = dp[i-2]
-            dp[i] = dp[i-1] + v2
-        }
-        return dp[n]
+    for (let i = 3; i <= n; i++) {
+        let stairs = stairs1 + stairs2;
+        stairs2 = stairs1;
+        stairs1 = stairs;
+    }
+    return stairs1;
 };
