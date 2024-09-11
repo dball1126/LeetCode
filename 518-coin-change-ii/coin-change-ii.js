@@ -3,18 +3,19 @@
  * @param {number[]} coins
  * @return {number}
  */
-// Unbounded Knapsack
+// Unbounded Knapsack DP Pattern
 // Bottom-Up Dynamic Programming
-// Time and Space: O(n * m)...n for coins...m for amount
-// Space: O(m)
+// Time: O(n * m)...n for amount and m for coins
+// Space: O(n)
 var change = function(amount, coins) {
-    let dp = [...new Array(amount+1)].fill(0)
+    const dp = [...new Array(amount+1)].fill(0)
     dp[0] = 1
+
     for (let c of coins) {
         for (let a = 1; a <= amount; a++) {
-            if (a - c >= 0) {
-                dp[a] += dp[a-c]
-            }   
+            if (a - c >= 0 && a - c < a) {
+                dp[a] += dp[a- c]
+            }
         }
     }
     return dp[amount]
