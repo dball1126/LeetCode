@@ -2,18 +2,20 @@
  * @param {number[]} nums
  * @return {number}
  */
+// Longest Increasing Subsequence DP Pattern
+// Bottom-Up Dynamic Programming
+// Time: O(n^2)
+// Space: O(n)
 var lengthOfLIS = function(nums) {
-    let max = 1, n = nums.length
-    const dp = [...new Array(n+1)].fill(1)
+    let n = nums.length, max = 1
+    const dp = [...new Array(n+1)].fill(1);
 
-    for (let i = 0; i < n; i++) {
-        let v = dp[i]
+    for (let i = 1; i < n; i++) {
         for (let j = 0; j < i; j++) {
             if (nums[j] < nums[i]) {
-                v = Math.max(v, dp[j] + 1)
+                dp[i] = Math.max(dp[i], dp[j]+1)
             }
         }
-        dp[i] = v
         max = Math.max(max, dp[i])
     }
     return max;
