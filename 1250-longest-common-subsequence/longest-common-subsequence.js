@@ -3,16 +3,21 @@
  * @param {string} text2
  * @return {number}
  */
-var longestCommonSubsequence = function(text1, text2) {
-    let n = text1.length, m = text2.length
-    const dp = [...new Array(n+1)].map(a => 
-               [...new Array(m+1)].fill(0))
-    for (let i = n-1; i >= 0; i--) {
-        for (let j = m-1; j >= 0; j--) {
-            let v1 = 0, v2 = dp[i+1][j], v3 = dp[i][j+1]
-            if (text1[i] === text2[j]) v1 = 1 + dp[i+1][j+1]
-            dp[i][j] = Math.max(v1,v2,v3)
+// Longest Common Subsequence DP Pattern
+// Bottom-Up Dyanmic Programming
+// Time and Space: O(n * m)
+var longestCommonSubsequence = function(s1, s2) {
+    let n = s1.length, m = s2.length
+    const dp = [...new Array(n+1)].map(a => [...new Array(m+1)].fill(0))
+
+    for (let r = 1; r <= n; r++) {
+        for (let c = 1; c <= m; c++) {
+            let v1 = dp[r-1][c], v2  = dp[r][c-1], v3 = 0
+            if (s1[r-1] === s2[c-1]) {
+                v3 = 1 + dp[r-1][c-1]
+            }
+            dp[r][c] = Math.max(v1,v2,v3)
         }
     }
-    return dp[0][0]
+    return dp[n][m]
 };
