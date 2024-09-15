@@ -5,7 +5,7 @@
 // Catalan Numbers
 // Top-Down Dynamic Programming
 // Time: O(n^2)
-// Space
+// Space O(n)
 var numTrees = function(n) {
     let memo = [...new Array(n+1)]
     const dp = (num) => {
