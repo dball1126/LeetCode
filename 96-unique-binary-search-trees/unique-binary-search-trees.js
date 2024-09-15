@@ -2,18 +2,21 @@
  * @param {number} n
  * @return {number}
  */
+// Catalan Numbers
+// Top-Down Dynamic Programming
+// Time: O(n^2)
+// Space
 var numTrees = function(n) {
-    const memo = [...(new Array(n+1))]
-
+    let memo = [...new Array(n+1)]
     const dp = (num) => {
-        if (num <= 1) return 1;
         if (memo[num] !== undefined) return memo[num]
-        let val = 0
-
+        if (num <= 1) return 1;
+        memo[num] = 0
         for (let i = 1; i <= num; i++) {
-            val += (dp(i-1) * dp(num - i))
+            memo[num] += dp(i-1) * dp(num - i)
         }
-        return memo[num] = val;
+        return memo[num]
     }
     return dp(n)
 };
+console.log(numTrees(3))
