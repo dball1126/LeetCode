@@ -2,23 +2,27 @@
  * @param {string} s
  * @return {number}
  */
-// Bottom-Up Dynamic Programming
-// Time and Space: O(n)
 var numDecodings = function(s) {
-    const n = s.length
-    const dp = [...new Array(n+1)].fill(0)
-    dp[s.length] = 1
+    let n = s.length;
 
+    let prev1 = 0, prev2 =0
     for (let i = n-1; i >= 0; i--) {
-        let v = s[i]
-        if (v === '0') continue
-        let v1 = dp[i+1], v2 = 0
-        if (i+1 < n) {
-            if (v + s[i+1] <= '26') {
-                v2 = dp[i+2]
+        if (s[i] === '0') {
+            prev2 = prev1;
+            prev1 = 0
+            continue
+        }
+        if (i+1 === n) prev1 = 1;
+        let v1 = prev1, v2 = 0
+        if (i+2 <= n) {
+            if (s[i] + s[i+1] <= "26") {
+                if (i+2 === n) prev2 = 1
+                v2 = prev2
             }
         }
-        dp[i] = v1 + v2
+        let newVal = v1 + v2
+        prev2 = prev1
+        prev1 = newVal
     }
-    return dp[0]
+    return prev1
 };
