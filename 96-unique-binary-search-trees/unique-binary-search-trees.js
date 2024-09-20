@@ -2,19 +2,22 @@
  * @param {number} n
  * @return {number}
  */
+// Catalan Numbers DP Pattern
+// Bottom-Up Dynamic Programming
+// Time: O(n^2)
+// Space: O(n)
 var numTrees = function(n) {
-    let memo = [...new Array(n+1)]
+    
+    const dp = [...new Array(n+1)].fill(0);
+    dp[0] = 1; dp[1] = 1;
 
-    const dp = (num) => {
-        if (num <= 1) return 1;
-        if (memo[num]) return memo[num];
-        memo[num] = 0
+    for (let i = 2; i <= n; i++) {
+        for (let j = 1; j <= i; j++) {
+            let left = dp[j-1]
+            let right = dp[i-j]
 
-        for (let i = 1; i <= num; i++) {
-            memo[num] += dp(i - 1) * dp(num - i)
+            dp[i] += (left * right)
         }
-
-        return memo[num]
     }
-    return dp(n)
+    return dp[n]
 };
