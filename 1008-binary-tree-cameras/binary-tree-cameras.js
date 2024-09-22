@@ -10,25 +10,27 @@
  * @param {TreeNode} root
  * @return {number}
  */
-// Depth-First-Search
-// Time and Space: O(h)...for height of tree...recursive call stacks
 var minCameraCover = function(root) {
-    const dfs = (nde, parent) => {
-        if (!nde) return [0,0,0]
-        if (!nde.left && !nde.right && parent) return [0,1,0]
-        if (!nde.left && !nde.right) return [1,0,0]
-        let [l1, l2, l3] = dfs(nde.left, nde), [r1,r2,r3] = dfs(nde.right, nde)
 
-        if (l2 === 1 || r2 === 1) {
-            return [l1+r1+1, 0, 1]
-        } else if (l3 === 1 || r3 === 1) {
-            return [l1+r1, 0, 0]
-        } else if (parent) {
-            return [l1+r1, 1, 0]
-        } else {
-            return [l1+r1+1, 0 , 1]
+    const dfs = (nde, p) => {
+        if (!nde) return [0,0,0]
+
+        let [lc, ls, ln] = dfs(nde.left, true);
+        let [rc, rs, rn] = dfs(nde.right, true);
+
+        let c = 0, s = 0, n = 0
+
+        if (ln || rn) {
+            s = 1; c = 1
+        } else if (!lc && !rc) {
+            if (!p) {
+                s = 1; c = 1
+            } else {
+                n = 1;
+            }
         }
+        return [c, s + ls + rs, n]
     }
-    let [coins, needsCamera, isCamera]  = dfs(root, null)
-    return coins
+    let [c, s, n] = dfs(root, false)
+    return s
 };
