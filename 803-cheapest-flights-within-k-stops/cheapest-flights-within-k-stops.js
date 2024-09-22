@@ -8,9 +8,9 @@
  */
 // DP On Graphs
 // Bottom-Up Dynamic Programming
-// Time: O(k * n^2 )
-// Space: O(n^2)
-
+// Bellmans Ford Algorithm
+// Time: O(k * (V + E) )
+// Space: O(V^2)
 var findCheapestPrice = function(n, flights, src, dst, k) {
     
     let vals = [...new Array(n+1)].map(a => [...new Array(n+1)].fill(Infinity))
