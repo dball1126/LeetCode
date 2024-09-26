@@ -1,21 +1,26 @@
-// Top-Down Dynamic Programming
-// Time and Space: O(n)
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
 var maxProfit = function(prices) {
-    let n = prices.length
-    const memo = [...new Array(n+1)].map(a => [...new Array(2)])
+    const n = prices.length
+    const memo = [...new Array(n+1)].map(a => [...new Array(3)])
 
-    const dp = (idx, t) => { // t keeps track of our states where it can be 1 or 0
-        if (idx >= prices.length && t === 0) return -Infinity
-        if (idx >= prices.length && t === 1) return 0
-        if (memo[idx][t] !== undefined) return memo[idx][t]
-        
-        let nx = dp(idx+1, t), nx2 = 0
-        if (t === 1) {
-            nx2 = dp(idx+1, 0) - prices[idx] // buy
-        } else {
-            nx2 = dp(idx+2, 1) + prices[idx] // sell
+    const dp = (idx, state) => { // state = 1 for buy and 0 for sell
+        if (idx >= n) return 0
+        if (idx === n-1) {
+            if (state === 1) return 0
+            return prices[idx]
         }
-        return memo[idx][t] = Math.max(nx, nx2);
+        if (memo[idx][state] !== undefined) return memo[idx][state]
+        let next = dp(idx+1, state)
+        let v = 0
+        if (state === 1) {
+            v = dp(idx+1, 0) - prices[idx]
+        } else {
+            v = dp(idx+2, 1) + prices[idx]
+        }
+        return memo[idx][state] = Math.max(next, v)
     }
     return dp(0, 1)
 };
