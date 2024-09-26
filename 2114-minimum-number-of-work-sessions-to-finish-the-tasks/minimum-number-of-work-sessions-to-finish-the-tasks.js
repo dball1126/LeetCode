@@ -3,32 +3,30 @@
  * @param {number} sessionTime
  * @return {number}
  */
-// Bitmasking DP
-// Top-Down Dynamic Programming
-// Time and Space: O(n * m)...n for tasks length and m for sessionTime
 var minSessions = function(tasks, sessionTime) {
-    let n = tasks.length, memo = new Map()
-    const done = (1 << n) - 1
+    const n = tasks.length, memo = new Map();
+    let done = (1 << n) - 1;
 
     const dp = (mask, time) => {
         if (mask === done) return 0
         let k = mask + ":" + time;
         if (memo.has(k)) return memo.get(k)
-        
-        let minimumSessions = Infinity
+        let min = Infinity
+
         if (time !== sessionTime) {
-            minimumSessions = dp(mask, sessionTime) + 1
+            min = dp(mask, sessionTime) + 1
         }
+
         for (let i = 0; i < n; i++) {
-            let v = tasks[i]
-            if (( mask & (1 << i)) === 0) {
-                if (time - v >= 0) {
-                    minimumSessions = Math.min(minimumSessions, dp((mask | (1 << i)), time - v))
+            let newTime = time - tasks[i]
+            if ((mask & (1 << i)) === 0) {
+                if (newTime >= 0) {
+                    min = Math.min(min, dp(mask | (1 << i), newTime))
                 }
             }
         }
-        memo.set(k, minimumSessions)
-        return minimumSessions
+        memo.set(k, min)
+        return min
     }
-    return dp(0, 0)
-}
+    return dp(0, sessionTime) + 1
+};
