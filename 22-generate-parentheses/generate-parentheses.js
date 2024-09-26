@@ -1,22 +1,23 @@
-/**
- * @param {number} n
- * @return {string[]}
- */
-// Backtracking
-// Time: O(2^(n*2))...2 choices during each iteration
-// Space: O(n*2)...max length of recursion stack
-var generateParenthesis = function(n) {
-    let result = [];
-    const backtrack = (curr, open, close) => {
-        if (curr.length === n*2) return result.push(curr)
-        
-        if (open < n) {
-            backtrack(curr + "(", open + 1, close)
+const generateParenthesis = (n) => {
+
+    const memo = [...new Array(n+1)]
+
+    const dp  = (nde) => {
+        if (nde <= 0) return ['']
+        if (memo[nde]) return memo[nde]
+        let result = []
+
+        for (let i = 0; i < nde; i++) {
+            let left = dp(i), right = dp(nde - i - 1)
+            
+            for (let l of left) {
+                for (let r of right) {
+                    result.push("(" + l + ")" + r)
+                }
+            }
         }
-        if (close < n && close < open) {
-            backtrack(curr + ")", open, close+1)
-        }
+        return memo[nde] = result
     }
-    backtrack("", 0, 0)
-    return result;
+
+    return dp(n)
 };
