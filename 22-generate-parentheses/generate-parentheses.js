@@ -1,23 +1,26 @@
-const generateParenthesis = (n) => {
-
+/**
+ * @param {number} n
+ * @return {string[]}
+ */
+var generateParenthesis = function(n) {
+    
     const memo = [...new Array(n+1)]
 
-    const dp  = (nde) => {
-        if (nde <= 0) return ['']
-        if (memo[nde]) return memo[nde]
+    const dp = (p) => {
+        if (p <= 0) return [""]
+        if (memo[p]) return memo[p]
         let result = []
+        for (let i = 0; i < p; i++) {
+            let left = dp(i), right = dp(p - i - 1)
 
-        for (let i = 0; i < nde; i++) {
-            let left = dp(i), right = dp(nde - i - 1)
-            
             for (let l of left) {
                 for (let r of right) {
+
                     result.push("(" + l + ")" + r)
                 }
             }
         }
-        return memo[nde] = result
+        return memo[p] = result
     }
-
     return dp(n)
 };
