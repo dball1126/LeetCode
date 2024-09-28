@@ -3,15 +3,19 @@
  * @return {number}
  */
 var minCostClimbingStairs = function(cost) {
-    let n = cost.length-1
-    for (let i = n-1; i >= 0; i--) {
-        const v = cost[i];
-        let nx1 = i+2 <= n ? cost[i+2] : 0
-        let nx2 = i+1 <= n ? cost[i+1] : 0
 
-        cost[i] += Math.min(nx1, nx2)
+    let prev1 = cost[1] === undefined ? Infinity : cost[1], 
+    prev2 = cost[0] === undefined ? Infinity : cost[0];
+
+    for (let i = 2; i < cost.length; i++) {
+
+        if (i === cost.length-1) {
+            return Math.min(prev1, prev2 + cost[i])
+        }
+
+        let v = Math.min(cost[i] + prev1, cost[i] + prev2)
+        prev2 = prev1
+        prev1 = v
     }
-    let c1 = cost[0] || 0
-    let c2 = cost[1] || 0
-    return Math.min(c1,c2)
+    return Math.min(prev1, prev2)
 };
