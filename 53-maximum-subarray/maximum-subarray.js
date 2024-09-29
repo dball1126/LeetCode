@@ -2,15 +2,14 @@
  * @param {number[]} nums
  * @return {number}
  */
-
-// Bottom up Dynamic Programming
-// Time and Space: O(n)
 var maxSubArray = function(nums) {
-    const n = nums.length;
-    let max = nums[0]
-    for (let i = 1; i < n; i++) {
-        nums[i] = Math.max(nums[i], nums[i] + nums[i-1])
-        max = Math.max(max, nums[i])
+
+    let prevSum = nums[0]
+    let max = prevSum
+
+    for (let i = 1; i < nums.length; i++) {
+        prevSum = Math.max(nums[i], nums[i] + prevSum)
+        max = Math.max(max, prevSum)
     }
     return max;
 };
