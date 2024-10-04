@@ -14,9 +14,9 @@ var minCost = function(costs) {
         let min = Infinity
         for (let i = 0; i < 3; i++) {
             if (col !== i && !vis[idx][i]) {
-                vis[idx][i] = true
+                // vis[idx][i] = true
                 min = Math.min(min, costs[idx][i] + dp(idx+1, i, vis))
-                vis[idx][i] = false
+                // vis[idx][i] = false
             }
         }
         return memo[idx][col] = min
