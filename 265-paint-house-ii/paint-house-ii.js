@@ -2,6 +2,8 @@
  * @param {number[][]} costs
  * @return {number}
  */
+// Top-Down Dynamic Programming
+// Time and Space: O(n * k)...n for # of houses and k for # of costs
 var minCostII = function(costs) {
     const n = costs.length, m = costs[0].length;
     let memo = [...new Array(n+1)].map(a => [...new Array(m+1)])
