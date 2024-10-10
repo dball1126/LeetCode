@@ -1,22 +1,17 @@
-/**
- * @param {string} s
- * @return {boolean}
- */
 // Stack
-// Time and Space: O(n)
+// Time  & Space: O(n)
 var isValid = function(s) {
-    let stack = [], n = s.length
-
-    for (let i = 0; i < n; i++) {
+    let map = new Map([[")", "("], ["]", "["], ["}", "{"]])
+    let stack = []
+    for (let i = 0; i < s.length; i++) {
         let v = s[i]
+
         if (v === "(" || v === "[" || v === "{") {
             stack.push(v)
         } else {
-            let v2 = stack.pop();
-            if (v === ")" && v2 !== "(") return false;
-            if (v === "]" && v2 !== "[") return false;
-            if (v === "}" && v2 !== "{") return false;
+            let prev = stack.pop()
+            if (map.get(v) !== prev) return false
         }
     }
-    return stack.length === 0
+    return !stack.length
 };
