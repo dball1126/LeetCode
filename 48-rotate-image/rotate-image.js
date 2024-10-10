@@ -3,19 +3,11 @@
  * @return {void} Do not return anything, modify matrix in-place instead.
  */
 var rotate = function(matrix) {
-    
-    
     let n = matrix.length, m = matrix[0].length;
-
     for (let r = 0; r < n; r++) {
-        for (let c = r+1; c < m; c++) {
+        for (let c = r+1; c < n; c++) {
             [matrix[r][c], matrix[c][r]] = [matrix[c][r], matrix[r][c]]
         }
-        let i = 0, j = m-1
-        while (i < j) {
-            [matrix[r][j], matrix[r][i]] = [matrix[r][i], matrix[r][j]]
-            i++; j--;
-        }
+        matrix[r] = matrix[r].reverse()
     }
-    return matrix
 };
