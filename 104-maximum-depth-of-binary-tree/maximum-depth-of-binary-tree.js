@@ -10,10 +10,15 @@
  * @param {TreeNode} root
  * @return {number}
  */
-// Depth-First-Search
-// Time: O(n)
-// Space: O(h) if the tree is balanced.
 var maxDepth = function(root) {
     if (!root) return 0
-    return Math.max (maxDepth(root.left), maxDepth(root.right)) + 1
+    let max = 0, stack = [[root, 1]]
+
+    while (stack.length) {
+        let [nde, lvl] = stack.pop()
+        max = Math.max(max, lvl)
+        if (nde.left) stack.push([nde.left,lvl+1])
+        if (nde.right) stack.push([nde.right,lvl+1])
+    }
+    return max
 };
