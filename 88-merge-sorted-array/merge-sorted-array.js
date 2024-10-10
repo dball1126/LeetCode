@@ -5,20 +5,28 @@
  * @param {number} n
  * @return {void} Do not return anything, modify nums1 in-place instead.
  */
+// Merge Arrays In-Place 
+// Time: O(n)
+// Space: O(1)
 var merge = function(nums1, m, nums2, n) {
+    let i = m-1, j = n-1, k = nums1.length-1
 
-    let r = n-1, l = m-1, p = nums1.length-1
+    while (i >= 0 || j >= 0) {
 
-    while (p >= 0) {
-        if (r >= 0 && (nums2[r] >= nums1[l] || l === -1)) {
-            [nums1[p] = nums2[r]] = [nums2[r], nums1[p]]
-            r--
+        if (i < 0) {
+            [nums2[j], nums1[k]] = [nums1[k], nums2[j]]
+            j--
+        } else if (j < 0) {
+            [nums1[i], nums1[k]] = [nums1[k], nums1[i]]
+            i--
+        } else if (nums1[i] >= nums2[j]) {
+            [nums1[i], nums1[k]] = [nums1[k], nums1[i]]
+            i--
         } else {
-            [nums1[p] = nums1[l]] = [nums1[l], nums1[p]]
-
-            l--
+            [nums2[j], nums1[k]] = [nums1[k], nums2[j]]
+            j--
         }
-        p--
+        k--
     }
     return nums1
 };
