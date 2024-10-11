@@ -3,26 +3,23 @@
  * @return {number}
  */
 // Monotonic Stack
-// Time: O(n)...at most 2 iterations of n
-// Space: O(n)...for the stack
+// Time and Space: O(n)
 var trap = function(height) {
-    
-    let stack = [], max = 0
+    let stack = [], water = 0
     const top = () => stack[stack.length-1]
 
     for (let i = 0; i < height.length; i++) {
+        const v = height[i]
 
-        while (stack.length && height[i] >= height[top()]) {
+        while (stack.length && height[top()] <= v) {
             let mid = stack.pop();
+            if (!stack.length) continue;
+            let w = i - top() - 1
+            let h = Math.min(height[top()], v) - height[mid]
 
-            if (stack.length)  {
-                let h = (Math.min(height[top()], height[i]) - height[mid])
-                let w =  (i - top() - 1)
-                max += h * w
-            }
+            water += (h * w)
         }
-        stack.push(i)
+        stack.push(i);
     }
-
-    return max;
+    return water;
 };
