@@ -1,15 +1,6 @@
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
-/**
- * @param {ListNode} l1
- * @param {ListNode} l2
- * @return {ListNode}
- */
+// Single pass Linked Lists traversal
+// Time: O(n + m)
+// Space: O(1)...not counting output node
 var addTwoNumbers = function(l1, l2) {
     let nde = null, head = null, carry = 0;
     
