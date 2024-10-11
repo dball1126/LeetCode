@@ -3,31 +3,37 @@
  * @param {number[][]} prerequisites
  * @return {boolean}
  */
-// Topological Sort
-// Time & Space: O(V + E)...for vertices and edges
 var canFinish = function(numCourses, prerequisites) {
-    let count = 0, adjList = new Map(), queue = []
-    const indegrees = [...new Array(numCourses).fill(0)]
-    for (let [e, v] of prerequisites) {
-        indegrees[e]++
-        if (!adjList.has(v)) adjList.set(v, new Set())
-        adjList.get(v).add(e)
+    const indegrees = [...new Array(numCourses)].fill(0)
+    const map = new Map()
+    const bfs = [], result = []
+    for (let [a, b] of prerequisites) {
+        indegrees[a]++
+        if (!map.has(b)) map.set(b, new Set())
+        if (!map.has(a)) map.set(a, new Set())
+        map.get(b).add(a)
     }
+
     for (let i = 0; i < numCourses; i++) {
-        if (indegrees[i] === 0) queue.push(i)
+        if (indegrees[i] === 0) {
+            bfs.push(i)
+        }
     }
-    while (queue.length) {
-        let nde = queue.shift()
-        count++
-        if (adjList.has(nde)) {
-            let set = adjList.get(nde)
-            for (let edge of Array.from(set)) {
-                let eSet = adjList.get(edge)
-                if (eSet && eSet.has(nde)) return false;
-                indegrees[edge]--
-                if (indegrees[edge] === 0) queue.push(edge)
+
+    while (bfs.length) {
+        let nde = bfs.shift();
+
+        result.push(nde)
+        let arr = []
+        if (map.has(nde)) arr =  Array.from(map.get(nde))
+        for (let i of arr) {
+            indegrees[i]--
+            if (indegrees[i] === 0) {
+                if (map.get(i).has(nde)) return false
+                bfs.push(i)
             }
         }
     }
-    return count === numCourses
+
+    return result.length === numCourses
 };
