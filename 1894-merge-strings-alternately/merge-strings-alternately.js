@@ -1,5 +1,5 @@
 // Merge Srings
-// Time: O(k)...k is the maxixmum length between n and m
+// Time: O(n + m)
 // Space: O(1)
 var mergeAlternately = function(word1, word2) {
     let result = "", i = 0, j = 0, n = word1.length, m = word2.length
