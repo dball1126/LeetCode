@@ -3,6 +3,10 @@
  * @param {number} h
  * @return {number}
  */
+// Binary Search
+// Time: O(n * log(k))
+// Space: O(1)
+// n for piles and k being the the range of nums from 1 to high
 var minEatingSpeed = function(piles, h) {
     let high = -Infinity, avg = Infinity, low = 0
     piles.forEach(p => high = Math.max(high, p));
