@@ -2,13 +2,17 @@
  * @param {number} n
  * @return {string[]}
  */
+// Catalan numbers
 var generateParenthesis = function(n) {
     let combos = []
     const memo = [...new Array(n+1)]
     const backtrack = (idx) => {
         if (idx === 0) return [""]
         if (idx === 1) return ["()"]
-        if (memo[idx] !== undefined) return memo[idx]
+        if (memo[idx] !== undefined){
+            console.log("memo")
+             return memo[idx]
+            }
         let combo = []
         for (let i = 1; i <= idx; i++) {
             let left = [...backtrack(i-1)]
