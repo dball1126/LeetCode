@@ -33,7 +33,7 @@ var ladderLength = function(begin, end, list) {
         let [wrd, count] = bfs.shift();
         if (min < count) continue;
         if (wrd === end) {
-            min = Math.min(min, count); continue;
+           return min = Math.min(min+1, count+1); 
         }
         set.add(wrd)
         let arr = wordMap.get(wrd)
