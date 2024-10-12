@@ -4,43 +4,45 @@
  * @param {string[]} wordList
  * @return {number}
  */
-// Breadth-First-Search
-// Time: O(n^2 * m)...n for words...m for words length
-// Space: O(n^2)...word * word length
-var ladderLength = function(beginWord, endWord, wordList) {
-    let ladder = Infinity, wordMap = new Map(), bfs = [[beginWord, 1]], visited = new Set();;
-    wordList.unshift(beginWord)
-
-    for (let i = 0; i < wordList.length-1; i++) {
-        const w = wordList[i]
+var ladderLength = function(begin, end, list) {
+    let wordMap = new Map(), min = Infinity, endCount = 0
+    list.push(begin,end)
+    for (let w of list) {
+        if (w === end) endCount++
         if (!wordMap.has(w)) wordMap.set(w, new Set())
-        for (let j = i+1; j < wordList.length; j++) {
-            if (j >= wordList.length) continue;
-            const w2 = wordList[j]
-            if (w2.length !== w.length) break;
-            if (!wordMap.has(w2)) wordMap.set(w2, new Set())
-            let cCount = 0
-            for (let c = 0; c < w2.length; c++) {
-                if (w[c] !== w2[c]) cCount++
-            }
-            if (cCount === 1) {
-                wordMap.get(w).add(w2)
-                wordMap.get(w2).add(w)
+        for (let wrd of list) {
+            if (w.length === wrd.length && w !== wrd) {
+                let c = 0, i = 0, j = 0
+                while (c < 2 && i < w.length && j < w.length) {
+                    if (w[i] !== wrd[j]) {
+                        c++;
+                    }
+                    i++; j++
+                }
+                if (c === 1) {
+                    wordMap.get(w).add(wrd)
+                }
             }
         }
     }
+    if (endCount <= 1) return 0
+
+    const bfs = [[begin, 0]]
+    const set = new Set()
     while (bfs.length) {
         let [wrd, count] = bfs.shift();
-        visited.add(wrd)
-        const wrdSet = wordMap.get(wrd)
-        if (!wrdSet) continue;
-        if (wrdSet.has(endWord)) {
-           return ladder = Math.min(count+1, ladder); continue;
+        if (min < count) continue;
+        if (wrd === end) {
+            min = Math.min(min, count); continue;
         }
-        for (let cWrd of Array.from(wordMap.get(wrd))) {
-            if (visited.has(cWrd)) continue;
-            visited.add(cWrd); bfs.push([cWrd, count+1])
+        set.add(wrd)
+        let arr = wordMap.get(wrd)
+        for (let word of arr) {
+            if (!set.has(word)) {
+                set.add(word)
+                bfs.push([word, count + 1])
+            }
         }
     }
-    return ladder === Infinity ? 0 : ladder;
+    return min === Infinity ? 0 : min + 1
 };
