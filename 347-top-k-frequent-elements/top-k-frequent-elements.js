@@ -1,29 +1,21 @@
-class Node {
-    constructor(val, key) {
-        this.val = val; this.key = key;
-    }
-}
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number[]}
+ */
+var topKFrequent = function(nums, k) {
+    let map = new Map()
 
-var topKFrequent = function(nums, freq) {
-    const minHeap = new MinPriorityQueue({priority: (nde) => nde.val})
-    const map = new Map()
-
-    for (let n of nums) {
-        if (!map.has(n)) map.set(n, 0)
-        map.set(n, map.get(n) + 1)
+    nums.forEach(v => {
+        if (!map.has(v)) map.set(v, 0)
+        map.set(v, map.get(v) + 1)
+    })
+    let arr = Array.from(map)
+    arr.sort((a,b) => b[1] - a[1])
+    let freq = [], i = 0;
+    while (i < k && i < arr.length) {
+        freq.push(arr[i][0])
+        i++;
     }
-
-    for (let [k, v] of map) {
-        if (minHeap.size() < freq) {
-            minHeap.enqueue({val: v, key: k});
-        } else if (minHeap.front().element.val < v) {
-            minHeap.dequeue()
-            minHeap.enqueue({val: v, key: k});
-        }
-    }
-    const result = []
-    while (!minHeap.isEmpty()) {
-        result.push(minHeap.dequeue().element.key)
-    }
-    return result
+    return freq
 };
