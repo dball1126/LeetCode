@@ -3,6 +3,8 @@
  * @param {number} k
  * @return {number}
  */
+// Prefix Sums
+// Time and Space: O(n)
 var subarraySum = function(nums, k) {
     let sum = 0, total = 0, map = new Map([[0, 1]])
 
