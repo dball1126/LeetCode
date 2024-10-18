@@ -3,22 +3,31 @@
  * @return {number}
  */
 var minimumSwaps = function(arr) {
-    let map = new Map(), min = Infinity, max = -Infinity, n = arr.length
+    let min = Infinity, max = -Infinity, n = arr.length
+    let minIdx = n-1, maxIdx = 0
     
     for (let i = 0; i < n; i++) {
-        min = Math.min(min, arr[i])
-        max = Math.max(max, arr[i])
-        if (!map.has( arr[i])) map.set(arr[i], [])
-        map.get(arr[i]).push(i)
-    }
-    let minIdx = Infinity, maxIdx = -Infinity
+        if (arr[i] <= min) {
+            if (arr[i] === min) {
+                if (i < minIdx) {
+                    minIdx = i
+                }
+            } else {
+                min = arr[i]
+                minIdx = i
+            }
+        }
 
-    for (let i of Array.from(map.get(min))) {
-        minIdx = Math.min(minIdx, i)
-    }
-
-    for (let i of Array.from(map.get(max))) {
-        maxIdx = Math.max(maxIdx, i)
+        if (arr[i] >= max) {
+            if (arr[i] === max) {
+                if (i > maxIdx) {
+                    maxIdx = i
+                }
+            } else {
+                max = arr[i]
+                maxIdx = i
+            }
+        }
     }
 
     if (minIdx > maxIdx) {
