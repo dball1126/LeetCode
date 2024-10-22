@@ -1,11 +1,8 @@
 import java.util.HashMap;
-
 class Solution {
     public int lengthOfLongestSubstring(String str) {
         int s = 0; int e = 0; int n = str.length(); int longestSub = 0;
-
         HashMap<Character, Integer> count = new HashMap<>();
-
         while (e < n) {
             count.put(str.charAt(e), count.getOrDefault(str.charAt(e), 0) + 1);
 
