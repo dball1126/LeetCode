@@ -1,4 +1,6 @@
 class Solution {
+    // HashMap
+    // Time & Space: O(n)
     public boolean containsNearbyDuplicate(int[] nums, int k) {
         Map<Integer, Integer> idxs = new HashMap<>();
 
