@@ -1,4 +1,6 @@
 class Solution {
+    // Bottom-Up Dynamic Programming
+    // Time & Space: O(n * m)...n is for # of nums and m is for half the sum
     public boolean canPartition(int[] nums) {
         int n = nums.length; int sum = 0;
         for (int num : nums) sum += num;
