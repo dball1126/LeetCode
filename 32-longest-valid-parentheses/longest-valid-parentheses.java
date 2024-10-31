@@ -15,18 +15,14 @@ class Solution {
                 if (!stack.isEmpty()) {
                     int idx = stack.pop();
                     int v = 0; int v2 = 0;
+                    if (i > 0) v = dp[i-1];
+                    if (idx > 0) v2 = dp[idx-1];
 
-                    if (i > 0) {
-                        v = dp[i-1];
-                    }
-                    if (idx > 0) {
-                        v2 = Math.max(v2, dp[idx-1]);
-                    }
                     dp[i] = 2 + v + v2;
                 }
             }
             max = Math.max(max, dp[i]);
         }
         return max;
-    }
+    } 
 }
