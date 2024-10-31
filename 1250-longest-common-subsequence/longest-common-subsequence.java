@@ -1,4 +1,6 @@
 class Solution {
+    // Bottom-Up Dynamic Programming. Longest Common Subsequence DP Pattern
+    // Time and Space: O(n * m)
     public int longestCommonSubsequence(String text1, String text2) {
         int n = text1.length(); int m = text2.length();
         int dp[][] = new int[n+1][m+1];
@@ -14,7 +16,6 @@ class Solution {
                 dp[i][j] = Math.max(v1, Math.max( v2,v3));
             }
         }
-
         return dp[0][0];
     }
 }
