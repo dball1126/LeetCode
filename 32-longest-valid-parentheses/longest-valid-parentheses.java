@@ -1,7 +1,8 @@
 class Solution {
+    // Bottom-Up Dynamic Programming. Stack.
+    // Time and Space: O(n)
     public int longestValidParentheses(String s) {
         int[] dp = new int[s.length()+1];
-
         Stack<Integer> stack = new Stack<>();
         int max = 0;
 
