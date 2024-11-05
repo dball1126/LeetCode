@@ -1,0 +1,34 @@
+class Solution {
+    public int dieSimulator(int n, int[] rollMax) {
+        int mod = (int) Math.floor(Math.pow(10, 9) + 7);
+        int[][][] memo = new int[n+1][7][16];
+        for (int i = 0; i < n+1; i++) {
+            for (int j = 0; j < 7; j++) {
+                for (int k = 0; k < 16; k++) {
+                    memo[i][j][k] = mod+2;
+                }
+            }
+        }
+        int result =  dfs(n, memo, rollMax, 0, 0, mod);
+        return result;
+    }
+
+    public int dfs(int n, int[][][] memo, int[] rollMax, int curr, int currL, int mod) {
+        if (n <= 0) return 1;
+        if (memo[n][curr][currL] != mod+2) return memo[n][curr][currL];
+        int ways = 0;
+        for (int k = 0; k < 6; k++) {
+
+            if (k != curr) {
+                ways += dfs(n-1, memo, rollMax, k, 1, mod);
+            } else if (rollMax[curr] >= (currL + 1)) {
+
+                ways += dfs(n-1, memo, rollMax, curr, currL + 1, mod);
+            }
+            ways %= mod;
+        }
+
+        memo[n][curr][currL] = ways;
+        return ways;
+    }
+}
