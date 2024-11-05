@@ -18,11 +18,9 @@ class Solution {
         if (memo[n][curr][currL] != mod+2) return memo[n][curr][currL];
         int ways = 0;
         for (int k = 0; k < 6; k++) {
-
             if (k != curr) {
                 ways += dfs(n-1, memo, rollMax, k, 1, mod);
             } else if (rollMax[curr] >= (currL + 1)) { // validation
-
                 ways += dfs(n-1, memo, rollMax, curr, currL + 1, mod);
             }
             ways %= mod;
