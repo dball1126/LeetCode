@@ -11,8 +11,7 @@ class Solution {
                 }
             }
         }
-        int result =  dfs(n, memo, rollMax, 0, 0, mod);
-        return result;
+        return dfs(n, memo, rollMax, 0, 0, mod);
     }
     public int dfs(int n, int[][][] memo, int[] rollMax, int curr, int currL, int mod) {
         if (n <= 0) return 1; // base case
