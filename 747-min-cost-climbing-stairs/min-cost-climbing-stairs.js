@@ -2,20 +2,16 @@
  * @param {number[]} cost
  * @return {number}
  */
+// Bottom Up Dynamic Programming
+// Time: O(n)
+// Space: O(1)
 var minCostClimbingStairs = function(cost) {
-
-    let prev1 = cost[1] === undefined ? Infinity : cost[1], 
-    prev2 = cost[0] === undefined ? Infinity : cost[0];
+    let step2 = cost[0], step1 = cost[1]
 
     for (let i = 2; i < cost.length; i++) {
-
-        if (i === cost.length-1) {
-            return Math.min(prev1, prev2 + cost[i])
-        }
-
-        let v = Math.min(cost[i] + prev1, cost[i] + prev2)
-        prev2 = prev1
-        prev1 = v
+        const v = Math.min(cost[i]+ step1, cost[i] + step2);
+        step2 = step1
+        step1 = v
     }
-    return Math.min(prev1, prev2)
+    return Math.min(step1, step2)
 };
