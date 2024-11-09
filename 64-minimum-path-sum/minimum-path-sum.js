@@ -2,19 +2,22 @@
  * @param {number[][]} grid
  * @return {number}
  */
-// Min/Max Path sum Pattern
-// Top-Down Dynamic Programming
-// Time and Space: O(n^2)
+// Bottom-Up Dynamic Programming
+// Time: O(n * m)
+// Space: O(n)
 var minPathSum = function(grid) {
-    let n = grid.length, m = grid[0].length
-    const memo = [...new Array(n)].map(a => [...new Array(m)])
+    let prev = [...new Array(grid[0].length)].fill(Infinity)
 
-    const dp = (r, c) => {
-        if (r === n-1 && c === m-1) return grid[r][c]
-        if (r >= n || c >= m) return Infinity
-        if (memo[r][c] !== undefined) return memo[r][c]
-
-        return memo[r][c] = grid[r][c] + Math.min(dp(r+1, c), dp(r, c+1))
+    for (let r = 0; r < grid.length; r++) {
+        for (let c = 0; c < grid[r].length; c++) {
+            if (r === 0 && c == 0) {
+                prev[c] = grid[r][c]
+            } else {
+                let left = Infinity, up = prev[c];
+                if (c-1 >= 0) left = prev[c-1]
+                prev[c] = Math.min(left, up) + grid[r][c]
+            }
+        }
     }
-    return dp(0,0)
+    return prev[prev.length-1]
 };
