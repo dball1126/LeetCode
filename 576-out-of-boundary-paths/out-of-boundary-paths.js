@@ -6,38 +6,28 @@
  * @param {number} startColumn
  * @return {number}
  */
-// Bottom-Up Dynamic Programming
-// Time and Space: O(k * n * m)...k for maxMoves, m for rows, and n for columns
+// Top-Down Dynamic Programming
+// Time & Space: O(n * m * k)
 var findPaths = function(m, n, maxMove, startRow, startColumn) {
-    let m2 = m+2, n2 = n+2, mod = 10**9 + 7
-    let dp = [], dirs = [[-1,0],[1,0],[0, 1], [0, -1]]
-    dp = [...new Array(maxMove+1)].map(a => [...new Array(m2)].map(a => [...new Array(n2)].fill(0)))
+    
+    const memo = [...new Array(m+1)].map(a => [...new Array(n+1)].map(a => [...new Array(maxMove+1)]))
+    const dirs = [[1,0],[-1,0],[0,1],[0,-1]]
+    const mod = (10**9) + 7
 
-    let rMin = (startRow - maxMove > 0) ? startRow - maxMove : 1
-    let rMax = (startRow + maxMove <= m) ? startRow + maxMove : m
-    let cMin = (startColumn - maxMove > 0) ? startColumn - maxMove  : 1
-    let cMax = (startColumn + maxMove <= n) ? startColumn + maxMove : n
+    const dp = (r, c, move) => {
+        if (r < 0 || c < 0 || r >= m || c >= n) return 1;
+        if (move === 0) return 0
+        if (memo[r][c][move] !== undefined) return memo[r][c][move]
 
+        let val = 0
 
-    for (let s = 0; s <= maxMove; s++) { // create dp grid, setup base cases
-        for (let r = 0; r < m2; r++) {
-            for (let c = 0; c < n2; c++) {
-                if (c === 0 || c === n2-1 || r === 0 || r === m2-1) { // out of bounds
-                    dp[s][r][c] = 1
-                }
-            }
+        for (let [row, col] of dirs) {
+
+            val += dp(r + row, col + c, move-1)
+            val %= mod
         }
+
+        return memo[r][c][move] = val
     }
-    for (let s = 1; s <= maxMove; s++) {
-        for (let r = rMin; r <= rMax; r++) {
-            for (let c = cMin; c <= cMax; c++) {
-                let val = 0;
-                for (let [x, y] of dirs) {
-                    val += dp[s-1][r+x][c+y]
-                }
-                dp[s][r][c] = val % mod
-            }
-        }
-    }
-    return dp[maxMove][startRow+1][startColumn+1]
+    return dp(startRow, startColumn, maxMove)
 };
