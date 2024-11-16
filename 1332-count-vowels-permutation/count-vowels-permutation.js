@@ -2,6 +2,8 @@
  * @param {number} n
  * @return {number}
  */
+// Top-Down Dynamic Programming
+// Time & Space: O(n)...5 is constant
 var countVowelPermutation = function(n) {
     const memo = new Map(), mod = (10 ** 9) + 7
     const vowels = ['a', 'e', 'i', 'o', 'u']
