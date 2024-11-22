@@ -3,16 +3,13 @@
  * @return {number}
  */
 var countVowels = function(word) {
-    let vowels = new Set(['a','e','i','o','u'])
-    let count = 0, max = 0
-    for (let i = 0; i < word.length; i++) {
+    let total = 0, curr = 0, vowels = new Set(["a",'e','i','o','u'])
 
-        let v = word[i]
-        if (vowels.has(v)) {
-            count += 1
-            count += i
+    for (let i = 0; i < word.length; i++) {
+        if (vowels.has(word[i])) {
+            curr += 1 + i
         }
-        max += count
+        total += curr;
     }
-    return max
+    return total
 };
