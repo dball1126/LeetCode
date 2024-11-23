@@ -3,13 +3,15 @@
  * @param {string} goal
  * @return {boolean}
  */
+// Two Pointer
+// Time: O(n)
+// Space: O(1)
 var rotateString = function(s, goal) {
     if (s.length !== goal.length) return false
     let i = 0, j = 0
 
     while (j < goal.length || i < s.length) {
-
-        if (i >= goal.length) {// final check
+        if (i >= goal.length) { // Final check. Check if rotations worked.
             i = 0;
             while ( j < goal.length) {
                 if (s[i] !== goal[j]) return false;
@@ -19,7 +21,7 @@ var rotateString = function(s, goal) {
         } 
         if (s[i] === goal[j]) {
             i++; j++;
-        } else {
+        } else { // rotate
             i++;
         }
     }
