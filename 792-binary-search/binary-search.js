@@ -5,17 +5,14 @@
  */
 var search = function(nums, target) {
     let low = 0, high = nums.length-1
+    while ( low < high) {
+        let m = Math.floor((high + low) / 2) + 1
 
-    while (low < high) {
-        let mid = Math.floor((high + low)/ 2) + 1
-
-        if (nums[mid] === target) {
-            return mid;
-        } else if (nums[mid] > target) {
-            high = mid -1
+        if (target >= nums[m]) {
+            low = m
         } else {
-            low = mid
+            high = m - 1
         }
     }
-    return nums[low] !== target ? -1 : low
+    return nums[low] === target ? low : -1
 };
