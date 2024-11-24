@@ -1,40 +1,34 @@
-/**
- * @param {string} s
- * @return {string}
- */
-// Two variables and 2 passes
-// Time & Space: O(n)  2n = O(n)
 var minRemoveToMakeValid = function(s) {
-    let open = 0, close = 0, str = ""
-    
-    for (let c of s) { // handle closed brackets // O(n)
-        if (c === ")") {
-            if (open <= close) continue;
-            
-            str += c
-            close++;
-        } else if (c === "(") {
-            open++
-            str += c
-        } else {
-            str += c
-        }
-    }
-    close = 0, open = 0;
-    let returnStr = ""
-    for (let i = str.length-1; i >= 0; i--) { // handle open brackets // O(n)
-        let c = str[i]
-        if (c === '(') {
-            if (close <= open) continue;
+    let open = 0, close = 0, curr = "", n = s.length
 
-            returnStr =  c + returnStr
-            open++
-        } else if (c === ")") {
-            close++
-            returnStr = c + returnStr
+    for (let i = 0; i < n; i++) { // remove close parentheses
+        let v = s[i]
+        if (v === '(') {
+            curr += v; open++;
+        } else if ( v === ")") {
+            if (open > close) {
+                curr += v; close++;
+            }
         } else {
-            returnStr = c + returnStr
+            curr += v;
         }
     }
-    return returnStr;
+    if (open === close) return curr;
+    open = 0; close = 0;
+
+    let result = ""
+    for (let i = curr.length-1; i >= 0; i--) { // remove open parentheses
+        let v = curr[i]
+
+        if (v === ')') {
+            result = v + result; close++;
+        } else if (v === "(") {
+            if (close > open) {
+                result = v + result; open++;
+            }
+        } else {
+            result = v + result
+        }
+    }
+    return result;
 };
