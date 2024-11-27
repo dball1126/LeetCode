@@ -1,6 +1,6 @@
-class MinHeap { // Object version
+class MinHeapNum {
     constructor() {
-       this.array = [null];
+       this.array = [undefined];
     }
 
     getParent(idx) {
@@ -23,37 +23,34 @@ class MinHeap { // Object version
     siftUp(idx) {
         if (idx === 1) return;
         let pIdx = this.getParent(idx)
-        let pNode = this.array[pIdx]
-        let node = this.array[idx]
-        if (!pNode || !node) return;
-        if (pNode.val > node.val) {
+
+        if (this.array[pIdx] > this.array[idx]) {
             [this.array[idx], this.array[pIdx]] = [this.array[pIdx], this.array[idx]];
             this.siftUp(pIdx);
         }
     }
 
-    poll() { // delete min/max
-        if (this.array.length <= 1) return null;
+    poll() { 
+        if (this.array.length <= 1) return undefined;
         if (this.array.length === 2) return this.array.pop();
-        let min = this.array[1];
+        let max = this.array[1];
         this.array[1] = this.array.pop();
 
         this.siftDown(1);
-        return min;
+        return max;
     }   
 
     siftDown(idx) {
         if (this.array.length <= 2) return;
         let node = this.array[idx]
-        if (!node) return;
 
         let leftIdx = this.getLeftChild(idx);
         let rightIdx = this.getRightChild(idx);
 
-        let lNodeVal = this.array[leftIdx] ? this.array[leftIdx].val : Infinity;
-        let rNodeVal = this.array[rightIdx] ? this.array[rightIdx].val : Infinity
+        let lNodeVal = this.array[leftIdx] !== undefined ? this.array[leftIdx] : Infinity;
+        let rNodeVal = this.array[rightIdx] !== undefined ? this.array[rightIdx] : Infinity
         
-        if (node.val < lNodeVal && node.val < rNodeVal) return;
+        if (node < lNodeVal && node < rNodeVal) return;
 
         let swapIdx;
         if (lNodeVal < rNodeVal) {
@@ -74,58 +71,48 @@ class MinHeap { // Object version
     peek() {
         return this.array[1];
     }
-}
 
-
-
-class Node {
-    constructor(key,val = 0) {
-        this.key = key
-        this.val = val
-
+    size() {
+        return this.array.length
     }
 }
 
 
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
+
+function ListNode(val, next) {
+    this.val = (val===undefined ? 0 : val)
+    this.next = (next===undefined ? null : next)
+}
+
 /**
  * @param {ListNode[]} lists
  * @return {ListNode}
  */
-
-// Priority Queue, Minimum heap
-// Time: O((n * m) * log(n * m))...n being number of lists...m being longest list in n
-// insertion and extraction for the heap is log(n * m)
-// Space: O(n * m)
 var mergeKLists = function(lists) {
-    if (!lists) return null
-
-    const minHeap = new MinHeap()
-    let tail = null, head = null;
+    const minHeap = new MinHeapNum();
+    let result = null
 
     for (let list of lists) {
         while (list) {
-            minHeap.insert(list)
-            list = list.next
+            minHeap.insert(list.val)
+            list = list.next;
+        }
+    }
+    let curr = null;
+    while (!minHeap.isEmpty()) {
+        let node = new ListNode(minHeap.poll())
+        if (!result) {
+            result = node
+            curr = node
+        } else {
+            curr.next = node;
+            curr = node;
         }
     }
 
-    while (!minHeap.isEmpty()) {
-        let nde = minHeap.poll();
-        if (!head) head = nde;
-        if (!tail) {
-            tail = nde;
-        } else {
-            tail.next = nde;
-            tail = nde;
-        }
-    }
-    if (tail) tail.next = null
-    return head;
+    return result
 };
+
+
+
+
