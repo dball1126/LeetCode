@@ -12,37 +12,46 @@
  */
 var verticalOrder = function(root) {
     if (!root) return []
-    let minCol = 0
-    let order = new Map()
+    const map = new Map();
+    const result = []
+    const q = [[[0, root]]]
 
-    const getColDfs = (nde, col) => {
-        if (!nde) return;
-        minCol = Math.min(minCol, col)
-        if (!order.has(col)) order.set(col, [])
-        getColDfs(nde.left, col - 1)
-        getColDfs(nde.right, col + 1)
+    let offsetL = 0, offsetR = 0
+    
+    let dfs = (col, nde) => {
+        if (!nde) return
+        offsetL = Math.min(offsetL, col)
+        offsetR = Math.max(offsetR, col)
+        dfs(col-1, nde.left)
+        dfs(col+1, nde.right)
     }
-    getColDfs(root, 0)
+    dfs(0, root)
 
-    // level order traversal (we should be using a real queue)
-    let queue = [[[root, 0]]]
-    while(queue.length) {
-        const level = queue.shift()
-        const nextLevel = []
+    offsetL = Math.abs(offsetL)+1
 
-        for (let [nde, col] of level) {
-            order.get(col).push(nde.val)
+    let newArr = [...new Array(Math.abs(offsetL + 1 + offsetR + 1))].map(a => [])
 
-            if (nde.left) nextLevel.push([nde.left, col - 1])
-            if (nde.right) nextLevel.push([nde.right, col + 1])
+    while (q.length) {
+        let currLevel = q.shift();
+        let level = []
+
+        for (let [col, nde] of currLevel) {
+
+            let idx = col + offsetL
+            newArr[idx].push(nde.val)
+            
+            if (nde.left) level.push([col-1, nde.left])
+            if (nde.right) level.push([col+1, nde.right])
         }
-        if (nextLevel.length) queue.push(nextLevel)
+
+
+        if (level.length) q.push(level)
     }
 
-    let result = []
-    while (order.has(minCol)) {
-        result.push(order.get(minCol))
-        minCol++
+    for (let lvl of newArr) {
+        if (lvl.length) {
+            result.push(lvl)
+        }
     }
-    return result;
+    return result
 };
