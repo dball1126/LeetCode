@@ -2,26 +2,24 @@
  * @param {string} s
  * @return {boolean}
  */
-// String
 // Time: O(n)
 // Space: O(1)
 var validPalindrome = function(s) {
-    let l = 0, r = s.length-1
+    let n = s.length
+    let deleted = false
     
-    const checkPalindrome = (i, j) => {
-        while (i < j) {
-            if (s[i] !== s[j]) return false;
-            i++; j--;
+    const isPalindrome = (l, r) => {
+        while (l < r) {
+            if (s[l] !== s[r]) {
+                if (deleted) return false
+
+                deleted = true;
+                return isPalindrome(l+1, r) || isPalindrome(l, r-1)
+            } else {
+                l++; r--
+            }
         }
         return true;
     }
-
-    while (l < r) {
-        if (s[l] === s[r]) {
-            l++, r--;
-        } else {
-            return checkPalindrome(l+1, r) || checkPalindrome(l, r-1)
-        }
-    }
-    return true;
+    return isPalindrome(0, n-1)
 };
