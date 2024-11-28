@@ -18,11 +18,11 @@ var rangeSumBST = function(root, low, high) {
         if (!nde) return 0;
         let result = (nde.val >= low && nde.val <= high )? nde.val : 0;
 
-        if ((nde.val >= low && low <= max) || (high >= nde.val || high <= max )) {
-            result += dfs(nde.right, nde.val, max)
+        if (high > nde.val ) {
+            result += dfs(nde.right, min, nde.val)
         }
-        if ((min >= low && low <= nde.val) || (high >= min || high <= nde.val )) {
-            result += dfs(nde.left, min, nde.val)
+        if (low < nde.val) {
+            result += dfs(nde.left, nde.val, max)
         }
         return result
     }
