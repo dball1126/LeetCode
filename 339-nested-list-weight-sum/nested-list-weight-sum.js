@@ -41,19 +41,18 @@
  * @return {number}
  */
 var depthSum = function(nestedList) {
-    let sum = 0, depth = 1;
+    let sum = 0, stack = [[nestedList, 1]]
 
-    const dfs = (nestedList, dep) => {
-        for (let item of nestedList) {
+    while (stack.length) {
+        let [list, depth] = stack.pop();
+
+        for (let item of list) {
             if (item.isInteger()) {
-                sum += (dep * item.getInteger())
+                sum += item.getInteger() * depth
             } else {
-                let list = item.getList()
-                dfs(list, dep+1)
+                stack.push([item.getList(), depth + 1])
             }
         }
     }
-    dfs(nestedList, depth)
-
     return sum;
 };
