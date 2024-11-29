@@ -3,19 +3,19 @@
  * @param {number} k
  * @return {number}
  */
-// Prefix Sums
-// Time and Space: O(n)
 var subarraySum = function(nums, k) {
-    let sum = 0, total = 0, map = new Map([[0, 1]])
+    let sum = 0;
+    let prefixSums = new Map([[0,1]])
+    let count = 0;
 
     for (let i = 0; i < nums.length; i++) {
         sum += nums[i]
-
-        if (map.has(sum - k)) {
-            total += map.get(sum - k)
+        if (prefixSums.has(sum - k)) {
+            count += prefixSums.get(sum - k)
         }
-        if (!map.has(sum)) map.set(sum, 0)
-        map.set(sum, map.get(sum) + 1)
+        if (!prefixSums.has(sum)) prefixSums.set(sum, 0)
+        prefixSums.set(sum, prefixSums.get(sum) + 1)
     }
-    return total
+
+    return count;
 };
