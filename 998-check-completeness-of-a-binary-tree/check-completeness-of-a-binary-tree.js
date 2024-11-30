@@ -6,13 +6,8 @@ var isCompleteTree = function(root) {
         let lvl = queue.shift();
         let nxLvl = []
         for (let n of lvl) {
-            if (n.right && !n.left) {
-                return false;
-                }
-            
-            if (placed &&( n.left || n.right)) {
-                return false;
-                }
+            if (n.right && !n.left) return false;
+            if (placed &&( n.left || n.right)) return false;
             if (n.left && n.right) {
                 nxLvl.push(n.left, n.right)
             } else if (n.left) {
