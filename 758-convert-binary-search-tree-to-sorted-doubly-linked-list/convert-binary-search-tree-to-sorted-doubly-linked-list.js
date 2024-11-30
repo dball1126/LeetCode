@@ -1,8 +1,8 @@
-// Inorder Traversal
+// Iterative Inorder Traversal
+// Time & Space: O(n)
 var treeToDoublyList = function(root) {
     if (!root) return root
     let stack = [], head = null, prev = null
-
     while (stack.length || root) {
         while (root && root.left) {
             stack.push(root)
@@ -24,6 +24,5 @@ var treeToDoublyList = function(root) {
     }
     head.left = prev;
     prev.right = head
-
     return head;
 };
