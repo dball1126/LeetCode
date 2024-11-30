@@ -1,8 +1,3 @@
-/**
- * @param {number[][]} grid
- * @return {number}
- */
-// Breadth-First-Search
 // Breadth-First-Search
 // Time and Space: O(n * m)...n for rows and m for cols
 var shortestPathBinaryMatrix = function(grid) {
