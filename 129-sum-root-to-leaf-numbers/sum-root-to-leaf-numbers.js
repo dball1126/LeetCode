@@ -10,18 +10,16 @@
  * @param {TreeNode} root
  * @return {number}
  */
-// Binary Tree Traversal, Depth-First-Search
-// Time: O(n)
-// Space: O(h) if the tree is balanced...O(n) in the worst case.
 var sumNumbers = function(root) {
-    let allSums = 0;
-
-    const dfs = (nde, sum) => {
-        if (!nde) return
-        if (!nde.left && !nde.right) return allSums += parseInt(sum + nde.val)
-        dfs(nde.left, sum + nde.val)
-        dfs(nde.right, sum + nde.val)
+    let max = 0
+    const dfs = (nde, val) => {
+        if (!nde) return 0
+        if (!nde.left && !nde.right) {
+            return max += parseInt(val + nde.val)
+        }
+        dfs(nde.left, val +  nde.val)
+        dfs(nde.right, val +  nde.val)
     }
     dfs(root, "")
-    return allSums
+    return max
 };
