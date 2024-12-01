@@ -5,28 +5,20 @@
  * @param {number} n
  * @return {void} Do not return anything, modify nums1 in-place instead.
  */
-// Merge Arrays In-Place 
-// Time: O(n)
-// Space: O(1)
 var merge = function(nums1, m, nums2, n) {
-    let i = m-1, j = n-1, k = nums1.length-1
-
-    while (i >= 0 || j >= 0) {
-
-        if (i < 0) {
-            [nums2[j], nums1[k]] = [nums1[k], nums2[j]]
-            j--
-        } else if (j < 0) {
-            [nums1[i], nums1[k]] = [nums1[k], nums1[i]]
-            i--
-        } else if (nums1[i] >= nums2[j]) {
-            [nums1[i], nums1[k]] = [nums1[k], nums1[i]]
-            i--
+    m--; n--;
+    let idx = nums1.length-1
+    while (m >= 0 || n >= 0) {
+        const v1 = m >= 0 ? nums1[m] : -Infinity;
+        const v2 = n >= 0 ? nums2[n] : -Infinity;
+        console.log("m: " + m + " v1: " + v1 + " n: " + n + " v2: " + v2)
+        if (v1 >= v2) {
+            [nums1[m], nums1[idx]] = [nums1[idx], nums1[m]]
+            m--
         } else {
-            [nums2[j], nums1[k]] = [nums1[k], nums2[j]]
-            j--
+            [nums2[n], nums1[idx]] = [nums1[idx], nums2[n]]
+            n--
         }
-        k--
+        idx--;
     }
-    return nums1
 };
