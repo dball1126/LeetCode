@@ -1,40 +1,27 @@
-/**
- * // Definition for a _Node.
- * function _Node(val, next, random) {
- *    this.val = val;
- *    this.next = next;
- *    this.random = random;
- * };
- */
-
-/**
- * @param {_Node} head
- * @return {_Node}
- */
 var copyRandomList = function(head) {
-    let mapObj = new Map(), mapIdx = new Map(), curr = head;
-    let newHead = null, idx = 0
-
-    while (curr) { // preprocessing
-        mapObj.set(curr, idx)
-        let newNode = new Node(curr.val)
-        mapIdx.set(idx, newNode)
-        idx++
-        curr = curr.next;
-    }
-    idx = 0;
+    let map = new Map()
+    let newHead = null
+    let placed = false
     while (head) {
-        let node = mapIdx.get(idx)
-        if (!newHead) newHead = node;
-        if (mapIdx.has(idx+1)) {
-            node.next = mapIdx.get(idx+1)
+        if (!map.has(head)) {
+            map.set(head, new _Node(head.val))
         }
+        let curr = map.get(head)
+        if (!placed) {
+            newHead = curr
+            placed = true;
+        }
+
         if (head.random) {
-            let i = mapObj.get(head.random)
-            node.random = mapIdx.get(i)
+            if (!map.has(head.random)) map.set(head.random, new _Node(head.random.val))
+            curr.random = map.get(head.random)
         }
-        idx++
+
+        if (head.next) {
+            if (!map.has(head.next)) map.set(head.next, new _Node(head.next.val))
+            curr.next = map.get(head.next)
+        }
         head = head.next;
     }
-    return newHead
+    return newHead;
 };
