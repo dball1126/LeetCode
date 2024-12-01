@@ -6,8 +6,7 @@
  * @return {void} Do not return anything, modify nums1 in-place instead.
  */
 var merge = function(nums1, m, nums2, n) {
-    m--; n--;
-    let idx = nums1.length-1
+    let idx = nums1.length-1; m--; n--;
     while (m >= 0 || n >= 0) {
         const v1 = m >= 0 ? nums1[m] : -Infinity;
         const v2 = n >= 0 ? nums2[n] : -Infinity;
