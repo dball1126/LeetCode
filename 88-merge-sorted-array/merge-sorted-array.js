@@ -8,8 +8,7 @@
 var merge = function(nums1, m, nums2, n) {
     let idx = nums1.length-1; m--; n--;
     while (m >= 0 || n >= 0) {
-        const v1 = m >= 0 ? nums1[m] : -Infinity;
-        const v2 = n >= 0 ? nums2[n] : -Infinity;
+        const v1 = m >= 0 ? nums1[m] : -Infinity, v2 = n >= 0 ? nums2[n] : -Infinity;
         if (n < 0 || v1 >= v2) {
             [nums1[m], nums1[idx]] = [nums1[idx], nums1[m]]
             m--
