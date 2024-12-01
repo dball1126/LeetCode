@@ -30,10 +30,3 @@ MovingAverage.prototype.next = function(val) {
         return this.nums[n-1] / n
     }
 };
-
-
-/** 
- * Your MovingAverage object will be instantiated and called as such:
- * var obj = new MovingAverage(size)
- * var param_1 = obj.next(val)
- */
