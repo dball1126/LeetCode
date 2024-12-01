@@ -11,7 +11,6 @@ var merge = function(nums1, m, nums2, n) {
     while (m >= 0 || n >= 0) {
         const v1 = m >= 0 ? nums1[m] : -Infinity;
         const v2 = n >= 0 ? nums2[n] : -Infinity;
-        console.log("m: " + m + " v1: " + v1 + " n: " + n + " v2: " + v2)
         if (v1 >= v2) {
             [nums1[m], nums1[idx]] = [nums1[idx], nums1[m]]
             m--
