@@ -87,6 +87,9 @@ class MaxHeapO { // Object version
  * @param {number} k
  * @return {number[][]}
  */
+// Max Heap / Priority Queue
+// Time: O(n * log(k))
+// Space: O(k)
 var kClosest = function(points, k) {
     const minHeap = new MaxHeapO(), result = [];
 
