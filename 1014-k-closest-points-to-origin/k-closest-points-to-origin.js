@@ -1,4 +1,11 @@
-class MinHeap { // Object version
+class HeapNode {
+    constructor(val, key) {
+        this.val = val;
+        this.key = key
+    }
+}
+
+class MaxHeapO { // Object version
     constructor() {
        this.array = [null];
     }
@@ -25,8 +32,8 @@ class MinHeap { // Object version
         let pIdx = this.getParent(idx)
         let pNode = this.array[pIdx]
         let node = this.array[idx]
-        if (!pNode || !node) return;
-        if (pNode.val > node.val) {
+        if (pNode === undefined || node === undefined) return;
+        if (pNode.val < node.val) {
             [this.array[idx], this.array[pIdx]] = [this.array[pIdx], this.array[idx]];
             this.siftUp(pIdx);
         }
@@ -50,13 +57,13 @@ class MinHeap { // Object version
         let leftIdx = this.getLeftChild(idx);
         let rightIdx = this.getRightChild(idx);
 
-        let lNodeVal = this.array[leftIdx] ? this.array[leftIdx].val : Infinity;
-        let rNodeVal = this.array[rightIdx] ? this.array[rightIdx].val : Infinity
+        let lNodeVal = this.array[leftIdx] ? this.array[leftIdx].val : -Infinity;
+        let rNodeVal = this.array[rightIdx] ? this.array[rightIdx].val : -Infinity
         
-        if (node.val < lNodeVal && node.val < rNodeVal) return;
+        if (node.val > lNodeVal && node.val > rNodeVal) return;
 
         let swapIdx;
-        if (lNodeVal < rNodeVal) {
+        if (lNodeVal > rNodeVal) {
             swapIdx = leftIdx
         }  else {
             swapIdx = rightIdx
@@ -75,28 +82,24 @@ class MinHeap { // Object version
         return this.array[1];
     }
 }
-class Node {
-    constructor(key,val = 0) {
-        this.key = key
-        this.val = val
-
-    }
-}
-
+/**
+ * @param {number[][]} points
+ * @param {number} k
+ * @return {number[][]}
+ */
 var kClosest = function(points, k) {
-    const heap = [] // this should be a real heap such as const heap = new MinHeap()
+    const minHeap = new MaxHeapO(), result = [];
 
-    for (let [x, y] of points) {
-        let node = new Node([x, y])
-        node.val = (x - 0)**2 + (y - 0)**2
-       heap.push(node)
+    for (let [x, y ] of points) {
+        minHeap.insert(new HeapNode(
+            ((x ** 2) + (y ** 2)),
+            [x,y]
+        ))
+        if (minHeap.array.length > k+1) minHeap.poll(); // Ensure log(k) Space
     }
-    heap.sort((a, b) => b.val - a.val) // simulating how a heap works since we JavaScript does not have a built in version
 
-    const result = []
-    while (heap.length && result.length !== k) {
-        let node = heap.pop()
-        result.push(node.key)
+    while (!minHeap.isEmpty()) {
+        result.push(minHeap.poll().key)
     }
-    return result
+    return result;
 };
