@@ -4,21 +4,11 @@
  */
 var isToeplitzMatrix = function(matrix) {
     let n = matrix.length, m = matrix[0].length
-
-
-    for (let row = 0 ;row < n; row++) {
-        let c = 0, r = row
-        while (r < n-1 && c < m-1) {
-            r++; c++
-            if (matrix[r-1][c-1] !== matrix[r][c]) return false;
-        }
-    }
-
-    for (let col = 0; col < m; col++) {
-        let c = col, r = 0
-        while (r < n-1 && c < m-1) {
-            r++; c++
-            if (matrix[r][c] !== matrix[r-1][c-1]) return false;
+    for (let r = 0; r < n; r++) {
+        for (let c  = 0; c < m; c++) {
+            if (r -1 >= 0 && c - 1 >= 0) {
+                if (matrix[r-1][c-1] !== matrix[r][c]) return false
+            }
         }
     }
     return true;
