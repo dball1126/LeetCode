@@ -10,7 +10,7 @@ var intervalIntersection = function(list1, list2) {
     if (!list1.length || !list2.length) return [];
     let result = [], idx1 = 0, idx2 = 0
 
-    while (idx1 < list1.length || idx2 < list2.length) {
+    while (idx1 < list1.length && idx2 < list2.length) {
         let val1x = Infinity, val1y = Infinity, val2x = Infinity, val2y = Infinity
         if (idx1 < list1.length) {
             [val1x, val1y] = list1[idx1]
