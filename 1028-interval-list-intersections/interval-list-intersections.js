@@ -3,25 +3,29 @@
  * @param {number[][]} secondList
  * @return {number[][]}
  */
-// Merging Arrays
-// Time and Space: O(n + m)
-var intervalIntersection = function(firstList, secondList) {
-    let i = 0, j = 0, n = firstList.length, m = secondList.length;
-    let result = []
+// Merging intervals
+// Time: O(n + m)
+// Space: O(1)...if we don't count the output result array
+var intervalIntersection = function(list1, list2) {
+    if (!list1.length || !list2.length) return [];
+    let result = [], idx1 = 0, idx2 = 0
 
-    while (i < n && j < m) {
-        let [x1, y1] = firstList[i]
-        let [x2, y2] = secondList[j]
-
-        if ((x1 >= x2 && x1 <= y2) || (y1 >= x2 && y1 <= y2) || (x2 >= x1 && x2 <= y1) || (y2 >= x1 && y2 <= y1)) {
-            let x = Math.max(x1, x2), y = Math.min(y1, y2)
-            result.push([x, y])
+    while (idx1 < list1.length || idx2 < list2.length) {
+        let val1x = Infinity, val1y = Infinity, val2x = Infinity, val2y = Infinity
+        if (idx1 < list1.length) {
+            [val1x, val1y] = list1[idx1]
         }
-        if (y1 < y2) {
-            i++
+        if (idx2 < list2.length) {
+            [val2x, val2y] = list2[idx2]
+        }
+        if (val1x >= val2x && val1x <= val2y || val2x >= val1x && val2x <= val1y) {
+            result.push([Math.max(val1x, val2x), Math.min(val1y,val2y)])
+        }
+        if (val2y <= val1y) {
+            idx2++
         } else {
-            j++
+            idx1++
         }
     }
-    return result;
+    return result
 };
