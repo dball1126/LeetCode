@@ -1,32 +1,37 @@
-// Single pass Linked Lists traversal
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+// Linked List traveral, elementary math
 // Time: O(n + m)
-// Space: O(1)...not counting output node
+// Space: O(1)
 var addTwoNumbers = function(l1, l2) {
-    let nde = null, head = null, carry = 0;
-    
+    let head, curr, carry = 0
+
     while (l1 || l2) {
-        let v1 = 0
-        if (l1) {
-            v1 += l1.val;
-            l1 = l1.next;
-        }
-        if (l2) {
-            v1 += l2.val;
-            l2 = l2.next;
-        }
-        v1 += carry;
-        carry = Math.floor( v1/10)
-        v1 %= 10;
-        let newNode = new ListNode(v1)
+        let val = (l1 ? l1.val : 0) + (l2 ? l2.val : 0) + carry
+        let digit = val % 10;
+        carry = Math.floor(val / 10);
+        let nde = new ListNode(digit)
         if (!head) {
-            nde = newNode;
             head = nde;
+            curr = nde;
         } else {
-            nde.next = newNode;
-            nde = newNode;
+            curr.next = nde
+            curr = nde
         }
-        if (!l1 && !l2 && carry !== 0) {
-            nde.next = new ListNode(carry)
+        if (l1) l1 = l1.next
+        if (l2) l2 = l2.next
+        if (!l1 && !l2 & carry > 0) {
+            curr.next = new ListNode(carry)
         }
     }
     return head;
