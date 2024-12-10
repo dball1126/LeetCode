@@ -1,41 +1,29 @@
-/**
- * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
- * }
- */
-
-/**
- * @param {TreeNode} root
- * @return {number[]}
- */
+// Iterative Depth-First-Search
+// Time and Space: O(n)
 var boundaryOfBinaryTree = function(root) {
     if (!root) return []
-    let result = [], left = [], right = [], stack = [['', root]]
+    let left = [], right = [], stack = [['', root]]
 
     while (stack.length) {
         let [dir, nde] = stack.pop();
-        let d = dir[0]
+
         if (!dir || dir == 'l') { // handle collecting values
             left.push(nde.val)
         } else if (dir === 'r') {
             right.push(nde.val)
         } else {
             if (!nde.left && !nde.right) {
-                d === 'l' ? left.push(nde.val) : right.push(nde.val)
+                dir[0] === 'l' ? left.push(nde.val) : right.push(nde.val)
             }
         }
-
-        if (d === 'l') {
+        if (dir[0] === 'l') { // handle DFS
             if (!nde.left && nde.right && dir === 'l') {
                 stack.push(['l', nde.right])
             } else {
                 if (nde.right) stack.push(['ld', nde.right])
                 if (nde.left) stack.push([dir, nde.left])
             }
-        } else if (d === 'r') {
+        } else if (dir[0] === 'r') {
             if (!nde.right && nde.left && dir === 'r') {
                 stack.push(['r', nde.left])
             } else {
@@ -47,7 +35,6 @@ var boundaryOfBinaryTree = function(root) {
             if (nde.left) stack.push(['l',nde.left])
         }
     }
-    for (let i = right.length-1; i >= 0; i--) left.push(right[i])
-
+    for (let i = right.length-1; i >= 0; i--) left.push(right[i]) // reverse right side
     return left;
 };
