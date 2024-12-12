@@ -2,20 +2,20 @@
  * @param {number[]} nums
  * @return {number[][]}
  */
-// Bitmasking
-// Time complexity: O(n * 2^n)
-// Space Complexity: O(1) if we don't count the output array
-function subsets(nums) {  
-    const len = BigInt(nums.length), subsets = []
+var subsets = function(nums) {
+    let result = []
 
-    for (let mask = 0; mask < (Number(1n << len)); mask++) { // 1 << n is equivalent to 2^n
-        let set = []
-        for (let i = 0; i < len; i++) {
-            if (mask & (1 << i)) { // check to see if the ith bit is set
-                set.push(nums[i])
-            }
+    const backtrack = (idx, curr) => {
+        result.push([...curr])
+        if (idx >= nums.length) return;
+
+        for (let i = idx; i < nums.length; i++) {
+            curr.push(nums[i])
+            backtrack(i+1, [...curr])
+            curr.pop()
         }
-        subsets.push(set)
     }
-    return subsets
-}
+
+    backtrack(0, [])
+    return result;
+};
