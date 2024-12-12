@@ -11,7 +11,7 @@ var subsets = function(nums) {
 
         for (let i = idx; i < nums.length; i++) {
             curr.push(nums[i])
-            backtrack(i+1, [...curr])
+            backtrack(i+1, curr)
             curr.pop()
         }
     }
