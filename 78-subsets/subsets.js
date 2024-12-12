@@ -2,6 +2,9 @@
  * @param {number[]} nums
  * @return {number[][]}
  */
+// Backtracking
+// Time : O(n * (2 ^ n))
+// Space: O(n)
 var subsets = function(nums) {
     let result = []
 
