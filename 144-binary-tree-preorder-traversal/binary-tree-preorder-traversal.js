@@ -10,14 +10,9 @@
  * @param {TreeNode} root
  * @return {number[]}
  */
+// Preorder Traversal ROOT, LEFT, RIGHT
+// Recursive
 var preorderTraversal = function(root) {
-    let preorder = [], curr = root, stack = []
-
-    while (stack.length || curr) {
-        if (!curr) curr = stack.pop()
-        preorder.push(curr.val)
-        if (curr.right)stack.push(curr.right)
-        curr = curr.left
-    }
-    return preorder
+    if (!root) return []
+    return [root.val, ...preorderTraversal(root.left), ...preorderTraversal(root.right)]
 };
