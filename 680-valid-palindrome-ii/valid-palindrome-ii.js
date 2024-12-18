@@ -1,25 +1,26 @@
-/**
- * @param {string} s
- * @return {boolean}
- */
-// Time: O(n)
+// Palindromes
+// Time: O(n)...can be O(n) + O(n) which ends up being O(n)
 // Space: O(1)
 var validPalindrome = function(s) {
-    let n = s.length
-    let deleted = false
-    
-    const isPalindrome = (l, r) => {
-        while (l < r) {
-            if (s[l] !== s[r]) {
-                if (deleted) return false
-
-                deleted = true;
-                return isPalindrome(l+1, r) || isPalindrome(l, r-1)
-            } else {
-                l++; r--
-            }
+    if (s.length <= 1) return true
+    let checkIfPalindromeIsValid = (i, j) => {
+        if (i > j) return false
+        if (i === j) return true
+        while (i < j) {
+            if (s[i] !== s[j]) return false
+            i++; j--;
         }
-        return true;
+        return true
     }
-    return isPalindrome(0, n-1)
+
+    let i = 0, j = s.length-1
+
+    while (i < j) {
+        if (s[i] !== s[j]) {
+            return checkIfPalindromeIsValid(i+1, j) || checkIfPalindromeIsValid(i, j-1)
+        } else {
+            i++; j--
+        }
+    }
+    return true;
 };
