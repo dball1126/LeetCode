@@ -4,19 +4,25 @@
  */
 var merge = function(intervals) {
     if (intervals.length <= 1) return intervals
-    intervals.sort((a,b)=> a[0]-b[0])
-    let [x1, y1]  = intervals[0], result = []
+    intervals.sort((a,b) => a[0] - b[0])
+
+    let result = [], start = intervals[0][0], end = intervals[0][1]
 
     for (let i = 1; i < intervals.length; i++) {
-        let [x, y]  = intervals[i];
-
-        if (x <= y1) {
-            y1 = Math.max(y1, y)
+        let [currStart, currEnd] = intervals[i]
+        if (end < currStart) {
+            result.push([start,end])
+            start = currStart; end = currEnd
+            if (i === intervals.length-1) {
+                result.push([start, end])
+            }
         } else {
-            result.push([x1, y1])
-            x1 = x; y1 = y;
+            end = Math.max(end, currEnd)
+            if (i === intervals.length-1) {
+                result.push([start, end])
+            }
         }
     }
-    result.push([x1,y1])
-    return result
+
+    return result;
 };
