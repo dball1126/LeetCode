@@ -1,34 +1,43 @@
+/**
+ * @param {string} s
+ * @return {string}
+ */
 var minRemoveToMakeValid = function(s) {
-    let open = 0, close = 0, curr = "", n = s.length
+    let open = 0, close = 0, result = ""
 
-    for (let i = 0; i < n; i++) { // remove close parentheses
-        let v = s[i]
-        if (v === '(') {
-            curr += v; open++;
-        } else if ( v === ")") {
-            if (open > close) {
-                curr += v; close++;
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] === "(") {
+            if (open >= close) {
+                open++;
+                result += s[i]
+            }
+        } else if (s[i] === ")") {
+            if (close < open) {
+                close++;
+                result += s[i]
             }
         } else {
-            curr += v;
+            result += s[i]
         }
     }
-    if (open === close) return curr;
+    
     open = 0; close = 0;
-
-    let result = ""
-    for (let i = curr.length-1; i >= 0; i--) { // remove open parentheses
-        let v = curr[i]
-
-        if (v === ')') {
-            result = v + result; close++;
-        } else if (v === "(") {
-            if (close > open) {
-                result = v + result; open++;
+    let newResult = ""
+    for (let i = result.length-1; i >= 0; i--) {
+        if (result[i] === ")") {
+            if (close >= open) {
+                newResult = result[i] + newResult
+                close++
+            }
+        } else if (result[i] === "(") {
+            if (open < close) {
+                newResult = result[i]  + newResult
+                open++
             }
         } else {
-            result = v + result
+            newResult = result[i] + newResult
         }
     }
-    return result;
+
+    return newResult;
 };
