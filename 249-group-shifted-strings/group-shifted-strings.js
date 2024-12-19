@@ -1,33 +1,12 @@
-/**
- * @param {string[]} strings
- * @return {string[][]}
- */
-// String Manipulation
-// Time && Space: O(n * m )...n for number of strings...m for longest word in strings
 var groupStrings = function(strings) {
-    let map = new Map()
-
-    const getSeq = (str) => { // O(m)...word length
-        let curr = ""
+    const groups = new Map();
+    for (let str of strings) {
+        let k = ""
         for (let i = 1; i < str.length; i++) {
-            let v1 = str[i-1].charCodeAt(), v2 = str[i].charCodeAt()
-            let diff = (v1 - v2)
-            if (v1 <= v2){
-                curr  += (Math.abs(diff)) + "-"
-            } else {
-                let newDiff = 26 - diff
-                
-                curr +=  (newDiff + "-")
-            }
+            k += (((26 + str[i].charCodeAt() )- str[i-1].charCodeAt()) % 26) + ":";
         }
-        return curr
+        if (!groups.has(k)) groups.set(k, []);
+        groups.get(k).push(str);
     }
-
-    for (let str of strings) { // O(n)
-        let seq = getSeq(str) 
-        if (!map.has(seq)) map.set(seq, [])
-        map.get(seq).push(str)
-    }
-
-    return Array.from(map.values())
+    return Array.from(groups.values());
 };
