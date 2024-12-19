@@ -11,27 +11,20 @@
  * @return {number[][]}
  */
 var zigzagLevelOrder = function(root) {
-    if (!root) return []
-    let zigZagOrder = [], queue = [[[root], "l"]] // using an array to simulate a queue
-
+    if (!root) return [];
+    let result = [];
+    let queue = [[[root], "left"]];
     while (queue.length) {
-        const [level, dir] = queue.shift()
-        const nextLevel = [], values = []
-
+        let [level, dir] = queue.shift();
+        let newLevel = [];
+        let output = [];
         for (let nde of level) {
-            values.push(nde.val)
-            if (nde.left) nextLevel.push(nde.left)
-            if (nde.right) nextLevel.push(nde.right)
+            output.push(nde.val);
+            if (nde.left) newLevel.push(nde.left);
+            if (nde.right) newLevel.push(nde.right);
         }
-        if (nextLevel.length) {
-            queue.push([nextLevel, dir === "l" ? "r" : "l"])
-        }
-        if (dir === 'l') {
-            zigZagOrder.push(values)
-        } else {
-            zigZagOrder.push(values.reverse())
-        }
+        if (newLevel.length) queue.push([newLevel, dir === "left" ? "right" : "left"]);
+        dir === "left" ? result.push(output) : result.push(output.reverse());
     }
-
-    return zigZagOrder
+    return result;
 };
