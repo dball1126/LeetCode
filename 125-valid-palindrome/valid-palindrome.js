@@ -3,23 +3,22 @@
  * @return {boolean}
  */
 var isPalindrome = function(s) {
-    let low = 0, high = s.length-1;
-    const isNumOrChar = (v) => {
-        return ((v >= "0" && v <= "9") || (v >= "a" && v <= "z"))
+    let low = 0, high = s.length-1
+    const isAlphaNumeric = (v) => {
+        v = v.toLowerCase()
+        if (v === " ") return false;
+        return v >= "0" && v <= "9" || v >= "a" && v <= "z"
     }
-
     while (low < high) {
-        let leftVal = s[low].toLowerCase(), rightVal = s[high].toLowerCase()
-        if (!isNumOrChar(leftVal)) {
-            low++;
-        } else if (!isNumOrChar(rightVal)) {
-            high--;
-        } else if (leftVal !== rightVal) {
+        if (!isAlphaNumeric(s[low])) {
+            low++
+        } else if (!isAlphaNumeric(s[high])) {
+            high--
+        } else if (s[low].toLowerCase() !== s[high].toLowerCase()) {
             return false;
         } else {
             low++; high--;
         }
     }
-
     return true;
 };
