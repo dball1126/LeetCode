@@ -1,48 +1,44 @@
-// Stack
-// Time and space: O(n)
 var calculate = function(s) {
-    const stack = [], n = s.length, operators = new Set(["*","+","/","-"])
-    for (let i = 0; i < n; i++) { // handle multiplication and division
-        let v = s[i]
-        if (v === ' ') continue;
-
-        if (v === '*' || v === '/') {
+    if (!s) return 0;
+    let stack = [], i = 0
+    const isNum = (v) => v >= "0" && v <= "9" 
+    const getNum = (v) => {
+        while (i+1 < s.length && isNum(s[i+1])) {
+            v += s[i+1] 
             i++;
-            while (s[i] == " ") i++;
-            let val = s[i]
-            while (s[i+1] >= "0" && s[i+1] <= "9") {
-                i++;
-                val += s[i]
-            }
-
-            if (v === "*") {
-                stack.push(stack.pop() * parseInt(val))
-            } else {
-                stack.push(Math.floor(stack.pop() / parseInt(val)))
-            }
-        } else if (v === "+" || v === "-") {
-            stack.push(v)
-        } else  {
-            while (s[i+1] >= "0" && s[i+1] <= "9") {
-                i++;
-                v += s[i]
-            }
+        }
+        return v
+    }
+    while (i < s.length) {
+        if (s[i] === " ") {
+            i++;
+            continue;
+        } else if (isNum(s[i])) {
+            let v = getNum(s[i])
             stack.push(parseInt(v))
-        }
-    }
-    let newStack = []
-    for (let i = 0; i < stack.length; i++) { // handle addition and substraction
-        let v = stack[i]
-        if (v === '+' || v === '-') {
+        } else if ("+-".includes(s[i])) {
+            stack.push(s[i])
+        } else if (s[i] === "*") {
             i++;
-            if (v === "+") {
-                newStack.push(newStack.pop() + stack[i])
-            } else {
-                newStack.push(newStack.pop() - stack[i])
-            }
+            let v = getNum(s[i])
+            stack.push(stack.pop() * parseInt(v))
+        } else if (s[i] === "/") {
+            i++;
+            let v = getNum(s[i])
+            stack.push(Math.floor(stack.pop() / parseInt(v)))   
+        }
+        i++
+    }
+    stack = stack.reverse()
+    while (stack.length > 1) {
+        let num1 = stack.pop();
+        let opt = stack.pop();
+        let num2 = stack.pop();
+        if (opt === '+') {
+            stack.push(num1 + num2)
         } else {
-            newStack.push(v)            
+            stack.push(num1 - num2)
         }
     }
-    return newStack[0]
+    return stack[0]
 };
