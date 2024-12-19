@@ -1,15 +1,21 @@
+/**
+ * @param {string} path
+ * @return {string}
+ */
 var simplifyPath = function(path) {
-   path = path.split("/")
-   let stack = []
-   for (let i = 0; i < path.length; i++) {
-        const v = path[i]
-        if (v === "." || v === "" || v === " ") {
+    
+    let order = path.split("/");
+    let stack = [];
+
+    for (let i = 0; i < order.length; i++) {
+        if (order[i] === "" || order[i] === " " || order[i] === '.') {
             continue;
-        } else if (v === "..") {
+        } else if (order[i] === "..") {
             stack.pop();
         } else {
-            stack.push(v)
+            stack.push(order[i]);
         }
-   }
-   return "/" + stack.join("/")
+    }
+
+    return "/" + stack.join("/");
 };
