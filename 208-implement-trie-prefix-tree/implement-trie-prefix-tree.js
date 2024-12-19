@@ -1,11 +1,12 @@
+
 class TNode {
     constructor() {
-        this.keys = new Map();
         this.isWord = false;
+        this.keys = new Map();
     }
 }
 var Trie = function() {
-    this.root = new TNode()
+    this.root = new TNode();
 };
 
 /** 
@@ -13,17 +14,14 @@ var Trie = function() {
  * @return {void}
  */
 Trie.prototype.insert = function(word) {
-    let node = this.root, len = word.length;
+    let root = this.root;
     for (let i = 0; i < word.length; i++) {
-        const v = word[i];
-        if (node.keys.has(v)) {
-            node = node.keys.get(v)
-        } else {
-            let newNode = new TNode()
-            node.keys.set(v, newNode)
-            node = node.keys.get(v)
+        let c = word[i];
+        if (!root.keys.has(c)) {
+            root.keys.set(c, new TNode())
         }
-        if (i === len-1) node.isWord = true;
+        root = root.keys.get(c)
+        if (i === word.length-1) root.isWord = true;
     }
 };
 
@@ -31,14 +29,23 @@ Trie.prototype.insert = function(word) {
  * @param {string} word
  * @return {boolean}
  */
-Trie.prototype.search = function(word) {
-    let node = this.root, len = word.length
-    for (let i = 0; i < len; i++) {
-        if (!node.keys.has(word[i])) return false;
-        node = node.keys.get(word[i])
-        if (i === len-1&& node.isWord) return true;
+Trie.prototype.search = function(word, isPrefix = false) {
+    let stack = [[this.root, 0]]
+    while (stack.length) {
+        let [root, idx] = stack.pop();
+
+        for (let [key, nde] of Array.from(root.keys)) {
+            if (word[idx] === key) {
+                if (nde.isWord && !isPrefix && idx === word.length-1) return true;
+                if (idx+1 < word.length) {
+                    stack.push([nde, idx + 1])
+                } else if (isPrefix) {
+                    return true;
+                }
+            }
+        }
     }
-    return false
+    return false;
 };
 
 /** 
@@ -46,11 +53,5 @@ Trie.prototype.search = function(word) {
  * @return {boolean}
  */
 Trie.prototype.startsWith = function(prefix) {
-    let node = this.root, len = prefix.length
-    for (let i = 0; i < len; i++) {
-        if (!node.keys.has(prefix[i])) return false;
-        node = node.keys.get(prefix[i])
-        if (i === len-1) return true;
-    }
-    return false
+    return this.search(prefix, true)
 };
