@@ -1,4 +1,3 @@
-
 class TNode {
     constructor() {
         this.isWord = false;
@@ -8,11 +7,6 @@ class TNode {
 var Trie = function() {
     this.root = new TNode();
 };
-
-/** 
- * @param {string} word
- * @return {void}
- */
 Trie.prototype.insert = function(word) {
     let root = this.root;
     for (let i = 0; i < word.length; i++) {
@@ -24,16 +18,10 @@ Trie.prototype.insert = function(word) {
         if (i === word.length-1) root.isWord = true;
     }
 };
-
-/** 
- * @param {string} word
- * @return {boolean}
- */
 Trie.prototype.search = function(word, isPrefix = false) {
     let stack = [[this.root, 0]]
     while (stack.length) {
         let [root, idx] = stack.pop();
-
         for (let [key, nde] of Array.from(root.keys)) {
             if (word[idx] === key) {
                 if (nde.isWord && !isPrefix && idx === word.length-1) return true;
@@ -47,11 +35,6 @@ Trie.prototype.search = function(word, isPrefix = false) {
     }
     return false;
 };
-
-/** 
- * @param {string} prefix
- * @return {boolean}
- */
 Trie.prototype.startsWith = function(prefix) {
     return this.search(prefix, true)
 };
