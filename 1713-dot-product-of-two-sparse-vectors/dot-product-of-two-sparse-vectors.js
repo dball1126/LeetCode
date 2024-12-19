@@ -3,7 +3,7 @@
  * @return {SparseVector}
  */
 var SparseVector = function(nums) {
-    this.map = new Map();
+    this.map = new Map()
     for (let i = 0; i < nums.length; i++) {
         if (nums[i] !== 0) {
             this.map.set(i, nums[i])
@@ -17,13 +17,13 @@ var SparseVector = function(nums) {
  * @return {number}
  */
 SparseVector.prototype.dotProduct = function(vec) {
-    let sum = 0;
-    for (let [i, val] of vec.map) {
-        if (this.map.has(i)) {
-            sum += val * this.map.get(i)
+    let total = 0;
+    for (let [i, v] of vec.map) {
+        if (v !== 0 && this.map.has(i)) {
+            total += this.map.get(i) * v
         }
     }
-    return sum;
+    return total;
 };
 
 // Your SparseVector object will be instantiated and called as such:
