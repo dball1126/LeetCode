@@ -11,20 +11,20 @@
  * @param {number} k
  * @return {number}
  */
-// Preorder Traversal;
-// Time: O(log(n)) in best case....O(n) worst case.
-// Space: O(h)...if the tree is balanced
+// Inorder Traversal;
+// Time: O(h + k)...h for if the tree is balanced
+// Space: O(h)
 var kthSmallest = function(root, k) {
-    let preorder = [], curr = root, stack = [];
+    let inorder = [], curr = root, stack = [];
     while (stack.length || curr) {
         while (curr && curr.left) {
             stack.push(curr);
             curr = curr.left;
         }
         if (!curr) curr = stack.pop();
-        preorder.push(curr.val);
-        if (preorder.length === k) return preorder[preorder.length-1];
+        inorder.push(curr.val);
+        if (inorder.length === k) return inorder[inorder.length-1];
         curr = curr.right;
     }
-    return preorder[preorder.length-1]
+    return inorder[inorder.length-1]
 };
