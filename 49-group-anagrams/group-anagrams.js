@@ -1,7 +1,5 @@
-/**
- * @param {string[]} strs
- * @return {string[][]}
- */
+// Hash Map
+// Time & Space: O(n * m)...n for # of strs and m for the longest str
 var groupAnagrams = function(strs) {
     const groups = new Map();
     for (let str of strs) {
