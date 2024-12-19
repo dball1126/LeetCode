@@ -4,7 +4,6 @@
  */
 var groupAnagrams = function(strs) {
     const groups = new Map();
-
     for (let str of strs) {
         let abc = [...new Array(26)].fill(0);
         let key = "";
