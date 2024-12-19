@@ -1,29 +1,23 @@
-/**
- * @param {string} word
- * @param {string} abbr
- * @return {boolean}
- */
-var validWordAbbreviation = function(wrd, abbr) {
-    let i = 0, j = 0, n = wrd.length, m = abbr.length
-
-    while (j < m) {
-        if (i >= n) break;
-        if (wrd[i] === abbr[j]) {
+// Two-Pointer Technique
+// Time: O(n)
+// Space: O(1)
+var validWordAbbreviation = function(word, abbr) {
+    let i = 0, j = 0;
+    while (j < abbr.length) {
+        if (i >= word.length) return false;
+        if (isNaN(abbr[j])) {
+            if (word[i] !== abbr[j]) return false;
             i++; j++;
         } else {
+            let v = "";
             if (abbr[j] === "0") return false;
-            let num = "";
-            while (abbr[j] >= 0 && abbr[j] <= "9") {
-                num += abbr[j]
+            while (j < abbr.length && !isNaN(abbr[j])) {
+                v += abbr[j];
                 j++;
             }
-            if (num !== "") {
-                num = parseInt(num)
-                if (i + num <= n) {
-                    i +=  num
-                }
-            } else {return false}
+            v = parseInt(v)
+            i += v;
         }
     }
-    return i === n && j === m
+    return i === word.length && j === abbr.length;
 };
