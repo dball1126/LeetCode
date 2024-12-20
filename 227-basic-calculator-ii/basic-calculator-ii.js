@@ -1,44 +1,26 @@
+// Use two variables, store a reference to the "last" expression
+// Time: O(n)
+// Space: O(1)
 var calculate = function(s) {
-    if (!s) return 0;
-    let stack = [], i = 0
-    const isNum = (v) => v >= "0" && v <= "9" 
-    const getNum = (v) => {
-        while (i+1 < s.length && isNum(s[i+1])) {
-            v += s[i+1] 
-            i++;
+    let result = 0, lastNum = 0, currNum = 0, operator = "+";
+
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] !== " " && !isNaN(s[i])) {
+            currNum = currNum * 10 + parseInt(s[i]);
         }
-        return v
-    }
-    while (i < s.length) {
-        if (s[i] === " ") {
-            i++;
-            continue;
-        } else if (isNum(s[i])) {
-            let v = getNum(s[i])
-            stack.push(parseInt(v))
-        } else if ("+-".includes(s[i])) {
-            stack.push(s[i])
-        } else if (s[i] === "*") {
-            i++;
-            let v = getNum(s[i])
-            stack.push(stack.pop() * parseInt(v))
-        } else if (s[i] === "/") {
-            i++;
-            let v = getNum(s[i])
-            stack.push(Math.floor(stack.pop() / parseInt(v)))   
-        }
-        i++
-    }
-    stack = stack.reverse()
-    while (stack.length > 1) {
-        let num1 = stack.pop();
-        let opt = stack.pop();
-        let num2 = stack.pop();
-        if (opt === '+') {
-            stack.push(num1 + num2)
-        } else {
-            stack.push(num1 - num2)
+        if (isNaN(s[i]) || i === s.length - 1) {
+
+            if (operator === "+" || operator === "-") {
+                result += lastNum;
+                lastNum = operator === '+' ? currNum : -currNum;
+            } else if (operator === "*") {
+                lastNum = lastNum * currNum;
+            } else if (operator === "/") {
+                lastNum = Math.trunc(lastNum / currNum); // Math.floor can give issues with negative numbers
+            }
+            currNum = 0;
+            operator = s[i];
         }
     }
-    return stack[0]
+    return result + lastNum;
 };
