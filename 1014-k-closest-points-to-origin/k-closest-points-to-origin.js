@@ -82,27 +82,23 @@ class MaxHeapO { // Object version
         return this.array[1];
     }
 }
-/**
- * @param {number[][]} points
- * @param {number} k
- * @return {number[][]}
- */
-// Max Heap / Priority Queue
+
+// Max Heap
 // Time: O(n * log(k))
 // Space: O(k)
-var kClosest = function(points, k) {
-    const minHeap = new MaxHeapO(), result = [];
+var kClosest = function(points, k) {    
+    const maxHeap = new MaxHeapO(), result = [];
 
-    for (let [x, y ] of points) {
-        minHeap.insert(new HeapNode(
-            ((x ** 2) + (y ** 2)),
-            [x,y]
-        ))
-        if (minHeap.array.length > k+1) minHeap.poll(); // Ensure log(k) Space
+    for (let [x, y] of points) {
+        let distance = (x - 0)**2 + (y - 0)**2;
+        let nde = new HeapNode(distance, [x, y]);
+        maxHeap.insert(nde);
+        if (maxHeap.array.length-1 > k) maxHeap.poll();
     }
 
-    while (!minHeap.isEmpty()) {
-        result.push(minHeap.poll().key)
+    while (!maxHeap.isEmpty()) {
+        let node = maxHeap.poll();
+        result.push(node.key)
     }
     return result;
 };
