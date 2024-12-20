@@ -4,10 +4,9 @@ var mergeKLists = function(lists) {
     if (!lists.length) return null;
     
     while (lists.length > 1) {
-        let list1 = lists.pop();
-        let list2 = lists.pop();
-        let newList = mergeList(list1, list2);
-        lists.push(newList);
+        for (let i = 0; i < Math.floor(lists.length / 2); i++ ) {
+            lists[i] = mergeList(lists[i], lists.pop());
+        }
     }
     return lists[0]
 };
