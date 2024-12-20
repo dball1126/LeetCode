@@ -1,28 +1,39 @@
-// Iterative Inorder Traversal
-// Time & Space: O(n)
+/**
+ * // Definition for a _Node.
+ * function _Node(val, left, right) {
+ *      this.val = val;
+ *      this.left = left;
+ *      this.right = right;
+ *  };
+ */
+
+/**
+ * @param {_Node} root
+ * @return {_Node}
+ */
+// Inorder Traversal: LEFT, ROOT, RIGHT
+// Time and Space: O(n)
 var treeToDoublyList = function(root) {
-    if (!root) return root
-    let stack = [], head = null, prev = null
-    while (stack.length || root) {
-        while (root && root.left) {
-            stack.push(root)
-            root = root.left
+    if (!root) return null;
+    let stack = [], curr = root, head, prev;
+
+    while (stack.length || curr) {
+        while (curr && curr.left) {
+            stack.push(curr);
+            curr = curr.left;
         }
-        if (!root) root = stack.pop()
-        
+        if (!curr) curr = stack.pop();
+
         if (!head) {
-            head = root;
-            prev = root
+            head = curr;
         } else {
-            prev.right = root;
-            root.left = prev
-            prev = root
+            prev.right = curr;
+            curr.left = prev;
         }
-        if (root.right) {
-            root = root.right
-        } else { root = null }
+        prev = curr;
+        curr = curr.right;
     }
     head.left = prev;
-    prev.right = head
+    prev.right = head;
     return head;
 };
