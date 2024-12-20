@@ -1,21 +1,18 @@
-/**
- * @param {number[]} nums1
- * @param {number} m
- * @param {number[]} nums2
- * @param {number} n
- * @return {void} Do not return anything, modify nums1 in-place instead.
- */
+// Merge Sorted Arrays
+// Time: O(n + m)
+// Space: O(1)
 var merge = function(nums1, m, nums2, n) {
-    let idx = nums1.length-1; m--; n--;
+    let idx = nums1.length-1;
+    m-=1; n-=1;
     while (m >= 0 || n >= 0) {
-        const v1 = m >= 0 ? nums1[m] : -Infinity, v2 = n >= 0 ? nums2[n] : -Infinity;
-        if (n < 0 || v1 >= v2) {
-            [nums1[m], nums1[idx]] = [nums1[idx], nums1[m]]
-            m--
-        } else {
-            [nums2[n], nums1[idx]] = [nums1[idx], nums2[n]]
-            n--
+        if (m < 0 || (n >= 0 && nums2[n] >= nums1[m])) {
+            [nums1[idx], nums2[n]] = [nums2[n], nums1[idx]];
+            n--;
+        } else if (n < 0 || (m >= 0 && nums1[m] >= nums2[n])) {
+            [nums1[idx], nums1[m]] = [nums1[m], nums1[idx]];
+            m--;
         }
         idx--;
     }
+    return nums1
 };
