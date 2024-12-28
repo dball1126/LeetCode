@@ -1,9 +1,9 @@
+// Bottom-Up Dynamic Programming
+// Time and Space: O(n * m)...for rows * cols
 var isValidPalindrome = function(s, k) {
     const dp = [...new Array(s.length+1)].map(a => [...new Array(s.length+1)].fill(0))
-
     for (let i = 0; i < s.length; i++) {
         for (let j = i-1; j >= 0; j--) {
-
             if (s[j] === s[i]) {
                 if (j+1 === i) {
                     dp[j][i] = 0
