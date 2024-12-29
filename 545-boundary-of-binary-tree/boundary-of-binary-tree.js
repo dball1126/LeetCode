@@ -1,40 +1,49 @@
-// Iterative Depth-First-Search
-// Time and Space: O(n)
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
 var boundaryOfBinaryTree = function(root) {
-    if (!root) return []
-    let left = [], right = [], stack = [['', root]]
+    if (!root) return [];
+    if (!root.left && !root.right) return [root.val]
+    let result = [];
 
-    while (stack.length) {
-        let [dir, nde] = stack.pop();
-
-        if (!dir || dir == 'l') { // handle collecting values
-            left.push(nde.val)
-        } else if (dir === 'r') {
-            right.push(nde.val)
+    const getLeftBoundary = (nde) => {
+        if (!nde) return;
+        if (!nde.left && !nde.right) return;
+        result.push(nde.val);
+        if (!nde.left) {
+            getLeftBoundary(nde.right);
         } else {
-            if (!nde.left && !nde.right) {
-                dir[0] === 'l' ? left.push(nde.val) : right.push(nde.val)
-            }
-        }
-        if (dir[0] === 'l') { // handle DFS
-            if (!nde.left && nde.right && dir === 'l') {
-                stack.push(['l', nde.right])
-            } else {
-                if (nde.right) stack.push(['ld', nde.right])
-                if (nde.left) stack.push([dir, nde.left])
-            }
-        } else if (dir[0] === 'r') {
-            if (!nde.right && nde.left && dir === 'r') {
-                stack.push(['r', nde.left])
-            } else {
-                if (nde.left) stack.push(['rd', nde.left])
-                if (nde.right) stack.push([dir, nde.right])
-            }
-        } else {
-            if (nde.right) stack.push(['r',nde.right])
-            if (nde.left) stack.push(['l',nde.left])
+            getLeftBoundary(nde.left);
         }
     }
-    for (let i = right.length-1; i >= 0; i--) left.push(right[i]) // reverse right side
-    return left;
+    const getLeaves = (nde) => {
+        if (!nde) return;
+        if (!nde.left && !nde.right) return result.push(nde.val);
+        getLeaves(nde.left);
+        getLeaves(nde.right);
+    }
+    const getRightBoundary = (nde) => {
+        if (!nde) return;
+        if (!nde.left && !nde.right) return;
+        if (!nde.right) {
+            getRightBoundary(nde.left);
+        } else {
+            getRightBoundary(nde.right);
+        }
+        result.push(nde.val);
+    }
+    result.push(root.val);
+    getLeftBoundary(root.left);
+    getLeaves(root);
+    getRightBoundary(root.right);
+    return result;
 };
