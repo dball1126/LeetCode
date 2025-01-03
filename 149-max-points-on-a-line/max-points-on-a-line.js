@@ -12,7 +12,6 @@ var maxPoints = function(points) {
         let map = new Map();
         for (let j = 0; j < points.length; j++) {
             if (i === j) continue;
-
             let x = points[i][0] - points[j][0];
             let y = points[i][1] - points[j][1];
             let angle = Math.atan2(y,x);
