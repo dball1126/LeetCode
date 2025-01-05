@@ -5,7 +5,7 @@
  * @return {number}
  */
 // Depth-First-Search
-// Time and Space: O(e)...for edges
+// Time and Space: O(v + e)...v for nodes in set, e for adjList
 var minTime = function(n, edges, hasApple) {
     let visited = new Set(), adjList = new Map();
     for (let [x, y] of edges) {
@@ -13,12 +13,10 @@ var minTime = function(n, edges, hasApple) {
         if (!adjList.has(y)) adjList.set(y, []);
         adjList.get(x).push(y);
         adjList.get(y).push(x);
-
     }
     const dfs = (nde) => {
         visited.add(nde);
         let path = 0;
-
         if (adjList.has(nde)) {
             for (let n of adjList.get(nde)) {
                 if (!visited.has(n)) {
