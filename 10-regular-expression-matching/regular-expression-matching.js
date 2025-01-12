@@ -1,8 +1,10 @@
 var isMatch = function(s, p) {
+    let memo = new Map();
     const recurse = (i, j) => {
         if (i === s.length && j >= p.length) return true;
         if (j >= p.length) return false;
-
+        let k = i +":"+j;
+        if (memo.has(k)) return memo.get(k);
         let v1 = false, v2 = false, v3 = false;
 
         if (s[i] === p[j] || p[j] === '.') {
@@ -17,6 +19,7 @@ var isMatch = function(s, p) {
                 if (v3) return true;
             }
         }
+        memo.set(k, v1 || v2 || v3);
         return v1 || v2 || v3;
     }
     return recurse(0 , 0);
