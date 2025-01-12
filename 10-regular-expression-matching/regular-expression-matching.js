@@ -14,6 +14,7 @@ var isMatch = function(s, p) {
             if (v2) return true;
             if (i < s.length && (p[j] === s[i] || p[j] === '.')) {
                 v3 = recurse(i+1, j);
+                if (v3) return true;
             }
         }
         return v1 || v2 || v3;
