@@ -11,13 +11,13 @@
  * @return {number}
  */
 var diameterOfBinaryTree = function(root) {
-    let maxDiameter = 0;
+    let maxLength = 0;
     const dfs = (nde) => {
         if (!nde) return 0;
-        let left = dfs(nde.left), right = dfs(nde.right);
-        maxDiameter = Math.max(maxDiameter, left + right, left, right);
+        let left = dfs(nde.left), right = dfs(nde.right)
+        maxLength = Math.max(left + right,left, right, maxLength)
         return Math.max(left, right) + 1
     }
-    dfs(root);
-    return maxDiameter;
+    dfs(root)
+    return maxLength
 };
