@@ -1,20 +1,22 @@
+
 class Node {
-    constructor(val, key) {
-        this.next = this.prev = null;
+    constructor(key, val) {
         this.val = val;
-        this.key = key
+        this.next = null;
+        this.prev = null;
+        this.key = key;
     }
 }
-
 /**
  * @param {number} capacity
  */
 var LRUCache = function(capacity) {
-    this.head = new Node(), this.tail = new Node()
+    this.head = new Node();
+    this.tail = new Node();
     this.head.prev = this.tail;
-    this.tail.next = this.head;
-    this.map = new Map()
-    this.size = capacity
+    this.tail.next = this.next;
+    this.map = new Map();
+    this.capacity = capacity;
 };
 
 /** 
@@ -22,52 +24,49 @@ var LRUCache = function(capacity) {
  * @return {number}
  */
 LRUCache.prototype.get = function(key) {
-    let nde = this.map.get(key)
-    if (!nde) return -1
-    this.addToHead(key)
-    return nde.val;
+    if (!this.map.has(key)) return -1;
+    return this.updateNode(key);
 };
-
+LRUCache.prototype.evict = function() {
+    let node = this.tail.next
+    let prev = node.prev
+    let next = node.next;
+    prev.next = next;
+    next.prev = prev;
+    this.map.delete(node.key) 
+}
 /** 
  * @param {number} key 
  * @param {number} value
  * @return {void}
  */
 LRUCache.prototype.put = function(key, value) {
-    if (this.map.has(key)) {
-        this.addToHead(key, value)
-    } else if (this.map.size < this.size) {
-        this.addToHead(key, value)
-    } else {
-        this.delete()
-        this.addToHead(key, value)
-    }
-};
-
-LRUCache.prototype.addToHead = function(key, value = undefined) { // handles updates and insertion
-    let nde = this.map.get(key)
-    if (nde) {
-        nde.next.prev = nde.prev;
-        nde.prev.next = nde.next;
-        if (value !== undefined) {
-            nde.val = value;
+    if (!this.map.has(key)) {
+        if (this.map.size === this.capacity) {
+            this.evict();
         }
+        let node = new Node(key, value);
+        this.map.set(key, node);
+        this.insertAtHead(node);
     } else {
-        nde = new Node(value, key)
-        this.map.set(key, nde)
+        let node = this.map.get(key);
+        node.val = value;
+        this.updateNode(key)
     }
-    let tail = this.head.prev
-    tail.next = nde;
-    nde.prev = tail;
-    nde.next = this.head;
-    this.head.prev = nde;
 };
-
-LRUCache.prototype.delete = function() { // handles updates and insertion
-    let nde = this.tail.next;
-   
-        nde.prev.next = nde.next;
-        nde.next.prev = nde.prev;
-        this.map.delete(nde.key)
-    
+LRUCache.prototype.insertAtHead = function(node) {
+    let prev = this.head.prev;
+    prev.next = node;
+    node.next = this.head;
+    node.prev = prev;
+    this.head.prev = node;
+}
+LRUCache.prototype.updateNode = function(key) {
+    let node = this.map.get(key);
+    let prev = node.prev;
+    let next = node.next;
+    prev.next = next;
+    next.prev = prev;
+    this.insertAtHead(node);
+    return node.val;
 }
