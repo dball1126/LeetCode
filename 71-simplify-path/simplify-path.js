@@ -1,19 +1,14 @@
-/**
- * @param {string} path
- * @return {string}
- */
 var simplifyPath = function(path) {
-    
-    let order = path.split("/");
-    let stack = [];
+    let stack = []
+    let items = path.split("/")
 
-    for (let i = 0; i < order.length; i++) {
-        if (order[i] === "" || order[i] === " " || order[i] === '.') {
+    for (let item of items) {
+        if (item === "." || item === ' ' || item === "") {
             continue;
-        } else if (order[i] === "..") {
-            stack.pop();
+        } else if (item === "..") {
+            stack.pop()
         } else {
-            stack.push(order[i]);
+            stack.push(item)
         }
     }
 
