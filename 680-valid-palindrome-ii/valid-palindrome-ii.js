@@ -1,26 +1,19 @@
-// Palindromes
-// Time: O(n)...can be O(n) + O(n) which ends up being O(n)
-// Space: O(1)
 var validPalindrome = function(s) {
-    if (s.length <= 1) return true
-    let checkIfPalindromeIsValid = (i, j) => {
-        if (i > j) return false
-        if (i === j) return true
-        while (i < j) {
-            if (s[i] !== s[j]) return false
-            i++; j--;
-        }
-        return true
-    }
-
     let i = 0, j = s.length-1
 
-    while (i < j) {
-        if (s[i] !== s[j]) {
-            return checkIfPalindromeIsValid(i+1, j) || checkIfPalindromeIsValid(i, j-1)
-        } else {
-            i++; j--
+    const validate = (k, p) => {
+        while (k < p) {
+            if (s[k] !== s[p]) return false;
+            k++; p--;
         }
+        return true;
+    }
+
+    while (i < j) {
+        while (i < j && s[i] === s[j]) {
+            i++; j--;
+        }
+        return validate(i+1, j) || validate(i, j-1)
     }
     return true;
 };
