@@ -1,24 +1,26 @@
-/**
- * @param {string} s
- * @return {boolean}
- */
 var isPalindrome = function(s) {
-    let low = 0, high = s.length-1
-    const isAlphaNumeric = (v) => {
-        v = v.toLowerCase()
-        if (v === " ") return false;
-        return v >= "0" && v <= "9" || v >= "a" && v <= "z"
+    let i = 0, j = s.length-1
+
+    const validate = (v) => {
+        v = v.toLocaleLowerCase()
+        let min = "a".charCodeAt()
+        let max = "z".charCodeAt()
+
+        let val = v.charCodeAt();
+        let minNum = "0".charCodeAt()
+        let maxNum = "9".charCodeAt()
+
+        return (val >= min && val <= max) || (val >= minNum && val <= maxNum)
     }
-    while (low < high) {
-        if (!isAlphaNumeric(s[low])) {
-            low++
-        } else if (!isAlphaNumeric(s[high])) {
-            high--
-        } else if (s[low].toLowerCase() !== s[high].toLowerCase()) {
+
+    while (i < j) {
+        while (i < s.length && !validate(s[i])) i++
+        while (j >= 0 && !validate(s[j])) j--
+       if (i > j) return true
+        if (s[i].toLocaleLowerCase() !== s[j].toLocaleLowerCase()) {
             return false;
-        } else {
-            low++; high--;
         }
+        i++; j--;
     }
     return true;
 };
