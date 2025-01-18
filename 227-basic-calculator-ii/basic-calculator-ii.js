@@ -1,26 +1,26 @@
-// Use two variables, store a reference to the "last" expression
-// Time: O(n)
-// Space: O(1)
 var calculate = function(s) {
-    let result = 0, lastNum = 0, currNum = 0, operator = "+";
+    
+    let lastNum = 0, currNum = 0, result = 0, opt = '+', len = s.length
 
     for (let i = 0; i < s.length; i++) {
-        if (s[i] !== " " && !isNaN(s[i])) {
-            currNum = currNum * 10 + parseInt(s[i]);
+        if (s[i] !== ' ' && !isNaN(s[i])) {
+            currNum = (10 * currNum) + parseInt(s[i]);
         }
-        if (isNaN(s[i]) || i === s.length - 1) {
 
-            if (operator === "+" || operator === "-") {
+        if (i === len-1 || (isNaN(s[i]) && s[i] !== ' ')) {
+
+            if (opt === "+" || opt === "-") {
                 result += lastNum;
-                lastNum = operator === '+' ? currNum : -currNum;
-            } else if (operator === "*") {
-                lastNum = lastNum * currNum;
-            } else if (operator === "/") {
-                lastNum = Math.trunc(lastNum / currNum); // Math.floor can give issues with negative numbers
+                lastNum = (opt === '+' ? currNum : -currNum);
+            } else if (opt === "*") {
+                lastNum *= currNum;
+            } else if (opt === "/") {
+                lastNum = Math.trunc(lastNum / currNum);
             }
             currNum = 0;
-            operator = s[i];
+            opt = s[i]
         }
+
     }
-    return result + lastNum;
+    return result + lastNum
 };
