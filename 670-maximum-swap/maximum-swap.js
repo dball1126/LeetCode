@@ -1,39 +1,28 @@
-/**
- * @param {number} num
- * @return {number}
- */
 var maximumSwap = function(num) {
-    let str = num + ""
-    let n = str.length, result = "", swapped = false, swappedIdx = undefined, nextSwappedIdx = undefined;
-    let maxIdx = n-1
-    maxNums = [...new Array(n)]
-
-    for (let i = n-1; i >= 0; i--) { // O(n)
-        if (parseInt(str[maxIdx]) < parseInt(str[i])) {
-            maxIdx = i
-        }
-        maxNums[i] = maxIdx;
-    }
-
-    for (let i = 0; i < n; i++) {
-        const v = parseInt(str[i])
-        if (swapped) {
-            if (swappedIdx !== undefined && i === swappedIdx) {
-                result += str[nextSwappedIdx]
-                swappedIdx = undefined
-            } else {
-                result += str[i]
-            }
-            continue;
-        } 
-        else if ((i+1) < n &&  parseInt(str[maxNums[i+1]]) > v) {
-            swappedIdx = maxNums[i+1]
-            nextSwappedIdx = i
-            result += str[maxNums[i+1]]
-            swapped = true;
+    num = (num + "").split("")
+    let vals = [...new Array(num.length)].map(a => []);
+    vals[num.length-1].push(parseInt(num[num.length-1]), num.length-1);
+    for (let i = num.length-2; i >= 0; i--) {
+        let val = parseInt(num[i]);
+        let [prevVal, prevIdx] = vals[i+1];
+        if (prevVal >= val) {
+            vals[i].push(prevVal, prevIdx)
         } else {
-            result += str[i]
+            vals[i].push(val, i)
         }
     }
-    return parseInt(result);
+    let i = 0;
+    while (i+1 < num.length) {
+        let curr = parseInt(num[i]);
+        if (curr === vals[i+1][0] || i === vals[i+1][1]) {
+            i++;
+        } else if (curr < vals[i+1][0]) {
+            
+            [num[i], num[vals[i+1][1]]] = [num[vals[i+1][1]], num[i]];
+            break
+        } else {
+            i++;
+        }
+    }
+    return parseInt(num.join(""))
 };
