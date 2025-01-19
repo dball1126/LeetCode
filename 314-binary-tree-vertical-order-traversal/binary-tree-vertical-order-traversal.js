@@ -12,46 +12,29 @@
  */
 var verticalOrder = function(root) {
     if (!root) return []
-    const map = new Map();
-    const result = []
-    const q = [[[0, root]]]
-
-    let offsetL = 0, offsetR = 0
-    
-    let dfs = (col, nde) => {
-        if (!nde) return
-        offsetL = Math.min(offsetL, col)
-        offsetR = Math.max(offsetR, col)
-        dfs(col-1, nde.left)
-        dfs(col+1, nde.right)
+    let leftWidth = Infinity, rightWidth = -Infinity;
+    const getWidth = (nde, width) => {
+        if (!nde) return;
+        leftWidth = Math.min(width, leftWidth);
+        rightWidth = Math.max(width, rightWidth);
+        getWidth(nde.left, width-1)
+        getWidth(nde.right, width+1)
     }
-    dfs(0, root)
-
-    offsetL = Math.abs(offsetL)+1
-
-    let newArr = [...new Array(Math.abs(offsetL + 1 + offsetR + 1))].map(a => [])
-
-    while (q.length) {
-        let currLevel = q.shift();
-        let level = []
-
-        for (let [col, nde] of currLevel) {
-
-            let idx = col + offsetL
-            newArr[idx].push(nde.val)
-            
-            if (nde.left) level.push([col-1, nde.left])
-            if (nde.right) level.push([col+1, nde.right])
+    getWidth(root, 0)
+    let width = Math.abs(leftWidth) + rightWidth + 1;
+    let offSet = Math.abs(leftWidth)
+    let order = [...new Array(width)].map(a => []);
+    let queue = [[[root, 0]]];
+    while (queue.length) {
+        let level = queue.shift();
+        let newLevel = [];
+        for (let [nde, w] of level) {
+            let idx = w + offSet;
+            order[idx].push(nde.val);
+            if (nde.left) newLevel.push([nde.left, w-1]);
+            if (nde.right) newLevel.push([nde.right, w+1]);
         }
-
-
-        if (level.length) q.push(level)
+        if (newLevel.length) queue.push(newLevel)
     }
-
-    for (let lvl of newArr) {
-        if (lvl.length) {
-            result.push(lvl)
-        }
-    }
-    return result
+    return order;
 };
