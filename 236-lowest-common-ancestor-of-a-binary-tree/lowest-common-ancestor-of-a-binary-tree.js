@@ -11,24 +11,19 @@
  * @param {TreeNode} q
  * @return {TreeNode}
  */
-// Time: O(n)...wrose case traverse all nodes
-// Space: O(h)...if the tree is balanced...O(n) in the worse case due to recursive call stack
 var lowestCommonAncestor = function(root, p, q) {
     let result = null;
     const dfs = (nde) => {
         if (!nde || result) return false;
         let left = dfs(nde.left), right = dfs(nde.right);
-        let value = false;
-        if (nde === p || nde === q) {
-            value = true;
-        }
+        let curr = p.val === nde.val || q.val === nde.val
         if (!result) {
-            if (left && right || left && value || right && value) {
+            if ((left && right) || (curr && right) || (curr && left)) {
                 result = nde;
             }
         }
-        return value || left || right;
+        return left || right || curr;
     }
-    dfs(root);
+    dfs(root)
     return result;
 };
