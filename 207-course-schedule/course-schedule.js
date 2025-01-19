@@ -1,39 +1,30 @@
-/**
- * @param {number} numCourses
- * @param {number[][]} prerequisites
- * @return {boolean}
- */
 var canFinish = function(numCourses, prerequisites) {
-    const indegrees = [...new Array(numCourses)].fill(0)
-    const map = new Map()
-    const bfs = [], result = []
-    for (let [a, b] of prerequisites) {
-        indegrees[a]++
-        if (!map.has(b)) map.set(b, new Set())
-        if (!map.has(a)) map.set(a, new Set())
-        map.get(b).add(a)
-    }
-
+    let map = new Map();
     for (let i = 0; i < numCourses; i++) {
-        if (indegrees[i] === 0) {
-            bfs.push(i)
-        }
+        map.set(i, new Set());
     }
 
-    while (bfs.length) {
-        let nde = bfs.shift();
+    for (let [a, b] of prerequisites) {
+        map.get(a).add(b)
+    }
+    let result = []
+    let visiting = new Set();
+    let visited = new Set();
 
+    const hasCycle = (nde) => {
+        if (visited.has(nde)) return false;
+        if (visiting.has(nde)) return true;
+
+        visiting.add(nde)
+        for (let n of Array.from(map.get(nde))) {
+            if (hasCycle(n)) return true;
+        }
+        visiting.delete(nde);
+        visited.add(nde)
         result.push(nde)
-        let arr = []
-        if (map.has(nde)) arr =  Array.from(map.get(nde))
-        for (let i of arr) {
-            indegrees[i]--
-            if (indegrees[i] === 0) {
-                if (map.get(i).has(nde)) return false
-                bfs.push(i)
-            }
-        }
     }
-
-    return result.length === numCourses
+    for (let [k, v] of map) {
+        if (hasCycle(k)) return false;
+    }
+    return true;
 };
