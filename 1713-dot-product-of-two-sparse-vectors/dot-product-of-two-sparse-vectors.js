@@ -3,12 +3,14 @@
  * @return {SparseVector}
  */
 var SparseVector = function(nums) {
-    this.map = new Map()
-    for (let i = 0; i < nums.length; i++) {
-        if (nums[i] !== 0) {
-            this.map.set(i, nums[i])
+    this.vector = new Map();
+    this.maxLength = 0;
+    nums.forEach((v, i) => {
+        if (v !== 0) {
+            this.vector.set(i, v);
+            this.maxLength = Math.max(this.maxLength, i)
         }
-    }
+    })
 };
 
 // Return the dotProduct of two sparse vectors
@@ -17,10 +19,12 @@ var SparseVector = function(nums) {
  * @return {number}
  */
 SparseVector.prototype.dotProduct = function(vec) {
+    let maxLenth = Math.max(this.maxLength, vec.maxLength);
     let total = 0;
-    for (let [i, v] of vec.map) {
-        if (v !== 0 && this.map.has(i)) {
-            total += this.map.get(i) * v
+    for (let [i, v] of this.vector) {
+        if (i > maxLenth) break;
+        if (vec.vector.has(i)) {
+            total += (v * vec.vector.get(i));
         }
     }
     return total;
