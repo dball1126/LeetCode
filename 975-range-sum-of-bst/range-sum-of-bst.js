@@ -13,18 +13,20 @@
  * @return {number}
  */
 var rangeSumBST = function(root, low, high) {
-    let rangeSum = 0
-
-    const dfs = (nde, min, max) => {
-        if (!nde) return 0
-        if (nde.val >= low && nde.val <= high) {
-            rangeSum += nde.val
+    let sum = 0;
+    const dfs = (nde,min,max) => {
+        if (!nde) return;
+        let left = -Infinity, right = Infinity;
+        if (nde.val > min && nde.val > low) {
+            dfs(nde.left, min, nde.val);
         }
-        let v1 = 0, v2 = 0
-        if (nde.val > min) v1 = dfs(nde.left, min, nde.val)
-        if (nde.val < max) v2 = dfs(nde.right, nde.val, max)
-        return v1 + v2
+        if (nde.val < high && nde.val < max) {
+            dfs(nde.right, nde.val, max);
+        }
+        if (nde.val >= low && nde.val <= high) {
+            sum += nde.val;
+        }
     }
-    dfs(root, low, high)
-    return rangeSum;
+    dfs(root, -Infinity, Infinity);
+    return sum;
 };
