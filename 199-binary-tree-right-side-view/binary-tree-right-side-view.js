@@ -10,21 +10,17 @@
  * @param {TreeNode} root
  * @return {number[]}
  */
-// level order traversal
-// Time: O(n)
-// Space: O(h)...if the tree is balanced and O(n) in the worst case
 var rightSideView = function(root) {
     if (!root) return [];
-    let result = [], queue = [[root]];
+    let queue = [[root]], result = [];
     while (queue.length) {
-        let level = queue.shift();
+        let level = queue.shift(), newLevel = [];
         result.push(level[level.length-1].val);
-        let newLevel = [];
         for (let nde of level) {
             if (nde.left) newLevel.push(nde.left);
             if (nde.right) newLevel.push(nde.right);
         }
-        if (newLevel.length) queue.push(newLevel)
+        if (newLevel.length) queue.push(newLevel);
     }
     return result;
 };
