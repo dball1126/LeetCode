@@ -1,26 +1,37 @@
+/**
+ * // Definition for a _Node.
+ * function _Node(val, next, random) {
+ *    this.val = val;
+ *    this.next = next;
+ *    this.random = random;
+ * };
+ */
+
+/**
+ * @param {_Node} head
+ * @return {_Node}
+ */
 var copyRandomList = function(head) {
-    let map = new Map()
-    let newHead = null
-    let placed = false
+    let ndeMap = new Map(), newHead = null;
+
     while (head) {
-        if (!map.has(head)) {
-            map.set(head, new _Node(head.val))
+        let nde;
+        if (!ndeMap.has(head)) {
+            ndeMap.set(head, new Node(head.val))
         }
-        let curr = map.get(head)
-        if (!placed) {
-            newHead = curr
-            placed = true;
+        nde = ndeMap.get(head);
+        if (!newHead) {
+            newHead = nde;
         }
+        if (head.next && !ndeMap.has(head.next)) {
+            ndeMap.set(head.next, new Node(head.next.val))
 
-        if (head.random) {
-            if (!map.has(head.random)) map.set(head.random, new _Node(head.random.val))
-            curr.random = map.get(head.random)
         }
-
-        if (head.next) {
-            if (!map.has(head.next)) map.set(head.next, new _Node(head.next.val))
-            curr.next = map.get(head.next)
+        if (head.random && !ndeMap.has(head.random)) {
+            ndeMap.set(head.random, new Node(head.random.val))
         }
+        if (head.next) nde.next = ndeMap.get(head.next);
+        if (head.random) nde.random = ndeMap.get(head.random);
         head = head.next;
     }
     return newHead;
