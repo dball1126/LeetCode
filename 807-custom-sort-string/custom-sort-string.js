@@ -3,29 +3,26 @@
  * @param {string} s
  * @return {string}
  */
-// Hash Map
-// Time: O(n)...for the input string...order is constant at 26
-// Space: O(1)...constant at size 26;
 var customSortString = function(order, s) {
-    let charMap = new Map(), result = "";
-    for (let i = 0; i < s.length; i++) {
-        if (!charMap.has(s[i])) charMap.set(s[i], 0);
-        charMap.set(s[i], charMap.get(s[i]) + 1);
+    let map = new Map();
+    for (let c of s) {
+        if (!map.has(c)) map.set(c, 0);
+        map.set(c, map.get(c) + 1);
     }
-    for (let i = 0; i < order.length; i++) {
-        if (charMap.has(order[i])) {
-            let value = charMap.get(order[i]);
-            while (value !== 0) {
-                result += order[i];
-                value--;
+    let result = "";
+    for (let c of order) {
+        if (map.has(c)) {
+            while (map.get(c) > 0) {
+                result += c
+                map.set(c, map.get(c) - 1);
             }
-            charMap.delete(order[i]);
+            map.delete(c);
         }
     }
-    for (let [k, v] of charMap) {
-        while (v !== 0) {
-            result += k;
-            v--;
+    for (let [k, v] of map) {
+        while (v > 0) {
+            result += k
+            v--
         }
     }
     return result;
