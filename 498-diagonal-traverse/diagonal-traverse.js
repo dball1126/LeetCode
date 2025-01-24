@@ -2,25 +2,36 @@
  * @param {number[][]} mat
  * @return {number[]}
  */
-var findDiagonalOrder = function(mat) {
-    let diags = new Map();
+var findDiagonalOrder = function(nums) {
+    let n = nums.length, m = nums[0].length, result = [], dir = 'upRight';
+    let r = 0, c = 0;
 
-    for (let r = 0; r < mat.length; r++) {
-        for (let c = 0; c < mat[r].length; c++) {
-            let k = r + c;
-            if (!diags.has(k)) diags.set(k, []);
-            diags.get(k).push(mat[r][c]);
+    while (r <= n-1 && c <= m-1) {
+        result.push(nums[r][c]);
+        if (r === n-1 && c === m-1) break;
+
+        if (dir === 'upRight') {
+            while (r-1 >= 0 && c+1 < m) {
+                r--; c++;
+                result.push(nums[r][c]);
+            }
+            if (c+1 < m) {
+                c++;
+            } else if (r+1 < n) {
+                r++;
+            }
+        } else if (dir === 'downLeft') {
+            while (r+1 < n && c-1 >= 0) {
+                r++; c--;
+                result.push(nums[r][c]);
+            }
+            if (r+1 < n) {
+                r++;
+            } else if (c +1 < m) {
+                c++;
+            }
         }
-    }
-    let result = [];
-    let order = 'u'
-    for (let [k, v] of diags) {
-        if (order === 'u') {
-            result.push(...v.reverse())
-        } else {
-            result.push(...v)
-        }
-        order = order === 'u' ? 'd' : 'u'
+        dir = dir === 'downLeft' ? 'upRight' : 'downLeft';
     }
     return result;
 };
