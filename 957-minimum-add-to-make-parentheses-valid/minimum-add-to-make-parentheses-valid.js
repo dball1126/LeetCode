@@ -3,18 +3,18 @@
  * @return {number}
  */
 var minAddToMakeValid = function(s) {
-   let open = 0, close = 0
-   let parenthesesToAdd = 0
-   for (let c of s) {
-     if (c === ")") {
-        if (open <= close) {
-            parenthesesToAdd++
-        } else {
-            close++;
+    let open = 0, total = 0;
+
+    for (let p of s) {
+        if (p === "(") {
+            open++;
+        } else if (p === ")") {
+            if (open) {
+                open--
+            } else {
+                total++;
+            }
         }
-     } else if (c === "(") {
-        open++;
-     }
-   }
-   return parenthesesToAdd + (open - close)
+    }
+    return total + open;
 };
