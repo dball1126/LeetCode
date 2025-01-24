@@ -1,23 +1,26 @@
-// Binary Search
-// Time: O(log(n))
-// Space: O(1)
+/**
+ * @param {number[]} arr
+ * @param {number} k
+ * @return {number}
+ */
 var findKthPositive = function(arr, k) {
-    let low = 0, high = arr.length-1
-    while ( low <  high) {
-        let m = Math.floor((high + low) / 2)+1
-        let missing = Math.abs(arr[m] - (m+1))
+    if (!arr.length || arr[0] > k) return k
+    let len = arr.length;
+    if (arr[arr.length-1] === len) return len + k;
+    
+    let lo = 0, hi = len -1;
+
+    while (lo < hi) {
+        let m = Math.floor((hi + lo) / 2) + 1;
+        
+        let missing = (arr[m]-1 - m)
+
         if (missing < k) {
-            low = m
+            lo = m
         } else {
-            high = m - 1
+            hi = m - 1
         }
     }
-    let missing = Math.abs(arr[low] - (low+1))
-    if (k <= missing) {
-        return k
-    } else if ( missing < k) {
-        return arr[low]  + (k - missing)
-    } else {
-        return arr[low] + k
-    }
+    let missingKNum = Math.abs((arr[lo]-1 - lo) - k);
+    return missingKNum + arr[lo];
 };
