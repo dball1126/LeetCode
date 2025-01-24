@@ -11,27 +11,27 @@
  * @param {_Node} root
  * @return {_Node}
  */
-// Inorder Traversal: LEFT, ROOT, RIGHT
-// Time and Space: O(n)
 var treeToDoublyList = function(root) {
     if (!root) return null;
-    let stack = [], curr = root, head, prev;
-
+    let curr = root, stack = [], head = null, prev = null;;
     while (stack.length || curr) {
-        while (curr && curr.left) {
+        while(curr && curr.left) {
             stack.push(curr);
             curr = curr.left;
         }
         if (!curr) curr = stack.pop();
-
         if (!head) {
             head = curr;
+            prev = curr;
         } else {
             prev.right = curr;
             curr.left = prev;
+            prev = curr;
         }
-        prev = curr;
         curr = curr.right;
+    }
+    if (!prev) {
+        prev = head;
     }
     head.left = prev;
     prev.right = head;
