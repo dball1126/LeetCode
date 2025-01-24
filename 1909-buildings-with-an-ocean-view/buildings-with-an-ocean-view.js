@@ -1,13 +1,14 @@
-// Stack
-// TIme: O(n)
-// Space: O(1)...if we don't count the output array
+/**
+ * @param {number[]} heights
+ * @return {number[]}
+ */
 var findBuildings = function(heights) {
     let stack = []
     for (let i = 0; i < heights.length; i++) {
         while (stack.length && heights[stack[stack.length-1]] <= heights[i]) {
             stack.pop();
         }
-        stack.push(i)
+        stack.push(i);
     }
     return stack;
 };
