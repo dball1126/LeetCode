@@ -3,30 +3,25 @@
  */
 var MovingAverage = function(size) {
     this.size = size;
-    this.nums = []
+    this.queue = [];
+    this.sum = 0;
 };
 
 /** 
  * @param {number} val
  * @return {number}
  */
-// Prefix sums
- // Time: O(1)
- // Space: O(n)
 MovingAverage.prototype.next = function(val) {
-    this.nums.push(val)
-    const n = this.nums.length
-    if (n > 1) {
-        this.nums[n-1] += this.nums[n-2]
+    this.sum += val;
+    this.queue.push(val);
+    if (this.queue.length > this.size) {
+        this.sum -= this.queue.shift();
     }
-
-    if (n > this.size) { // use prefix sum
-        let sumE = this.nums[n-1]
-        let sumB = this.nums[n - this.size - 1]
-        sumE -= sumB
-
-        return sumE / this.size
-    } else {
-        return this.nums[n-1] / n
-    }
+    return this.sum / this.queue.length;
 };
+
+/** 
+ * Your MovingAverage object will be instantiated and called as such:
+ * var obj = new MovingAverage(size)
+ * var param_1 = obj.next(val)
+ */
