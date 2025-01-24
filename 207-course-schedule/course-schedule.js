@@ -1,30 +1,26 @@
 var canFinish = function(numCourses, prerequisites) {
-    let map = new Map();
-    for (let i = 0; i < numCourses; i++) {
-        map.set(i, new Set());
+    
+    const map = new Map(), visited = new Set(), visiting = new Set();
+    for (let n = 0; n < numCourses; n++) {
+        if (!map.has(n)) map.set(n, new Set());
     }
-
-    for (let [a, b] of prerequisites) {
-        map.get(a).add(b)
+    for (let [course, preCourse] of prerequisites) {
+        map.get(course).add(preCourse);
     }
-    let result = []
-    let visiting = new Set();
-    let visited = new Set();
 
     const hasCycle = (nde) => {
         if (visited.has(nde)) return false;
         if (visiting.has(nde)) return true;
 
-        visiting.add(nde)
+        visiting.add(nde);
         for (let n of Array.from(map.get(nde))) {
             if (hasCycle(n)) return true;
         }
         visiting.delete(nde);
-        visited.add(nde)
-        result.push(nde)
+        visited.add(nde);
     }
-    for (let [k, v] of map) {
-        if (hasCycle(k)) return false;
+    for (let n = 0; n < numCourses; n++) {
+        if (hasCycle(n)) return false;
     }
     return true;
 };
