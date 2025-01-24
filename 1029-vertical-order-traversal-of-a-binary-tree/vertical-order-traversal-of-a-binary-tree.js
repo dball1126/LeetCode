@@ -10,45 +10,38 @@
  * @param {TreeNode} root
  * @return {number[][]}
  */
-// Depth-First-Search and Level Order Traversal
-// Time: O(n* log(n))...n for nodes in root...
-// Space: O(n)...for nodes in queue and map
+// Time: O(n * log(n));
+// Space: O(n);
 var verticalTraversal = function(root) {
-    if (!root) return [[]]
-    const cols = new Map();
-    let minCol = 0;
+    if (!root) return [];
+    let minLeft = 0, maxRight = 0;
 
-    const dfs = (nde, col) => { // get all columns // Time O(n) // Space: O(h) if tree is balanced, O(n) if not balanced
+    const getWidth = (nde, w) => {
         if (!nde) return;
-        if (!cols.has(col)) cols.set(col, [])
-        minCol = Math.min(minCol, col)
-        dfs(nde.left, col -1)
-        dfs(nde.right, col + 1)
+        minLeft = Math.min(w, minLeft);
+        maxRight = Math.max(w, maxRight);
+        getWidth(nde.left, w - 1);
+        getWidth(nde.right, w + 1);
     }
-    dfs(root, 0)
-    const queue = [[[root, 0]]] // this should be a real queue not an array
+    getWidth(root, 0);
 
-    while (queue.length) { // O(n * log(n))
-        let level  = queue.shift();
-        const nextLevel = []
-        const allCols = new Map()
-        for (let [nde, col] of level) {
-            if (!allCols.has(col)) allCols.set(col, [])
-            allCols.get(col).push(nde.val)
-            if (nde.left) nextLevel.push([nde.left, col - 1])
-            if (nde.right) nextLevel.push([nde.right, col + 1])
-        }
-        for (let [col, nodes] of allCols) {
-            nodes.sort((a, b) => a - b)
-            cols.get(col).push(...nodes)
-        }
-        if (nextLevel.length) queue.push(nextLevel)
-    }
-    const result = []
-    while (cols.has(minCol)) { // O(n)
+    const columns = [...new Array(Math.abs(minLeft) + maxRight + 1)].map(a => []);
+    const queue = [[[root, 0]]];
 
-        result.push(cols.get(minCol))
-        minCol++
+    while (queue.length) {
+        let level = queue.shift();
+        let newLevel = [];
+        for (let [nde, width] of level) {
+
+            if (nde.left) newLevel.push([nde.left, width - 1]);
+            if (nde.right) newLevel.push([nde.right, width + 1]);
+        }
+        level.sort((a,b) => a[0].val - b[0].val)
+        for (let [nde, width ] of level) {
+            columns[Math.abs(minLeft) + width].push(nde.val);
+        }
+        if (newLevel.length) queue.push(newLevel);
     }
-    return result;
+    
+    return columns;
 };
