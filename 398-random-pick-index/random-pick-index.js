@@ -2,13 +2,11 @@
  * @param {number[]} nums
  */
 var Solution = function(nums) {
-   this.map = new Map()
-   this.nums = []
-   for (let i = 0; i < nums.length; i++) {
-    if (!this.map.has(nums[i])) this.map.set(nums[i], [])
-    this.map.get(nums[i]).push(i)
-    this.nums.push(nums[i])
-   } 
+    this.numsMap = new Map();
+    for (let i = 0; i < nums.length; i++) {
+        if (!this.numsMap.has(nums[i])) this.numsMap.set(nums[i], []);
+        this.numsMap.get(nums[i]).push(i);
+    }
 };
 
 /** 
@@ -16,11 +14,9 @@ var Solution = function(nums) {
  * @return {number}
  */
 Solution.prototype.pick = function(target) {
-    let arr = this.map.get(target)
-    let n = arr.length
-    let randomIdx = Math.floor(Math.random() * n)
-    let idx = arr[randomIdx]
-    return idx
+    let arr = this.numsMap.get(target);
+    let randomIdx = Math.floor(Math.random() * arr.length);
+    return arr[randomIdx];
 };
 
 /** 
