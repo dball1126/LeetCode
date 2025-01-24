@@ -2,21 +2,31 @@
  * @param {string[]} strs
  * @return {string}
  */
-var longestCommonPrefix = function(strs) {
-    let longest = ""
-    let maxLength = Infinity
-    for (let str of strs) {
-        maxLength = Math.min(maxLength, str.length)
+class Node {
+    constructor() {
+        this.isWord = false;
+        this.map = new Map();
+        this.count = 0;
     }
-    let long = ""
-    for (let i = 0; i < maxLength; i++) {
-        for (let j = 0; j < strs.length; j++) {
-            if (j > 0 && strs[j][i] !== strs[j-1][i]) {
-                return longest
+}
+var longestCommonPrefix = function(strs) {
+    let trie = new Node(), maxLength = 0, prefix = "";
+    const longestPrefix = (w) => {
+        let curr = trie, currPrefix = "";
+        for (let i = 0; i < w.length; i++) {
+            if (!curr.map.has(w[i])) curr.map.set(w[i],new Node());
+            curr = curr.map.get(w[i]);
+            currPrefix += w[i];
+            curr.count++
+
+            if (curr.count >= strs.length && curr.count >= maxLength) {
+                maxLength = curr.count;
+                prefix = currPrefix;
             }
         }
-        long += strs[0][i]
-        longest = long
     }
-    return longest
+    for (let word of strs) {
+        longestPrefix(word)
+    }
+    return prefix;
 };
