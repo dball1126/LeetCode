@@ -1,53 +1,38 @@
-/**
- * @param {string} s
- * @param {string} t
- * @return {string}
- */
-// Sliding Window
-// Time : O(n)...for s
-// Space: O(m)...for t
 var minWindow = function(s, t) {
-    if (t.length > s.length) return ""
-    let map = new Map()
-    let l = 0, r = 0, n = s.length
-    let minIdxL, minIDxR;
-
+    let charMap = new Map(), lo = 0, hi = 0, firstIdx = -Infinity, secondIdx = -Infinity;
     for (let c of t) {
-        if (!map.has(c)) map.set(c, 0)
-        map.set(c, map.get(c) + 1)
+        if (!charMap.has(c)) charMap.set(c, 0);
+        charMap.set(c, charMap.get(c) + 1);
     }
-    let count = map.size
+    let count = charMap.size;
 
-    while (r < n) { // slide right pointer right
-        let v = s[r]
-        if (map.has(v)) {
-            map.set(v, map.get(v) - 1)
-            if (map.get(v) === 0) count--
-        }
-
-        if (count === 0) {
-            while (l <= r && count === 0) { // slide left pointer right
-
-                if (minIdxL === undefined) {
-                    minIdxL = l, minIDxR = r
-                } else if ((r - l) < (minIDxR - minIdxL)) {
-                    minIdxL = l, minIDxR = r
-                }
-
-                if (map.has(s[l])) {
-                    map.set(s[l], map.get(s[l]) + 1)
-                    if (map.get(s[l]) > 0) count++
-                }
-                l++
+    while (hi < s.length) {
+        if (charMap.has(s[hi])) {
+            charMap.set(s[hi], charMap.get(s[hi]) - 1);
+            if (charMap.get(s[hi]) === 0) {
+                count--;
             }
         }
-        r++
-    }
-    let minString = ""
-    if (minIdxL !== undefined) {
-        for (let i = minIdxL; i <= minIDxR; i++) {
-            minString += s[i]
+        while (count === 0) {
+            if (firstIdx === -Infinity || ((hi - lo + 1) < (secondIdx - firstIdx + 1))) {
+                firstIdx = lo;
+                secondIdx = hi;
+            }
+            if (charMap.has(s[lo])) {
+                if (charMap.get(s[lo]) === 0) {
+                    count++;
+                }
+                charMap.set(s[lo], charMap.get(s[lo]) + 1);
+            }
+            lo++;
         }
+        hi++;
     }
-    return minString
+    if (firstIdx === -Infinity) return ""
+    let result = "";
+    while (firstIdx <= secondIdx) {
+        result += s[firstIdx];
+        firstIdx++;
+    }
+    return result;
 };
