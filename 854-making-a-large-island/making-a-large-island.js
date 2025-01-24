@@ -16,14 +16,7 @@ var largestIsland = function(grid) {
 
         if (p1 === p2) return;
         let dist1 = dist[p1], dist2 = dist[p2];
-        if (rank[p1] > rank[p2]) {
-            root[p2] = root[p1];
-        } else if (rank[p2] > rank[p1]) {
-            root[p1] = root[p2];
-        } else {
-            rank[p1]++;
-            root[p2] = root[p1];
-        }
+        root[p2] = root[p1];
         dist[root[p1]] = dist1 + dist2;
         max = Math.max(max, dist[root[p1]])
     }
