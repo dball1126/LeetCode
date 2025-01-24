@@ -2,50 +2,67 @@
  * @param {number[][]} grid
  * @return {number}
  */
-// Depth-first-Search
-// Time and Space: O((n * m))...n for rows...m for columns
 var largestIsland = function(grid) {
-    let n = grid.length, m = grid[0].length, largestIsland = 0, islandMap = new Map()
-    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]] // constant at 4
-    const visited = [...new Array(n)].map(a => [...new Array(m)].fill(false)) // O (n * m)
-    const dfs = (i, j, key) => { // setup islands
-        if (i < 0 || j < 0 || i >= n || j >= m) return;
-        if (visited[i][j] || grid[i][j] !== 1) return;
-        if (!islandMap.has(key)) islandMap.set(key, 0)
-        visited[i][j] = key;
-        islandMap.set(key, islandMap.get(key) + 1) // update root key with island count
-        for (let [r, c] of dirs) { // constant at 4
-            dfs(i + r, c + j, key)
+    if (!grid.length) return 0;
+    const n = grid.length, m = grid[0].length;
+    const root = [...(new Array(n*m).keys())];
+    const rank = [...(new Array(n*m))].fill(1);
+    const dist = [...(new Array(n*m))].fill(1);
+    const dirs = [[-1,0], [1, 0], [0,1], [0, -1]];
+    const findRoot = (n) => n === root[n] ? n : findRoot(root[n]); // path compression
+    let max = 1
+    const union = (n1, n2) => {
+        let p1 = findRoot(n1), p2 = findRoot(n2);
+
+        if (p1 === p2) return;
+        let dist1 = dist[p1], dist2 = dist[p2];
+        if (rank[p1] > rank[p2]) {
+            root[p2] = root[p1];
+        } else if (rank[p2] > rank[p1]) {
+            root[p1] = root[p2];
+        } else {
+            rank[p1]++;
+            root[p2] = root[p1];
         }
+        dist[root[p1]] = dist1 + dist2;
+        max = Math.max(max, dist[root[p1]])
     }
-    for (let r = 0; r < n; r++) { // O(n * m) * 4
-        for(let c = 0; c < m; c++) {
-            if (grid[r][c] === 1) {
-                const key = r + "" + c
-                dfs(r, c, key)
-                if (islandMap.has(key)) {
-                    largestIsland = Math.max(largestIsland, islandMap.get(key))
-                }
-            }
-        }
-    }
-    for (let r = 0; r < n; r++) { // O(n * m) * 4
-        for(let c = 0; c < m; c++) {
-            if (grid[r][c] === 0) {
-                let value = 1, keys = new Set()
-                for (let i = 0; i < dirs.length; i++) { 
-                    const dir1 = [r1, c1] = dirs[i]
-                    let rr1 = r+ r1, cc1 = c + c1
-                    if (rr1 >= 0  && rr1 < n && cc1 >= 0 && cc1 < m) {
-                        if (typeof visited[rr1][cc1] === 'string' && !keys.has(visited[rr1][cc1])) {
-                            keys.add(visited[rr1][cc1])
-                            value += islandMap.get(visited[rr1][cc1])
+
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < m; j++) {
+            if (grid[i][j] === 1) {
+                for (let [x, y] of dirs) {
+                    let r = i + x, c = j + y;
+                    if (r >= 0 && c >= 0 && r < n && c < m) {
+                        if (grid[r][c] === 1) {
+                            union(i * m + j,  r * m + c);
                         }
                     }
                 }
-                largestIsland = Math.max(largestIsland, value)
             }
         }
     }
-    return largestIsland
+    
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < m; j++) {
+            if (grid[i][j] === 0) {
+                let newMax = 1;
+                let islands = new Set();
+                for (let [x, y] of dirs) {
+                    let r = i + x, c = j + y;
+                    if (r >= 0 && c >= 0 && r < n && c < m) {
+                        if (grid[r][c] === 1) {
+                            let parentIdx = findRoot(r * m + c);
+                            if (!islands.has(parentIdx)) {
+                                newMax += dist[parentIdx];
+                                islands.add(parentIdx);
+                            }
+                        }
+                    }
+                }
+                max = Math.max(max, newMax);
+            }
+        }
+    }
+    return max;
 };
