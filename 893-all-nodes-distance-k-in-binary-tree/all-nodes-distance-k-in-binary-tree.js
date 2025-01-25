@@ -11,44 +11,40 @@
  * @param {number} k
  * @return {number[]}
  */
-// Adjaceny List // Graph
-// Breadth-First-Search
-// Time and Space: O(n)...n for nodes
 var distanceK = function(root, target, k) {
-    let adjList = new Map(), nodes = [], visited = new Set()
+    
+    const graph = new Map()
+    let targetNode = null;
 
-    const buildList = (nde) => {
-        if (!nde) return
-        if (!adjList.has(nde.val)) adjList.set(nde.val, new Set())
-        if (nde.left) {
-            if (!adjList.has(nde.left.val)) adjList.set(nde.left.val, new Set())
-            adjList.get(nde.left.val).add(nde.val)
-            adjList.get(nde.val).add(nde.left.val)
-            buildList(nde.left)
+    const buildGraph = (nde, prev) => {
+        if (!nde) return;
+        if (!graph.has(nde)) graph.set(nde, new Set());
+        if (prev) {
+            if (!graph.has(prev)) graph.set(prev, new Set());
+            graph.get(nde).add(prev)
+            graph.get(prev).add(nde)
         }
-        if (nde.right) {
-            if (!adjList.has(nde.right.val)) adjList.set(nde.right.val, new Set())
-            adjList.get(nde.right.val).add(nde.val)
-            adjList.get(nde.val).add(nde.right.val)
-            buildList(nde.right)
-        }
+        if (nde.val === target.val) targetNode = nde;
+        buildGraph(nde.left, nde)
+        buildGraph(nde.right, nde)
     }
-    buildList(root) 
-    if (adjList.has(target.val)) {
-        const queue = [[target.val, 0]]
-        while (queue.length) {
-            let [val, dist] = queue.shift()
-            visited.add(val)
-            if (dist === k) nodes.push(val)
-            if (dist+1 <= k) {
-                Array.from(adjList.get(val)).forEach(n => {
-                    if (!visited.has(n)) {
-                        visited.add(n)
-                        queue.push([n, dist + 1])
-                    }
-                })
+    buildGraph(root, null);
+
+    let result = [], queue = [[targetNode, 0]], visited = new Set();
+
+    while (queue.length) {
+        let [nde, dist] = queue.shift();
+        visited.add(nde);
+        if (dist === k) {
+            result.push(nde.val);
+            continue;
+        }
+        for (let n of Array.from(graph.get(nde))) {
+            if (!visited.has(n)) {
+                visited.add(n);
+                queue.push([n, dist + 1]);
             }
         }
     }
-    return nodes;
+    return result;
 };
