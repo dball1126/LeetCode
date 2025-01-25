@@ -1,12 +1,17 @@
+/**
+ * @param {string[]} strings
+ * @return {string[][]}
+ */
 var groupStrings = function(strings) {
-    const groups = new Map();
-    for (let str of strings) {
-        let k = ""
-        for (let i = 1; i < str.length; i++) {
-            k += (((26 + str[i].charCodeAt() )- str[i-1].charCodeAt()) % 26) + ":";
+    let strMap = new Map();
+    for (let s of strings) {
+        let key = "";
+        for (let i = 1; i < s.length; i++) {
+            let val = (26 + s[i-1].charCodeAt() - s[i].charCodeAt()) % 26;
+            key += (":"  + val);
         }
-        if (!groups.has(k)) groups.set(k, []);
-        groups.get(k).push(str);
+        if (!strMap.has(key)) strMap.set(key, []);
+        strMap.get(key).push(s);
     }
-    return Array.from(groups.values());
+    return Array.from(strMap.values());
 };
