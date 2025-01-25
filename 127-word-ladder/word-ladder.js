@@ -1,5 +1,6 @@
 // Breadth First Search
-// Time & Space: O(n * m)...n for # of words and m for # of chars
+// Time & Space: O(n * m^2)...n for # of words and m for the longest word.
+// The queue can have n * m combinations and then we iterate over M again for m^2
 var ladderLength = function(beginWord, endWord, wordList) {
     let map = new Map();
     let minTransform = Infinity
