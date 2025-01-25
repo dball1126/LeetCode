@@ -1,19 +1,14 @@
-/**
- * @param {number[]} nums
- * @return {number}
- */
 var majorityElement = function(nums) {
-    let max = -Infinity, maxEle, map = new Map()
-    
-    for (let n of nums) {
-        if (!map.has(n)) map.set(n, 0)
-        map.set(n, map.get(n) + 1)
-
-        if (map.get(n) > max) {
-            max = map.get(n)
-            maxEle = n;
+    let marjoityEle = 0;
+    for (let i = 0; i < 32; i++) {
+        let mask = (1 << i);
+        let ones = 0;
+        nums.forEach(v => {
+            if (v & mask) ones++;
+        })
+        if (ones > (nums.length/2)) {
+            marjoityEle |= (1 << i);
         }
     }
-
-    return maxEle
+    return marjoityEle;
 };
