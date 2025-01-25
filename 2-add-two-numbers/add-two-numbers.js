@@ -10,29 +10,30 @@
  * @param {ListNode} l2
  * @return {ListNode}
  */
-// Linked List traveral, elementary math
-// Time: O(n + m)
-// Space: O(1)
 var addTwoNumbers = function(l1, l2) {
-    let head, curr, carry = 0
+    let carry = 0, head = null, curr = null;
 
     while (l1 || l2) {
-        let val = (l1 ? l1.val : 0) + (l2 ? l2.val : 0) + carry
-        let digit = val % 10;
-        carry = Math.floor(val / 10);
-        let nde = new ListNode(digit)
+        let v1 = 0, v2 = 0
+        if (l1) v1 = l1.val;
+        if (l2) v2 = l2.val;
+
+        let newVal = v1 + v2 + carry;
+        let newCarry = Math.floor(newVal / 10);
+        newVal %= 10;
+        let nde = new ListNode(newVal);
         if (!head) {
             head = nde;
-            curr = nde;
         } else {
-            curr.next = nde
-            curr = nde
+            curr.next = nde;
         }
-        if (l1) l1 = l1.next
-        if (l2) l2 = l2.next
-        if (!l1 && !l2 & carry > 0) {
-            curr.next = new ListNode(carry)
-        }
+        if (l1) l1 = l1.next;
+        if (l2) l2 = l2.next;
+        curr = nde;
+        carry = newCarry;
+    }
+    if (carry !== 0) {
+        curr.next = new ListNode(carry);
     }
     return head;
 };
