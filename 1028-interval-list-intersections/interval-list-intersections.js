@@ -1,21 +1,16 @@
-/**
- * @param {number[][]} firstList
- * @param {number[][]} secondList
- * @return {number[][]}
- */
-// Merging intervals
-// Time: O(n + m)
-// Space: O(1)...if we don't count the output result array
-var intervalIntersection = function(list1, list2) {
-    if (!list1.length || !list2.length) return [];
-    let result = [], idx1 = 0, idx2 = 0
-    while (idx1 < list1.length && idx2 < list2.length) {
-        let [val1x, val1y] = list1[idx1]
-        let [val2x, val2y] = list2[idx2]
-        if (val1x >= val2x && val1x <= val2y || val2x >= val1x && val2x <= val1y) {
-            result.push([Math.max(val1x, val2x), Math.min(val1y,val2y)])
+var intervalIntersection = function(firstList, secondList) {
+    let intersections = [], i = 0, j = 0;
+    while (i < firstList.length && j < secondList.length) {
+        let [minV1, maxV1] = firstList[i];
+        let [minV2, maxV2] = secondList[j];
+        if (minV1 >= minV2 && minV1 <= maxV2 || maxV1 >= minV2 && maxV1 <= maxV2 || minV2 >= minV1 && minV2 <= maxV1 || maxV2 >= minV1 && maxV2 <= maxV1) {
+            intersections.push([Math.max(minV1, minV2), Math.min(maxV1, maxV2)]);
         }
-        val2y <= val1y ? idx2++ : idx1++
+        if (maxV1 >= maxV2) {
+            j++;
+        } else {
+            i++;
+        }
     }
-    return result
+    return intersections;
 };
