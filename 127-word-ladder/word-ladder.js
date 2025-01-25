@@ -1,48 +1,36 @@
-/**
- * @param {string} beginWord
- * @param {string} endWord
- * @param {string[]} wordList
- * @return {number}
- */
-var ladderLength = function(begin, end, list) {
-    let wordMap = new Map(), min = Infinity, endCount = 0
-    list.push(begin,end)
-    for (let w of list) {
-        if (w === end) endCount++
-        if (!wordMap.has(w)) wordMap.set(w, new Set())
-        for (let wrd of list) {
-            if (w.length === wrd.length && w !== wrd) {
-                let c = 0, i = 0, j = 0
-                while (c < 2 && i < w.length && j < w.length) {
-                    if (w[i] !== wrd[j]) {
-                        c++;
+// Breadth First Search
+// Time & Space: O(n * m)...n for # of words and m for # of chars
+var ladderLength = function(beginWord, endWord, wordList) {
+    let map = new Map();
+    let minTransform = Infinity
+    for (let i = 0; i < wordList.length; i++) {
+        let word = wordList[i];
+        for (let j = 0; j < word.length; j++) {
+            let prefix = j-1 >= 0 ? word.slice(0, j) : ""
+            let key = prefix + "#" + word.slice(j+1)
+            if (!map.has(key)) map.set(key, new Set());
+            map.get(key).add(i)
+        }
+    }
+    let queue = [[beginWord, 1]], visited = new Set();
+    while (queue.length) {
+        let [word, count] = queue.shift();
+        visited.add(word);
+        if (word === endWord) {
+            return minTransform = Math.min(minTransform, count);
+        }
+        for (let j = 0; j < word.length; j++) {
+            let prefix = j-1 >= 0 ? word.slice(0, j) : ""
+            let key = prefix + "#" + word.slice(j+1)
+            if (map.has(key)) {
+                for (let idx of Array.from(map.get(key))) {
+                    if (!visited.has(idx)) {
+                        visited.add(idx)
+                        queue.push([wordList[idx], count + 1]);
                     }
-                    i++; j++
-                }
-                if (c === 1) {
-                    wordMap.get(w).add(wrd)
                 }
             }
         }
     }
-    if (endCount <= 1) return 0
-
-    const bfs = [[begin, 0]]
-    const set = new Set()
-    while (bfs.length) {
-        let [wrd, count] = bfs.shift();
-        if (min < count) continue;
-        if (wrd === end) {
-           return min = Math.min(min+1, count+1); 
-        }
-        set.add(wrd)
-        let arr = wordMap.get(wrd)
-        for (let word of arr) {
-            if (!set.has(word)) {
-                set.add(word)
-                bfs.push([word, count + 1])
-            }
-        }
-    }
-    return min === Infinity ? 0 : min + 1
+    return minTransform === Infinity ? 0 : minTransform
 };
