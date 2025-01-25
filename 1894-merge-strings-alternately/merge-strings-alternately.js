@@ -1,18 +1,21 @@
-// Merge Srings
-// Time: O(n + m)
-// Space: O(1)
+/**
+ * @param {string} word1
+ * @param {string} word2
+ * @return {string}
+ */
 var mergeAlternately = function(word1, word2) {
-    let result = "", i = 0, j = 0, n = word1.length, m = word2.length
+    let mergedStr = "", i = 0, j = 0;
+    while (i < word1.length || j < word2.length) {
+        if (i >= word1.length) return mergedStr + word2.slice(j);
+        if (j >= word2.length) return mergedStr + word1.slice(i);
 
-    while (i < n || j < m) {
-        if (i < n) {
-            result += word1[i]
-            i++
-        }
-        if (j < m) {
-            result += word2[j]
-            j++
+        if (i <= j) {
+            mergedStr += word1[i];
+            i++;
+        } else {
+            mergedStr += word2[j];
+            j++;
         }
     }
-    return result;
+    return mergedStr;
 };
