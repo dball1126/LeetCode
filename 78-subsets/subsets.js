@@ -1,24 +1,17 @@
-/**
- * @param {number[]} nums
- * @return {number[][]}
- */
 // Backtracking
-// Time : O(n * (2 ^ n))
-// Space: O(n)
+// Time and Space: O(2^n * n)
 var subsets = function(nums) {
-    let result = []
-
+    let result = [];
     const backtrack = (idx, curr) => {
-        result.push([...curr])
+        result.push([...curr]); // O(n)
         if (idx >= nums.length) return;
-
+        
         for (let i = idx; i < nums.length; i++) {
-            curr.push(nums[i])
-            backtrack(i+1, curr)
-            curr.pop()
+            curr.push(nums[i]);
+            backtrack(i+1, curr); // exponential
+            curr.pop();
         }
     }
-
-    backtrack(0, [])
+    backtrack(0, []);
     return result;
 };
