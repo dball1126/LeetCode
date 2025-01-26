@@ -1,19 +1,17 @@
-/**
- * @param {string} s
- * @param {string[]} wordDict
- * @return {boolean}
- */
 var wordBreak = function(s, wordDict) {
-    let n = s.length
-    const dp = [...new Array(n+1)].fill(false)
-    dp[n] = true
-    for (let i = n-1; i >= 0; i--) {
-        for (let w of wordDict) {
-            if (i + w.length <= n && (w === s.substring(i, i+ w.length))) {
-                dp[i] = dp[i] || dp[i+ w.length]
-                if (dp[i]) break
+    
+    let dp = [...new Array(s.length+1)].fill(false);
+    dp[s.length] = true;
+    let wordSet = new Set();
+    for (let w of wordDict) wordSet.add(w);
+
+    for (let i = s.length-1; i >= 0; i--) {
+        for (let j = s.length-1; j >= i; j--) {
+            let substring = s.substring(i, j+1);
+            if (wordSet.has(substring)) {
+                dp[i] = dp[i] || dp[i +substring.length];
             }
         }
     }
-    return dp[0]
+    return dp[0];
 };
