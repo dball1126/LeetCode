@@ -1,28 +1,29 @@
-// Expand From Centers
-// Time: O(n^2)
-// Space: O(1)
 var longestPalindrome = function(s) {
-    let n = s.length, longestSub = ""
+    if (!s) return "";
+    let minIdx = 0, maxIdx = 0;
+    
+    const expandAroundCenters = (i, j) =>{
+        if (i < 0 || j > s.length) return;
+        while (i >= 0 && j < s.length) {
+            if (s[i] !== s[j]) return;
+            if (i-1 < 0 || j+1 >= s.length) break;
+            if (s[i-1] !== s[j+1]) break;
+            i--; j++;
+        }
+        if ((j-i) > (maxIdx - minIdx)) {
+            maxIdx = j;
+            minIdx = i;
+        }
+    }
 
-    const expandFromCenter = (j, i) => {
-        let str = ""
-        while (j >= 0 && i < n ) {
-            if (i === j) {
-                str += s[i]
-                j--; i++;
-            } else {
-                if (s[i] !== s[j]) break;
-                str = (s[j] + str + s[i])
-                j--; i++;
-            }
-        }
-        if (str.length > longestSub.length) {
-            longestSub = str
-        }
+    for (let i = 0; i < s.length; i++) {
+        expandAroundCenters(i-1, i);
+        expandAroundCenters(i, i);
     }
-    for (let i = 0; i < n; i++) {
-        expandFromCenter(i, i)
-        expandFromCenter(i, i+1)
+    let result = "";
+    while (minIdx <= maxIdx) {
+        result += s[minIdx];
+        minIdx++;
     }
-    return longestSub
+    return result;
 };
