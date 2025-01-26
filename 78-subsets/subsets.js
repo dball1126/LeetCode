@@ -1,5 +1,6 @@
 // Backtracking
-// Time and Space: O(2^n * n)
+// Time: O(2^n * n)
+// Space: O(n)
 var subsets = function(nums) {
     let result = [];
     const backtrack = (idx, curr) => {
