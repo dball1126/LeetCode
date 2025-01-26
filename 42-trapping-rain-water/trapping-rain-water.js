@@ -1,25 +1,15 @@
-/**
- * @param {number[]} height
- * @return {number}
- */
-var trap = function(heights) {
-    
-    let water = 0, stack = [];
-    const top = () => stack[stack.length-1];
-
-    for (let i = 0; i < heights.length; i++) {
-        
-        while (stack.length && heights[top()] <= heights[i]) {
-            let h = heights[stack.pop()];
+var trap = function(height) {
+    let stack = [], totalArea = 0;
+    for (let i = 0; i < height.length; i++) {
+        while (stack.length && height[i] >= height[stack[stack.length-1]]) {
+            let mid = stack.pop();
             if (!stack.length) break;
-            let diff = Math.min(heights[top()], heights[i])
-            let newHeight = (diff - h)
-            let w = i - top() - 1;
-            let currentWater = newHeight * w;
-            water += currentWater;
+            let left = stack[stack.length-1];
+            let maxHeight = Math.min(height[left],height[i]) - height[mid];
+
+            totalArea += maxHeight * (i - left - 1);
         }
         stack.push(i);
     }
-
-    return water;
+    return totalArea
 };
