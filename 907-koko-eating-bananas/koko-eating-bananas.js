@@ -1,20 +1,26 @@
 var minEatingSpeed = function(piles, h) {
-    let high = -Infinity, avg = Infinity, low = 0
-    piles.forEach(p => high = Math.max(high, p));
+    let hi = -Infinity;
+    let maxSpeed = Infinity
+    piles.forEach(p => hi = Math.max(hi, p));
+
+    let lo = 0
+
     const getAvg = (v) => {
-        let k = 0
-        piles.forEach(p => k += Math.ceil(p / v))
-        return k
+        let k = 0;
+        piles.forEach(p => k += Math.ceil(p / v));
+        return k;
     }
-    while (low < high) {
-        let m = Math.floor((high + low) / 2) + 1;
-        let average = getAvg(m);
-        if (average > h) {
-            low = m;
+
+    while (lo < hi) {
+        let m = Math.floor((hi + lo) / 2) + 1;
+
+        let avg = getAvg(m);
+        if (avg > h) {
+            lo = m;
         } else {
-            high = m - 1
-            avg = Math.min(avg, m)
+            maxSpeed = Math.min(maxSpeed, m)
+            hi = m -1;
         }
     }
-    return avg
+    return maxSpeed;
 };
