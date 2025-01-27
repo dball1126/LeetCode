@@ -14,14 +14,14 @@ var Solution = function(w) {
  * @return {number}
  */
 Solution.prototype.pickIndex = function() {
-    
-    const randomSum = Math.random() * this.sum;
-    let lo = 0, hi = this.prefixSums.length-1;
+    let weight = Math.ceil(Math.random() * this.sum);
+
+    let lo = 0, hi = this.prefixSums.length - 1;
 
     while (lo < hi) {
-        let m = Math.floor((hi + lo)  / 2);
+        let m = Math.floor((hi + lo) / 2);
 
-        if (randomSum > this.prefixSums[m]) {
+        if (weight > this.prefixSums[m]) {
             lo = m + 1;
         } else {
             hi = m;
@@ -29,9 +29,3 @@ Solution.prototype.pickIndex = function() {
     }
     return lo;
 };
-
-/** 
- * Your Solution object will be instantiated and called as such:
- * var obj = new Solution(w)
- * var param_1 = obj.pickIndex()
- */
