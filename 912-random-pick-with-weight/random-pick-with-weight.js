@@ -14,7 +14,7 @@ var Solution = function(w) {
  * @return {number}
  */
 Solution.prototype.pickIndex = function() {
-    let weight = Math.ceil(Math.random() * this.sum);
+    let weight = Math.random() * this.sum;
 
     let lo = 0, hi = this.prefixSums.length - 1;
 
