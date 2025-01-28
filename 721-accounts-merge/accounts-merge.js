@@ -1,47 +1,56 @@
-/**
- * @param {string[][]} accounts
- * @return {string[][]}
- */
-// Union Find
-// Time: O((n * k) * log(n * k))...n for accounts, k for the longest account
-// Space: O(n * k)
+// time: O(n ( log(n))...n is the number of accounts
 var accountsMerge = function(accounts) {
-    let acctsLen = accounts.length, emails = new Map()
-    let roots = [...(new Array(acctsLen)).keys()];
-    let ranks = [...new Array(acctsLen)].fill(1);
-    const findRoot = (n) => roots[n] === n ? n : findRoot(roots[n]);
-    const union = (n1, n2) =>{
+    let emails = new Map();
+    let len = accounts.length;
+    let root = [...(new Array(len).keys())];
+    let rank = [...new Array(len)].fill(1);
+    const findRoot = (n) => n === root[n] ? root[n] : findRoot(root[n]) // path compression
+
+    const union = (n1, n2) => {
         let p1 = findRoot(n1), p2 = findRoot(n2);
         if (p1 === p2) return;
-        if (ranks[p1] > ranks[p2]) {
-            roots[p2] = p1
-        } else if (ranks[p2] > ranks[p1]) {
-            roots[p1] = p2
+
+        if (rank[p1] > rank[p2]) {
+            root[p2] = root[p1]
+        } else if (rank[p2] > rank[p1]) {
+            root[p1] = root[p2];
         } else {
-            roots[p2] = p1
-            ranks[p1]++
+            rank[p1]++;
+            root[p2] = root[p1]
         }
     }
-    for (let i = 0; i < acctsLen; i++) {
+    for (let j = 0; j < accounts.length; j++) {
+        let acct = accounts[j];
+        for (let i = 1; i < acct.length; i++) {
+            let name = acct[0];
+            let email = acct[i];
+            if (!emails.has(email)) emails.set(email, new Set());
+            emails.get(email).add(j);
+        }
+    }
+
+    for (let [email, ids] of emails) { // union find
+        let idsArray = Array.from(ids);
+        for (let i = 1; i < idsArray.length; i++) {
+            union(idsArray[i-1], idsArray[i]);
+        }
+    }
+    let mergedEmailAccounts = new Map();
+    for (let i = 0; i < accounts.length; i++) {
+        let parent = findRoot(i);
+        if (!mergedEmailAccounts.has(parent)) mergedEmailAccounts.set(parent, new Set());
         for (let j = 1; j < accounts[i].length; j++) {
             let email = accounts[i][j];
-            if (!emails.has(email)) {
-                emails.set(email, i)
-            } else {
-                union(i, emails.get(email))
-                let root = findRoot(i)
-                emails.set(email, root)
-            }
+            mergedEmailAccounts.get(parent).add(email);
         }
     }
-    let groups = new Map(), result = []
-    for (let [email, root] of emails) {
-        let newRoot = findRoot(root)
-        if (!groups.has(newRoot)) groups.set(newRoot, new Set())
-        groups.get(newRoot).add(email)
+    const mergedAccounts = [];
+
+    for (let [k , emailsSet] of mergedEmailAccounts) { 
+        let name = accounts[k][0];
+        let emails = Array.from(emailsSet);
+        emails.sort();
+        mergedAccounts.push([name, ...emails]);
     }
-    for (let [root, set] of groups) {
-        result.push([accounts[root][0], ...Array.from(set).sort()])
-    }
-    return result;
+    return mergedAccounts;
 };
