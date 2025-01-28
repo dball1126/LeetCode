@@ -35,6 +35,9 @@
  * @param {Robot} robot
  * @return {void}
  */
+// Backtracking
+// Time: O(4^n)...n being the # of cells
+// Space: O(n)
 var cleanRoom = function(robot) {
     const dirs = [[-1,0],[0,1], [1,0], [0, -1]];
     const visited = new Set();
