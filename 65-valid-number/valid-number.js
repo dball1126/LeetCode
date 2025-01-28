@@ -2,20 +2,21 @@ var isNumber = function(s) {
     let seenNum = false, seenE = false, seenDot = false;
 
     for (let i = 0; i < s.length; i++) {
-        let v = s[i];
 
-        if (!isNaN(v)) {
+        if (!isNaN(s[i])) {
             seenNum = true;
-        } else if (v === "e" || v == "E") {
+        } else if (s[i] === "e" || s[i] === "E") {
             if (!seenNum || seenE) return false;
-            seenE = true; seenNum = false;
-        } else if (v === "+" || v === "-") {
-if (i !== 0 && !(s[i-1] === "e" || s[i-1] === "E")) return false
-        }   else if (v === ".") {
-            if (seenE || seenDot) return false;
+            seenNum = false; seenE = true;
+        } else if (s[i] === "+" || s[i] === "-") {
+            if (i-1 < 0) continue;
+            if (s[i-1] === "E" || s[i-1] === "e") continue;
+            return false;
+        } else if (s[i] === ".") {
+            if (seenDot || seenE) return false;
             seenDot = true;
         } else {
-            return false;
+            return false
         }
     }
     return seenNum;
