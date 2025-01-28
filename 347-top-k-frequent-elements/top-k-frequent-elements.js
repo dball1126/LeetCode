@@ -1,5 +1,4 @@
 var topKFrequent = function(nums, k) {
-    if (k === nums.length) return nums
     let map = new Map();
     for (let n of nums) {
         if (!map.has(n)) map.set(n, 0);
@@ -8,27 +7,24 @@ var topKFrequent = function(nums, k) {
     let arr = Array.from(map);
     return quickSelect(0, arr.length-1, arr, arr.length - k);
 };
-
 const quickSelect = (left, right, nums, k) => {
-    let partition = getPartition(left, right, nums);
+    let idx = getPartition(left, right, nums);
+    while (idx !== k) {
+        idx = getPartition(left, right, nums);
 
-    while (partition !== k) {
-        partition = getPartition(left, right, nums);
-        if (partition > k) {
-            right = partition - 1;
-        } else if (partition < k) {
-            left = partition + 1;
+        if (idx < k) {
+            left = idx +1;
+        } else {
+            right = idx - 1;
         }
     }
-    return nums.slice(k).map(a => a[0])
+    return nums.slice(k).map(a => a[0]);
 }
-
 const getPartition = (left, right, nums) => {
-    let partition = nums[right][1], i = left, j = right -1;
-
+    let i = left, j = right -1, partition = nums[right];
     while (i <= j) {
-        while (nums[i] && nums[i][1] < partition) i++;
-        while (nums[j] && nums[j][1] > partition) j--;
+        while (nums[i] && nums[i][1] < partition[1]) i++;
+        while (nums[j] && nums[j][1] > partition[1]) j--;
 
         if (i <= j) {
             [nums[i], nums[j]] = [nums[j], nums[i]];
