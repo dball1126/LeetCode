@@ -3,10 +3,10 @@
  */
 var Solution = function(w) {
     this.sum = 0;
-    this.prefixSums = [];
-    for (let s of w) {
-        this.sum += s;
-        this.prefixSums.push(this.sum);
+    this.prefixsums = [];
+    for (let n of w) {
+        this.sum += n;
+        this.prefixsums.push(this.sum);
     }
 };
 
@@ -16,16 +16,16 @@ var Solution = function(w) {
 Solution.prototype.pickIndex = function() {
     let weight = Math.random() * this.sum;
 
-    let lo = 0, hi = this.prefixSums.length - 1;
+    let lo = 0, hi = this.prefixsums.length -1;
 
     while (lo < hi) {
         let m = Math.floor((hi + lo) / 2);
 
-        if (weight > this.prefixSums[m]) {
-            lo = m + 1;
+        if (weight > this.prefixsums[m]) {
+            lo = m + 1
         } else {
             hi = m;
         }
     }
-    return lo;
+    return lo
 };
