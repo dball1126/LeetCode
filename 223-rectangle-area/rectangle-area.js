@@ -1,3 +1,5 @@
+// Geometry
+// Time and Space: O(1)
 var computeArea = function(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2) {
     
     let area1 = (ax2 - ax1) * (ay2 - ay1);
@@ -12,9 +14,8 @@ var computeArea = function(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2) {
     let diffX = xMax - xMin,
         diffY = yMax - yMin
 
-        if (diffX > 0 && diffY > 0) {
-            return area1 + area2 - (diffX * diffY);
-        }
-        return area1 + area2
-
+    if (diffX > 0 && diffY > 0) {
+        return area1 + area2 - (diffX * diffY);
+    }
+    return area1 + area2
 };
