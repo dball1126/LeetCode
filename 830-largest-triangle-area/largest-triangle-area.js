@@ -16,8 +16,12 @@ var largestTriangleArea = function(points) {
                     [x2,y2] = points[j],
                     [x3,y3] = points[k]
                     
-                // shoelace formual
-                let sum = (Math.abs(((x1 * y2) + (x2 * y3) + (x3 * y1)) - ((y1 * x2) + (y2 * x3) + (y3 * x1))) / 2)
+                // shoelace formula
+                let sum = (Math.abs(
+                    // left to right
+                    ((x1 * y2) + (x2 * y3) + (x3 * y1)) - 
+                    // right to left
+                    ((y1 * x2) + (y2 * x3) + (y3 * x1))) / 2)
                 maxArea = Math.max(maxArea, sum)
             } 
         }
