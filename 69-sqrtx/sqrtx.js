@@ -1,3 +1,6 @@
+// Binary Search
+// Time: O(n * log(n))
+// Space: O(1)
 var mySqrt = function(x) {
     if (x === 1) return 1;
     let half = Math.floor(x / 2);
