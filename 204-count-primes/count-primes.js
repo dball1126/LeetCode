@@ -8,13 +8,11 @@ var countPrimes = function(n) {
         if (primes[i]) {
             count++;
             let j = i, k = i;
-            while (j * i < n) {
-                j *= i;
-                primes[j] = false;
-            }
             while (k + i < n) {
+                j *= i;
                 k += i;
                 primes[k] = false;
+                if (j < n) primes[j] = false;
             }
         }
     }
