@@ -1,20 +1,22 @@
-// Sieve of Eratosthenes
-// Time: O(n * log(n))
-// Space: O(n)
 var countPrimes = function(n) {
     const primes = [...new Array(n)].fill(true);
-    primes[0] = false; primes[1] = false;
+    primes[0] = false;
+    primes[1] = false;
+    let count = 0;
 
     for (let i = 2; i < n; i++) {
-        let j = i;
-        while (j+i < n) {
-            j+= i;
-            primes[j] = false;
+        if (primes[i]) {
+            count++;
+            let j = i, k = i;
+            while (j * i < n) {
+                j *= i;
+                primes[j] = false;
+            }
+            while (k + i < n) {
+                k += i;
+                primes[k] = false;
+            }
         }
     }
-    let count = 0;
-    primes.forEach(v => {
-        if (v) count++;
-    })
     return count;
 };
