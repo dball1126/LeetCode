@@ -1,0 +1,42 @@
+var findSubstring = function(s, words) {
+    const wrdMap = new Map(), wrdLength = words[0].length;
+    let allWrdLength = 0;
+    for (let w of words) {
+        allWrdLength += w.length
+        if (!wrdMap.has(w)) wrdMap.set(w, 0);
+        wrdMap.set(w, wrdMap.get(w) + 1);
+    }
+
+    const allIdxs = [];
+
+    const recurse = (startIdx, i, map) => {
+
+        while (i < s.length) {
+            if (!map.size)return allIdxs.push(startIdx);
+
+            let wrd = s.substring(i, i+ wrdLength);
+            if (map.has(wrd)) {
+            map.set(wrd, map.get(wrd) - 1)
+            if (map.get(wrd) === 0) map.delete(wrd);
+
+                i+= wrdLength;
+            } else {
+                break;
+            }
+        }
+        if (!map.size) allIdxs.push(startIdx);
+    }
+    for (let i = 0; i < s.length; i++) {
+        if (i+allWrdLength >= s.length+1) break;
+
+        let wrd = s.substring(i, i+ wrdLength);
+
+        if (wrdMap.has(wrd)) {
+            let copy = new Map(wrdMap);
+            copy.set(wrd, copy.get(wrd) - 1)
+            if (copy.get(wrd) === 0) copy.delete(wrd);
+            recurse(i, i+wrdLength, copy);
+        }
+    }
+    return allIdxs
+};
