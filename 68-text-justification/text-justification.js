@@ -4,70 +4,50 @@
  * @return {string[]}
  */
 var fullJustify = function(words, maxWidth) {
-    let wrds = [], n = words.length, c = 0, curr = [];
-    for (let i = 0; i < words.length; i++) { // collect words by maxWidth
-        let v = words[i]
-        if (!curr.length) {
-            curr.push(v)
-            c = v.length
-        }
-        else if ((v.length + c + 1) > maxWidth) {
-            wrds.push([...curr])
-            curr = []
-            curr.push(v)
-            c = v.length
-        } else {
-            curr.push(v)
-            c += (v.length + 1)
-        }
-        if (i+1 >= n) {
-            wrds.push(curr)
-        }
-    }
-    const addSpaces = (str, amt) => {
-        while (amt > 0) {
-            str += " "
-            amt--
-        }
-        return str;
-    }
-    for (let idx = 0; idx < wrds.length; idx++) { // transform each lidxne idxnto a stridxng
-        let arr = wrds[idx], len = 0, curr = ''
+    let result = [], currWidth = 0, currArr = [];
 
-        arr.forEach(v => len += v.length)
-        let spaces = maxWidth - len, wLen = arr.length;
+    words.forEach((word) => {
 
-        for (let i = 0; i < arr.length; i++) {
-            let w = arr[i]
-            if (idx === wrds.length-1) {
-                if (i === 0) {
-                    curr += w
-                } else {
-                    curr += " " + w
-                    spaces--
-                }
-                if (i === arr.length-1) {
-                    curr = addSpaces(curr, spaces)
-                }
-                continue;
+        let len = word.length, wrdCount = 0;
+        if (currArr.length) wrdCount = currArr.length;
+        if ((len + wrdCount + currWidth) > maxWidth) {
+            let spaces = maxWidth - currWidth
+            if (currArr.length === 1) {
+                let newStr = currArr.pop();
+                while (newStr.length < maxWidth) newStr += " ";
+                result.push(newStr);
+            } else if (currArr.length === 2) {
+                result.push(currArr[0] + " ".repeat(spaces) + currArr[1])
+            } else {
+                let even = Math.floor(spaces / (currArr.length-1));
+                let odd = spaces % (currArr.length-1);
+                let str = "";
+                currArr.forEach(wrd => {
+                    if (spaces) {
+                        str += (wrd + " ".repeat(even))
+                        
+                        if (odd) {
+                            str += " "
+                            odd--;
+                            spaces--;
+                        }
+                        spaces -= even;
+                    } else {
+                        str += wrd;
+                    }
+                })
+                result.push(str)
             }
-
-            if (!curr) {
-                curr += w;
-                wLen--
-                if (!wLen) curr = addSpaces(curr, spaces)
-            } else if (!wLen) {
-                curr += w;
-                curr = addSpaces(curr, spaces)
-            } else if (i !== 0) {
-                let s = Math.ceil(spaces / wLen)
-                curr = addSpaces(curr, s)
-                curr += w
-                wLen--
-                spaces -= s
-            }
+            currArr = []
+            currWidth = 0
         }
-       wrds[idx] = curr
+        currWidth += len;
+        currArr.push(word)
+    })
+    if (currArr.length){
+        let newStr = currArr.join(" ");
+        while (newStr.length < maxWidth) newStr += " ";
+        result.push(newStr)
     }
-    return wrds;
+    return result;
 };
