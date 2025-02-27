@@ -5,10 +5,13 @@ class Node {
         this.col = col;
     }
 }
-
+/**
+ * @param {number[][]} heightMap
+ * @return {number}
+ */
 // Min Heap / Priority Queue
-// Time: O(n * log(n))...n being the number of cells in the grid
-// Space: O(n)
+// Time: O((n * m) * log((n * m)))...n being the number of rows and m being the number of cols
+// Space: O(n * m)
 var trapRainWater = function(heightMap) {
     const minHeap = new MinPriorityQueue((node) => node.val);
     let n = heightMap.length, m = heightMap[0].length, trappedWater = 0;
