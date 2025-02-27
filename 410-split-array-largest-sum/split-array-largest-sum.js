@@ -3,6 +3,9 @@
  * @param {number} k
  * @return {number}
  */
+// Binary Search
+// Time : O(log(m) * n)
+// Space: O(1)
 var splitArray = function(nums, k) {
     let hi = 0, lo = 0;
     let result = Infinity
@@ -23,7 +26,6 @@ var splitArray = function(nums, k) {
                 currSum += v;
             }
         })
-
         if (subs+1 <= k) {
             hi = sum - 1;
             result = Math.min(sum, result)
