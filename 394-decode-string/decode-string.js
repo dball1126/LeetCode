@@ -2,9 +2,10 @@
  * @param {string} s
  * @return {string}
  */
+// Stack
+// Time and Space: O(n)
 var decodeString = function(s) {
-    let stack = []
-
+    const stack = []
     const calculate = () => {
         let curr = ''
         while (stack[stack.length-1] !== "[") {
@@ -23,7 +24,6 @@ var decodeString = function(s) {
         }
         return finalStr
     }
-
     for (let c of s) {
         if (c === "]") {
             stack.push(calculate(stack))
