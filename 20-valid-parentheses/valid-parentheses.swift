@@ -1,24 +1,25 @@
 class Solution {
-    func isValid(_ str: String) -> Bool {
-        var stack = [Character]()
+    func isValid(_ s: String) -> Bool {
 
-        for c in str {
-            if c == "]" {
-               if stack.isEmpty || stack.removeLast() != "[" {
-                return false
-               }
+        guard !s.isEmpty else {
+            return true
+        }
+
+        var arr: [Character] = [];
+
+        for c: Character in s {
+
+          
+            if c == ")" {
+                guard let p = arr.popLast(), p == "(" else { return false}
             } else if c == "}" {
-                if stack.isEmpty || stack.removeLast() != "{" {
-                return false
-               }
-            } else if c == ")" {
-                if stack.isEmpty || stack.removeLast() != "(" {
-                return false
-               }
+                guard let p = arr.popLast(), p == "{" else { return false}
+            } else if c == "]" {
+                guard let p = arr.popLast(), p == "[" else { return false}
             } else {
-                stack.append(c)
+                arr.append(c)
             }
         }
-        return stack.isEmpty
+        return arr.isEmpty
     }
 }
