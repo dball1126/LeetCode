@@ -3,12 +3,11 @@ class Solution {
         var map: [Int:Int] = [:]
 
         for (i, n) in nums.enumerated() {
-            if let item = map[target - n] {
-                return [item, i]
+            if let idx = map[target - n] {
+                return [i, idx]
             }
             map[n] = i
-        }
-
-        return []
+        }   
+        return []    
     }
 }
