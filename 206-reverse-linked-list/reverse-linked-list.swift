@@ -12,13 +12,13 @@ class Solution {
     func reverseList(_ head: ListNode?) -> ListNode? {
         var prev: ListNode?
         var curr = head
-
-        while let node = curr {
-            var next = node.next
+        while var node = curr {
+           var tmp = node.next
             node.next = prev
             prev = node
-            curr = next
+            curr = tmp
         }
-        return prev
+
+        return prev;
     }
 }
