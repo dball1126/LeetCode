@@ -1,33 +1,22 @@
 class Solution {
     func isPalindrome(_ s: String) -> Bool {
-        
-      // FIX: Get a String.Index from the integer 'lo'
-        guard var l = s.index(s.startIndex, offsetBy: 0, limitedBy: s.endIndex) else {
-            // This guard is important for safety, though for lo=0 it won't fail unless s is empty.
-            // If s is empty, s.count - 1 will be -1, and this guard would prevent a crash
-            // if you tried to access an invalid offset.
-            return true // An empty string is a palindrome
-        }
-        guard var h = s.index(s.startIndex, offsetBy: s.count-1, limitedBy: s.endIndex) else {
-            return true
-        }
+        guard !s.isEmpty else {return false}
+        var lo = s.startIndex
+        var hi = s.index(before: s.endIndex)
 
-        while l < h {
-            var lC: Character = s[l], rC: Character = s[h]
-
-            if !(lC.isLetter || lC.isNumber) {
-                l = s.index(after: l)
-            } else if !(rC.isLetter || rC.isNumber) {
-                h = s.index(before: h)
+        while lo < hi {
+            if !(s[lo].isLetter || s[lo].isNumber) {
+                lo = s.index(after: lo)
+            } else if !(s[hi].isLetter || s[hi].isNumber) {
+                hi = s.index(before: hi)
             } else {
-                if String(lC).lowercased() != String(rC).lowercased() {
+                if s[lo].lowercased() != s[hi].lowercased() {
                     return false
                 }
-                l = s.index(after: l)
-                h = s.index(before: h)
+                lo = s.index(after: lo)
+                hi = s.index(before: hi)
             }
         }
-
         return true
     }
 }
