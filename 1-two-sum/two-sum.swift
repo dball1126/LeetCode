@@ -1,13 +1,13 @@
 class Solution {
     func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
-        var map: [Int:Int] = [:]
+        var idxs: [Int:Int] = [:]
 
-        for (i, n) in nums.enumerated() {
-            if let idx = map[target - n] {
+        for i in 0..<nums.count {
+            if let idx = idxs[target - nums[i]] {
                 return [i, idx]
             }
-            map[n] = i
-        }   
-        return []    
+            idxs[nums[i]] = i
+        }
+        return []
     }
 }
