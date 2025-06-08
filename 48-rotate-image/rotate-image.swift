@@ -1,20 +1,18 @@
 class Solution {
-    func rotate(_ arr: inout [[Int]]) {
-        
-        for r in 0..<arr.count {
-            for c in r..<arr.count {
-                var tmp = arr[r][c]
-                arr[r][c] = arr[c][r]
-                arr[c][r] = tmp
+    func rotate(_ matrix: inout [[Int]]) {
+         let n = matrix.count
+         for r in 0..<n {
+            for c in r..<n {
+                var num = matrix[r][c]
+                matrix[r][c] = matrix[c][r]
+                matrix[c][r] = num 
             }
-            var i = 0, j = arr.count-1;
-            while i < j {
-                var temp = arr[r][i];
-                arr[r][i] = arr[r][j];
-                arr[r][j] = temp;
-                i += 1;
-                j -= 1;
+            var lo = 0, hi = n-1
+            while lo < hi {
+                matrix[r].swapAt(lo, hi)
+                lo += 1
+                hi -= 1
             }
-        }
+         }
     }
 }
