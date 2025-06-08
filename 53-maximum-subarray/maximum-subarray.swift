@@ -1,11 +1,12 @@
 class Solution {
     func maxSubArray(_ nums: [Int]) -> Int {
-        var maximum = nums[0]
-        var currMax = nums[0]
+        var result:Int = nums[0]
+        var curr:Int = nums[0]
+
         for i in 1..<nums.count {
-            currMax = max(nums[i], nums[i] + currMax)
-            maximum = max(currMax, maximum)
+            curr = max(nums[i], nums[i] + curr)
+            result = max(result, curr)
         }
-        return maximum
+        return result
     }
 }
