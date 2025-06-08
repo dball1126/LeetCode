@@ -15,27 +15,21 @@
  */
 class Solution {
     func levelOrder(_ root: TreeNode?) -> [[Int]] {
-        guard let node = root else { return []}
+        var result: [[Int]] = []
+        guard var node = root else { return result }
+        var levels: [[TreeNode]] = [[node]]
 
-        var result: [[Int]] = [], levels: [[TreeNode]] = [[node]]
-
-        while levels.count > 0 {
-            var currLevel: [TreeNode] = levels.removeFirst()
+        while !levels.isEmpty {
+            let level = levels.removeFirst()
             var newLevel: [TreeNode] = []
-            var currResult: [Int] = []
-            for n in currLevel {
-                currResult.append(n.val)
-                if var left = n.left {
-                    newLevel.append(left)
-                }
-                if var right = n.right {
-                    newLevel.append(right)
-                }
+            var nums: [Int] = []
+            for nde in level {
+                nums.append(nde.val)
+                if var left = nde.left { newLevel.append(left)}
+                if var right = nde.right { newLevel.append(right)}
             }
-            result.append(currResult)
-            if newLevel.count > 0 {
-                levels.append(newLevel)
-            }
+            if !newLevel.isEmpty {levels.append(newLevel)}
+            result.append(nums)
         }
         return result
     }
