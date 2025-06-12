@@ -1,19 +1,17 @@
 class Solution {
     func isPalindrome(_ s: String) -> Bool {
-        var lo: String.Index = s.startIndex
+        var lo = s.startIndex
         var hi: String.Index = s.index(before: s.endIndex)
 
         while lo < hi {
-            var char1: Character = s[lo]
-            var char2: Character = s[hi]
-
-            if !(char1.isNumber || char1.isLetter) {
+            if !(s[lo].isLetter || s[lo].isNumber) {
                 lo = s.index(after: lo)
-            } else if !(char2.isLetter || char2.isNumber) {
+            } else if !(s[hi].isLetter || s[hi].isNumber) {
                 hi = s.index(before: hi)
-            } else if char1.lowercased() != char2.lowercased() {
-                return false
             } else {
+                if s[lo].lowercased() != s[hi].lowercased() {
+                    return false
+                }
                 lo = s.index(after: lo)
                 hi = s.index(before: hi)
             }
