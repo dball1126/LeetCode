@@ -1,22 +1,19 @@
 class Solution {
     func merge(_ intervals: [[Int]]) -> [[Int]] {
-        var sorted = intervals
-        sorted.sort{$0[0] < $1[0]}
-        var result: [[Int]] = []
-
-        var x = sorted[0][0]
-        var y = sorted[0][1]
-
-        for i in 1..<sorted.count {
-            if sorted[i][0] <= y {
-                y = max(y, sorted[i][1])
+        let arr = intervals.sorted{$0[0] < $1[0]}
+        var x:Int = arr[0][0]
+        var y: Int = arr[0][1]
+        var results: [[Int]] = []
+        for i in 1..<arr.count {
+            if arr[i][0] <= y {
+                y = max(y, arr[i][1])
             } else {
-                result.append([x, y])
-                x = sorted[i][0]
-                y = sorted[i][1]
+                results.append([x, y])
+                x = arr[i][0]
+                y = arr[i][1]
             }
         }
-        result.append([x, y])
-        return result
+        results.append([x, y])
+        return results;
     }
 }
