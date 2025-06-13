@@ -10,33 +10,40 @@
  */
 class Solution {
     func addTwoNumbers(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
+        var n1 = l1, n2 = l2
+        var carry: Int = 0
         var result: ListNode?
         var curr: ListNode?
-        var h1 = l1, h2 = l2
-        var carry: Int = 0
-        while (h1 != nil || h2 != nil) {
-            if var node1 = h1 { 
-                carry += node1.val
-                h1 = node1.next
+        while (n1 != nil || n2 != nil) {
+            if var l = n1 {
+                carry += l.val
+                n1 = l.next
             }
-            if var node2 = h2 { 
-                carry += node2.val
-                h2 = node2.next
+            if var r = n2 {
+                carry += r.val
+                n2 = r.next
             }
-            var newNode = ListNode(carry % 10)
+            var node = ListNode(carry % 10)
+
             if result == nil {
-                result = newNode
-            }
-            if var current = curr {
-                current.next = newNode
-            }
-            curr = newNode
-            if h1 == nil && h2 == nil && (carry / 10 > 0) {
-                if var finalCurr = curr {
-                    finalCurr.next = ListNode(carry / 10)
+                result = node
+                curr = node
+            } else {
+                if var nx = curr {
+                    nx.next = node
+                    curr = node
                 }
             }
-            carry  /= 10
+            if ((carry / 10) > 0) {
+                
+                if n1 == nil && n2 == nil {
+                    if var nx = curr {
+                        nx.next = ListNode(carry / 10)
+                        curr = node
+                    }
+                }
+            }
+            carry /= 10
         }
         return result
     }
