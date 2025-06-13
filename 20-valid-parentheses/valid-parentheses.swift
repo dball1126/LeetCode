@@ -1,14 +1,17 @@
 class Solution {
     func isValid(_ s: String) -> Bool {
         var stack: [Character] = []
-        
-        for (i, c) in s.enumerated() {
-            if c == ")" {
-                if stack.popLast() != "(" { return false}
+
+        for c in s {
+            if c == "]" {
+                guard var last = stack.last, last == "[" else { return false }
+                stack.popLast()
+            } else if c == ")" {
+                guard var last = stack.last, last == "(" else { return false }
+                stack.popLast()
             } else if c == "}" {
-                if stack.popLast() != "{" { return false}
-            } else if c == "]" {
-                if stack.popLast() != "[" { return false}
+                guard var last = stack.last, last == "{" else { return false }
+                stack.popLast()
             } else {
                 stack.append(c)
             }
