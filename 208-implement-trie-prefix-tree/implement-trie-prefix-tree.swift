@@ -1,72 +1,53 @@
 class Node {
-    var keys:[Character:Node]
-    var isWord: Bool
-    init() {
-        self.keys = [:]
-        self.isWord = false
-    }
+    var isWord: Bool = false
+    var keys: [Character : Node] = [:]
+    init() {self.isWord = false; self.keys = [:] }
 }
 
 
 class Trie {
-    var root: Node;
+    var root: Node = Node();
     init() {
-        self.root = Node()
+        
     }
     
     func insert(_ word: String) {
-        var copy = self.root
-
+        var copy = root
         for (i, c) in word.enumerated() {
-            
-            if let item = copy.keys[c] {
-                copy = item
-            } else {
-                let nde = Node()
-                copy.keys[c] = nde
-                if let item = copy.keys[c] {
-                    copy = item
-                }
-               
+            if copy.keys[c] == nil {
+                copy.keys[c] = Node()
             }
-            
-            if i == word.count - 1 {
+            copy = copy.keys[c]!
+            if i+1 == word.count {
                 copy.isWord = true
             }
         }
     }
     
     func search(_ word: String) -> Bool {
-        var copy = self.root
-
+        var copy = root
         for (i, c) in word.enumerated() {
-            if let item = copy.keys[c] {
+          print("C \(c)")
+            if var item = copy.keys[c] {
                 copy = item
             } else {
                 return false
             }
-            if i == (word.count - 1) && copy.isWord {
-                return true
-            }
+            if i+1 == word.count && copy.isWord { return true}
         }
-
         return false
     }
     
     func startsWith(_ prefix: String) -> Bool {
-        var copy = self.root
-
+        var copy = root
         for (i, c) in prefix.enumerated() {
-            if let item = copy.keys[c] {
+          
+            if var item = copy.keys[c] {
                 copy = item
             } else {
                 return false
             }
-            if i == (prefix.count - 1 ){
-                return true
-            }
         }
-
-        return false
+        return true
     }
 }
