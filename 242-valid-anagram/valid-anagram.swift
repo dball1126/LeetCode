@@ -1,27 +1,22 @@
 class Solution {
     func isAnagram(_ s: String, _ t: String) -> Bool {
-        var map:[Character:Int] = [:]
-
+        var chars: [Character:Int] = [:]
+        if s.count != t.count { return false }
         for c in s {
-            if let item = map[c] {
-                map[c] = 1 + item
-            } else {
-                map[c] = 1
-            }
-        } 
-        
+           var n = chars[c, default: 0]
+           chars[c] = n + 1
+        }
         for c in t {
-            if let item = map[c] {
-                map[c] = item - 1
-                if let check = map[c] {
-                    if (check == 0) {
-                        map[c] = nil
-                    }
+            if var n = chars[c] {
+                chars[c] = n - 1
+            } else { return false }
+
+            if var n = chars[c] {
+                if n == 0 {
+                    chars[c] = nil
                 }
-            } else {
-                return false
             }
         }
-        return map.isEmpty
+        return chars.isEmpty
     }
 }
