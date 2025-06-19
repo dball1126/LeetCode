@@ -11,7 +11,6 @@
  *     }
  * }
  */
-
 class Solution {
     func copyRandomList(_ head: Node?) -> Node? {
         var curr: Node? = head;
@@ -29,18 +28,14 @@ class Solution {
                 if map[ObjectIdentifier(random)] == nil {
                     map[ObjectIdentifier(random)] = Node(random.val)
                 }
-                if var r = map[ObjectIdentifier(random)] {
-                    newNode?.random = r
-                }
+                newNode?.random = map[ObjectIdentifier(random)]
             }
 
             if var next = curr?.next {
                 if map[ObjectIdentifier(next)] == nil {
                     map[ObjectIdentifier(next)] = Node(next.val)
                 }
-                if var r = map[ObjectIdentifier(next)] {
-                    newNode?.next = r
-                }
+                newNode?.next = map[ObjectIdentifier(next)]
             }
             var temp = curr?.next
             curr = temp
