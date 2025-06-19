@@ -37,8 +37,7 @@ class Solution {
                 }
                 newNode?.next = map[ObjectIdentifier(next)]
             }
-            var temp = curr?.next
-            curr = temp
+            curr = curr?.next
         }
         return result;
     }
