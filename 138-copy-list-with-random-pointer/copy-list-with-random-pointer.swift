@@ -19,18 +19,14 @@ class Solution {
         var result: Node?;
 
         while curr != nil {
-            if var node = map[ObjectIdentifier(curr!)] {
-
-            } else {
+            if map[ObjectIdentifier(curr!)] == nil {
                 map[ObjectIdentifier(curr!)] = Node(curr!.val)
             }
             var newNode = map[ObjectIdentifier(curr!)]
             if result == nil { result = newNode}
 
             if var random = curr?.random {
-                if var node = map[ObjectIdentifier(random)] {
-
-                } else {
+                if map[ObjectIdentifier(random)] == nil {
                     map[ObjectIdentifier(random)] = Node(random.val)
                 }
                 if var r = map[ObjectIdentifier(random)] {
@@ -39,9 +35,7 @@ class Solution {
             }
 
             if var next = curr?.next {
-                if var node = map[ObjectIdentifier(next)] {
-
-                } else {
+                if map[ObjectIdentifier(next)] == nil {
                     map[ObjectIdentifier(next)] = Node(next.val)
                 }
                 if var r = map[ObjectIdentifier(next)] {
@@ -51,7 +45,6 @@ class Solution {
             var temp = curr?.next
             curr = temp
         }
-
         return result;
     }
 }
