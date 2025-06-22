@@ -13,18 +13,14 @@
 class Solution {
     func cloneGraph(_ node: Node?) -> Node? {
         guard var root = node else { return node }
-        var map: [Int : Node] = [:]
-        var newNode: Node
-        var visited = Set<Int>()
+        var map: [Int : Node] = [:], newNode: Node, visited = Set<Int>()
 
         func dfs(_ nde: Node?) -> Node? {
             guard var n = nde else { return nil }
             if map[n.val] == nil { map[n.val] = Node(n.val)}
             var newNode: Node = map[n.val]!
             visited.insert(n.val)
-
             for item in n.neighbors {
-
                 if map[item!.val] == nil { map[item!.val] = Node(item!.val) }
                 var newItem = map[item!.val]
                 newNode.neighbors.append(newItem)
@@ -35,7 +31,6 @@ class Solution {
             }
             return newNode
         }
-        var result = dfs(root)
-        return result
+        return dfs(root)
     }
 }
