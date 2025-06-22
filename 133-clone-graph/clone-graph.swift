@@ -13,33 +13,29 @@
 class Solution {
     func cloneGraph(_ node: Node?) -> Node? {
         guard var root = node else { return node }
-        var visited = Set<Int>();
-        var map: [Int: Node] = [:]
-        map[root.val] = Node(root.val)
-        var stack: [Node] = [root]
+        var map: [Int : Node] = [:]
+        var newNode: Node
+        var visited = Set<Int>()
 
-        while !stack.isEmpty {
-            guard var n = stack.popLast() else { continue }
-            guard var newNode = map[n.val] else { continue }
+        func dfs(_ nde: Node?) -> Node? {
+            guard var n = nde else { return nil }
+            if map[n.val] == nil { map[n.val] = Node(n.val)}
+            var newNode: Node = map[n.val]!
             visited.insert(n.val)
 
-            for child in n.neighbors {
-                guard var c = child else { continue }
-                
-                if var newchild = map[c.val] {
-                } else { map[c.val] = Node(c.val)}
-                
-                var newChild = map[c.val, default: Node(c.val)]
-                newNode.neighbors.append(newChild)
-                if (!visited.contains(c.val)) {
-                    stack.append(c)
-                    visited.insert(c.val)
+            for item in n.neighbors {
+
+                if map[item!.val] == nil { map[item!.val] = Node(item!.val) }
+                var newItem = map[item!.val]
+                newNode.neighbors.append(newItem)
+                if !visited.contains(newItem!.val) {
+                    visited.insert(newItem!.val)
+                    dfs(item)
                 }
             }
+            return newNode
         }
-        if var result = map[root.val] {
-            return result
-        }
-        return root
+        var result = dfs(root)
+        return result
     }
 }
