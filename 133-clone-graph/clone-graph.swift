@@ -12,25 +12,35 @@
 
 class Solution {
     func cloneGraph(_ node: Node?) -> Node? {
-        guard var root = node else { return node }
-        var map: [Int : Node] = [:], newNode: Node, visited = Set<Int>()
+        
+        var map: [Int: Node] = [:]
+        var visited = Set<Int>()
 
-        func dfs(_ nde: Node?) -> Node? {
-            guard var n = nde else { return nil }
-            if map[n.val] == nil { map[n.val] = Node(n.val)}
+        func dfs(_ root: Node?) -> Void {
+            guard var n: Node = root else { return }
+            if var item = map[n.val] {
+                
+            } else { map[n.val] = Node(n.val) }
             var newNode: Node = map[n.val]!
-            visited.insert(n.val)
-            for item in n.neighbors {
-                if map[item!.val] == nil { map[item!.val] = Node(item!.val) }
-                var newItem = map[item!.val]
-                newNode.neighbors.append(newItem)
-                if !visited.contains(newItem!.val) {
-                    visited.insert(newItem!.val)
-                    dfs(item)
+
+            visited.insert(newNode.val)
+            for ele in n.neighbors {
+                if var el: Node = map[ele!.val] {
+                    
+                } else { map[ele!.val] = Node(ele!.val) }
+
+                var newChild: Node = map[ele!.val]!
+                newNode.neighbors.append(newChild)
+                if !visited.contains(newChild.val) {
+                    visited.insert(newChild.val)
+                    dfs(ele)
                 }
             }
-            return newNode
         }
-        return dfs(root)
+        dfs(node)
+
+        if var result = node {
+            return map[result.val]
+        } else { return nil }
     }
 }
