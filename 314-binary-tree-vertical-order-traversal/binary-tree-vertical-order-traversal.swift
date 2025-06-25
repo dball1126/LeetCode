@@ -22,14 +22,13 @@ class Solution {
             guard var n = node else { return 0 }
             minL = min(minL, path)
             maxR = max(maxR, path)
-            var item = dfs(n.left, path - 1)
-            var item2 = dfs(n.right, path + 1)
+            dfs(n.left, path - 1)
+            dfs(n.right, path + 1)
             return path
         }
         dfs(r, 0)
         var total = abs(minL) + 1 + maxR
         var result: [[Int]] = Array(repeating: [], count: total)
-
         var levels: [[(TreeNode, Int)]] = [[(r, 0)]]
 
         while !levels.isEmpty {
@@ -37,18 +36,11 @@ class Solution {
             var newLevel: [(TreeNode, Int)] = []
             for (nde, col) in level {
                 result[col + abs(minL)].append(nde.val)
-                if var left = nde.left {
-                    newLevel.append((left, col - 1))
-                }
-                if var right = nde.right {
-                    newLevel.append((right, col + 1))
-                }
+                if var left = nde.left { newLevel.append((left, col - 1)) }
+                if var right = nde.right { newLevel.append((right, col + 1)) }
             }
-            if !newLevel.isEmpty {
-                levels.append(newLevel)
-            }
+            if !newLevel.isEmpty { levels.append(newLevel) }
         }
-
         return result
     }
 }
