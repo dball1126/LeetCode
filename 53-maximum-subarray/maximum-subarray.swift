@@ -1,10 +1,10 @@
 class Solution {
     func maxSubArray(_ nums: [Int]) -> Int {
-        var currMax: Int = nums[0], mainMax: Int = nums[0]
+        var maxSum: Int = nums[0], currSum: Int = nums[0]
         for i in 1..<nums.count {
-            currMax = max(nums[i], currMax + nums[i])
-            mainMax = max(mainMax, currMax)
+            currSum = max(nums[i], nums[i] + currSum)
+            maxSum = max(maxSum, currSum)
         }
-        return mainMax       
+        return maxSum
     }
 }
