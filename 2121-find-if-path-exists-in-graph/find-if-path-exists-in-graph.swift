@@ -1,31 +1,25 @@
 class Solution {
     func validPath(_ n: Int, _ edges: [[Int]], _ source: Int, _ destination: Int) -> Bool {
-        var visited: Set<Int> = Set<Int>()
-        var adjList: [Int:Set<Int>] = [:]
-        var stack: [Int] = [source]
-
-        for edge in edges {
-           var x = edge[0]
-           var y = edge[1]
-           if x == nil || y == nil { continue }
-           adjList[x, default: Set<Int>()].insert(y)
-           adjList[y, default: Set<Int>()].insert(x)
+        var adjList: [Int: Set<Int>] = [:], visited = Set<Int>()
+        for edge: [Int] in edges {
+            adjList[edge[0], default: Set<Int>()].insert(edge[1])
+            adjList[edge[1], default: Set<Int>()].insert(edge[0])
         }
 
-        while !stack.isEmpty {
-            var node: Int = stack.popLast()!
+        func dfs(_ node: Int?) -> Bool {
+            guard var nde = node else { return false }
             if node == destination { return true }
-            visited.insert(node)
-
-            if var items = adjList[node] {
-                for n in Array(items) {
-                    if !visited.contains(n) {
-                        visited.insert(n)
-                        stack.append(n)
+            visited.insert(nde)
+            if var children = adjList[nde] {
+                for child in Array(children) {
+                    if !visited.contains(child) {
+                        visited.insert(child)
+                        if dfs(child) { return true}
                     }
                 }
             }
+            return false
         }
-        return false
+        return dfs(source)
     }
 }
