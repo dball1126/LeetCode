@@ -12,35 +12,26 @@
 
 class Solution {
     func cloneGraph(_ node: Node?) -> Node? {
-        
-        var map: [Int: Node] = [:]
-        var visited = Set<Int>()
+        guard var n = node else { return node }
+        var map:[ObjectIdentifier: Node] = [:], visited: Set<ObjectIdentifier> = Set<ObjectIdentifier>()
+        var stack: [Node] = [n]
 
-        func dfs(_ root: Node?) -> Void {
-            guard var n: Node = root else { return }
-            if var item = map[n.val] {
-                
-            } else { map[n.val] = Node(n.val) }
-            var newNode: Node = map[n.val]!
+        while !stack.isEmpty {
+            var node: Node = stack.removeLast()
+            if map[ObjectIdentifier(node)] == nil { map[ObjectIdentifier(node)] = Node(node.val)}
+            var curr: Node = map[ObjectIdentifier(node)]!
+            visited.insert(ObjectIdentifier(node))
 
-            visited.insert(newNode.val)
-            for ele in n.neighbors {
-                if var el: Node = map[ele!.val] {
-                    
-                } else { map[ele!.val] = Node(ele!.val) }
-
-                var newChild: Node = map[ele!.val]!
-                newNode.neighbors.append(newChild)
-                if !visited.contains(newChild.val) {
-                    visited.insert(newChild.val)
-                    dfs(ele)
+            for child in node.neighbors {
+                if map[ObjectIdentifier(child!)] == nil { map[ObjectIdentifier(child!)] = Node(child!.val)}
+                var childNode: Node = map[ObjectIdentifier(child!)]!
+                curr.neighbors.append(childNode)
+                if !visited.contains(ObjectIdentifier(child!)) {
+                    visited.insert(ObjectIdentifier(child!))
+                    stack.append(child!)
                 }
             }
         }
-        dfs(node)
-
-        if var result = node {
-            return map[result.val]
-        } else { return nil }
+        return map[ObjectIdentifier(n)]
     }
 }
