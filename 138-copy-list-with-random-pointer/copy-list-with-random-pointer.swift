@@ -13,32 +13,23 @@
  */
 class Solution {
     func copyRandomList(_ head: Node?) -> Node? {
-        var curr: Node? = head;
-        var map: [ObjectIdentifier: Node] = [:]
-        var result: Node?;
+        guard var curr: Node? = head else { return head }
+        var map: [ObjectIdentifier: Node] = [:], result: Node?
 
         while curr != nil {
-            if map[ObjectIdentifier(curr!)] == nil {
-                map[ObjectIdentifier(curr!)] = Node(curr!.val)
-            }
-            var newNode = map[ObjectIdentifier(curr!)]
+            if map[ObjectIdentifier(curr!)] == nil { map[ObjectIdentifier(curr!)] = Node(curr!.val)}
+            var newNode: Node = map[ObjectIdentifier(curr!)]!
             if result == nil { result = newNode}
-
-            if var random = curr?.random {
-                if map[ObjectIdentifier(random)] == nil {
-                    map[ObjectIdentifier(random)] = Node(random.val)
-                }
-                newNode?.random = map[ObjectIdentifier(random)]
+            if var random = curr!.random {
+                if map[ObjectIdentifier(random)] == nil { map[ObjectIdentifier(random)] = Node(random.val)}
+                newNode.random = map[ObjectIdentifier(random)]
             }
-
-            if var next = curr?.next {
-                if map[ObjectIdentifier(next)] == nil {
-                    map[ObjectIdentifier(next)] = Node(next.val)
-                }
-                newNode?.next = map[ObjectIdentifier(next)]
+            if var next = curr!.next {
+                if map[ObjectIdentifier(next)] == nil { map[ObjectIdentifier(next)] = Node(next.val)}
+                newNode.next = map[ObjectIdentifier(next)]
             }
             curr = curr?.next
         }
-        return result;
+        return result
     }
 }
