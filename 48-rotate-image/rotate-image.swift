@@ -6,9 +6,7 @@ class Solution {
                 matrix[r][c] = matrix[c][r]
                 matrix[c][r] = temp
             }
-            var lo = 0
-            var hi: Int = matrix.count 
-            hi -= 1
+            var lo: Int = 0, hi: Int = matrix.count - 1
             while lo < hi {
                 matrix[r].swapAt(lo, hi)
                 lo += 1
