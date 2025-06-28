@@ -13,7 +13,7 @@
  *     }
  * }
  */
-public class Data {
+public struct Data {
     public var dir: String = ""
     public var nodes: [TreeNode] = []
     init(_ dir: String, _ nodes: [TreeNode]) {self.dir = dir; self.nodes = nodes}
