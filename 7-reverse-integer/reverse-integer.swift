@@ -1,20 +1,29 @@
 class Solution {
     func reverse(_ x: Int) -> Int {
-        let s: String = String(x)
+        guard x != 0 else { return 0 }
+        var xStr: String = ""
         let maxVal: Int = Int(pow(2.0, 31.0))
-        var sign: String = "+"
-        var result: String = ""
-        
-        for (i, v) in s.enumerated() {
-            if (i == 0 && !v.isNumber) {
-                sign = String(v)
-            } else {
-                result = (String(v) + result)
-            }
-        }
-        let resultNum : Int = Int(result)!
+        let x: String = String(x)
 
-        if resultNum > maxVal { return 0 }
-        return sign == "+" ? resultNum : (-resultNum)
+        var sign: String = "+"
+        var chars: [Character] = Array(x)
+     
+        var i: Int = chars.count-1
+        while i >= 0 && chars[i] == "0" { i -= 1 }
+        while i >= 0 {
+            if i == 0 && !chars[i].isNumber {
+                sign = String(chars[i])
+            } else {
+                xStr += String(chars[i])
+            }
+            i -= 1
+        }
+        var result: Int = Int(xStr)!
+        if sign == "-" { result *= -1}
+
+        if result < -maxVal || result >= maxVal {
+            return 0
+        }
+        return result
     }
 }
