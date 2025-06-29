@@ -13,34 +13,32 @@
  *     }
  * }
  */
-public struct Data {
-    public var dir: String = ""
-    public var nodes: [TreeNode] = []
-    init(_ dir: String, _ nodes: [TreeNode]) {self.dir = dir; self.nodes = nodes}
+ public class DataNode {
+    public var dir: String
+    public var nodes: [TreeNode]
+    public init() {self.dir = "r"; self.nodes = []}
+    public init(_ dir: String, _ nodes: [TreeNode]) { self.dir = dir; self.nodes = nodes}
 }
 class Solution {
     func zigzagLevelOrder(_ root: TreeNode?) -> [[Int]] {
-        guard var node = root else { return []}
-        var levels: [Data] = [Data("r", [node])]
+        guard var node = root else { return [] }
         var order: [[Int]] = []
+        var levels: [DataNode] = [DataNode("r", [node])]
 
         while !levels.isEmpty {
-            var data = levels.removeFirst()
+            var data: DataNode = levels.removeFirst()
+            var values: [Int] = []
             var newLevel: [TreeNode] = []
-            var newVals: [Int] = []
-
-            for n in data.nodes {
-                newVals.append(n.val)
-                if var left = n.left {newLevel.append(left)}
-                if var right = n.right {newLevel.append(right)}
+            for n: TreeNode in data.nodes {
+                values.append(n.val)
+                if var left: TreeNode = n.left { newLevel.append(left)}
+                if var right: TreeNode = n.right { newLevel.append(right)}
             }
-            if !newLevel.isEmpty {
-                levels.append(Data(data.dir == "r" ? "l" : "r", newLevel))
-            }
+            if !newLevel.isEmpty { levels.append(DataNode(data.dir == "r" ? "l" : "r", newLevel))}
             if data.dir == "r" {
-                order.append(newVals)
+                order.append(values)
             } else {
-                order.append(newVals.reversed())
+                order.append(values.reversed())
             }
         }
         return order
