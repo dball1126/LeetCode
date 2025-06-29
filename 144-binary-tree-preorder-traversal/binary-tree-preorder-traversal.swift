@@ -15,14 +15,14 @@
  */
 class Solution {
     func preorderTraversal(_ root: TreeNode?) -> [Int] {
-        var curr = root, stack: [TreeNode] = [], order: [Int] = []
-
+        var curr: TreeNode? = root, stack: [TreeNode] = [] 
+        var preorder: [Int] = []
         while curr != nil || !stack.isEmpty {
             if curr == nil { curr = stack.removeLast()}
-            order.append(curr!.val)
+            preorder.append(curr!.val)
             if var right = curr?.right { stack.append(right)}
             curr = curr?.left
-        }
-        return order
+        }   
+        return preorder
     }
 }
