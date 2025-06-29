@@ -1,7 +1,6 @@
 class Solution {
     func search(_ nums: [Int], _ target: Int) -> Int {
-        var lo = 0, hi = nums.count - 1
-
+        var lo: Int = 0, hi: Int = nums.count - 1
         while lo < hi {
             var mid: Int = (hi + lo) / 2
 
@@ -13,6 +12,6 @@ class Solution {
                 lo = mid + 1
             }
         }
-        return lo < nums.count && nums[lo] == target ? lo : -1
+        return nums[lo] == target ? lo : -1
     }
 }
