@@ -15,32 +15,34 @@
  */
 class Solution {
     func verticalOrder(_ root: TreeNode?) -> [[Int]] {
-        guard var r = root else { return []}
-        var minL: Int = 0, maxR: Int = 0
+        guard var node: TreeNode = root else { return []}
+        var minLeft: Int = 0, maxRight: Int = 0
 
-        func dfs(_ node: TreeNode?, _ path: Int) -> Int {
-            guard var n = node else { return 0 }
-            minL = min(minL, path)
-            maxR = max(maxR, path)
-            dfs(n.left, path - 1)
-            dfs(n.right, path + 1)
-            return path
+        func dfs(_ node: TreeNode?, _ col: Int) -> Int {
+            guard var n = node else { return 0}
+            minLeft = min(minLeft, col) 
+            maxRight = max(maxRight, col)
+            dfs(n.left, col - 1)
+            dfs(n.right, col + 1)
+            return col
         }
-        dfs(r, 0)
-        var total = abs(minL) + 1 + maxR
-        var result: [[Int]] = Array(repeating: [], count: total)
-        var levels: [[(TreeNode, Int)]] = [[(r, 0)]]
+        dfs(node, 0)
+        var offSet: Int = abs(minLeft) 
+        var width: Int = offSet + maxRight + 1
+        var cols: [[Int]] = Array(repeating: [], count: width) 
+        var levels: [[(TreeNode, Int)]] = [[(node, 0)]]
 
         while !levels.isEmpty {
             var level: [(TreeNode, Int)] = levels.removeFirst()
             var newLevel: [(TreeNode, Int)] = []
-            for (nde, col) in level {
-                result[col + abs(minL)].append(nde.val)
-                if var left = nde.left { newLevel.append((left, col - 1)) }
-                if var right = nde.right { newLevel.append((right, col + 1)) }
+
+            for (nde, c) in level {
+                cols[c + offSet].append(nde.val)
+                if var left: TreeNode = nde.left { newLevel.append((left, c - 1))}
+                if var right: TreeNode = nde.right { newLevel.append((right, c + 1))}
             }
-            if !newLevel.isEmpty { levels.append(newLevel) }
+            if !newLevel.isEmpty { levels.append(newLevel)}
         }
-        return result
+        return cols
     }
 }
