@@ -1,8 +1,6 @@
 class Solution {
     func isPalindrome(_ s: String) -> Bool {
-        var lo: String.Index = s.startIndex
-        var hi: String.Index = s.index(before: s.endIndex)
-
+        var lo = s.startIndex, hi = s.index(before: s.endIndex)
         while lo < hi {
             if !(s[lo].isNumber || s[lo].isLetter) {
                 lo = s.index(after: lo)
