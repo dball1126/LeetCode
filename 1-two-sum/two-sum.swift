@@ -1,12 +1,12 @@
-
 class Solution {
     func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
-        var idxs:[Int:Int] = [:]
-        for (i, n) in nums.enumerated() {
-            if var idx = idxs[target - n] {
+        var numMap:[Int:Int] = [:]
+        
+        for (i, v) in nums.enumerated() {
+            if var idx = numMap[target - v] {
                 return [idx, i]
             }
-            idxs[n] = i
+            numMap[v] = i
         }
         return []
     }
