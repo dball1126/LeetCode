@@ -1,29 +1,24 @@
 class Solution {
     func reverse(_ x: Int) -> Int {
         guard x != 0 else { return 0 }
-        var xStr: String = ""
-        let maxVal: Int = Int(pow(2.0, 31.0))
-        let x: String = String(x)
-
+        let x = String(x)
         var sign: String = "+"
-        var chars: [Character] = Array(x)
-     
-        var i: Int = chars.count-1
-        while i >= 0 && chars[i] == "0" { i -= 1 }
-        while i >= 0 {
-            if i == 0 && !chars[i].isNumber {
-                sign = String(chars[i])
-            } else {
-                xStr += String(chars[i])
-            }
-            i -= 1
-        }
-        var result: Int = Int(xStr)!
-        if sign == "-" { result *= -1}
+        var resultStr: String = ""
+        let maxVal = Int(pow(2.0, 31.0))
 
-        if result < -maxVal || result >= maxVal {
+        for i in x.indices.reversed() {
+            if i == x.startIndex && !x[i].isNumber {
+                sign = String(x[i])
+            } else {
+                let v = String(x[i])
+                if resultStr.isEmpty && v == "0" { continue }  
+                resultStr += v
+            }
+        }
+        var result = Int(resultStr)!
+        if result >= maxVal {
             return 0
         }
-        return result
+        return sign == "-" ? -result : result
     }
 }
