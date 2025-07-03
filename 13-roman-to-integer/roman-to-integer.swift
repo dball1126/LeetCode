@@ -1,66 +1,58 @@
 class Solution {
     func romanToInt(_ s: String) -> Int {
-        var result: Int = 0, i: String.Index = s.startIndex
+        var i: String.Index = s.startIndex, result: Int = 0
+        
+        func handleNormalCheck() -> Void {
+            result += Romans(rawValue: String(s[i]))!.value
+            i = s.index(after: i)
+        }
 
         while i < s.endIndex {
-            var nxIdx: String.Index = s.index(after: i)
-            if nxIdx != s.endIndex {
-                if s[i] == Romans.I.rawValue && s[nxIdx] == Romans.V.rawValue {
-                    result += 4
-                    i = s.index(after: nxIdx)
-                } else if s[i] == Romans.I.rawValue && s[nxIdx] == Romans.X.rawValue {
-                    result += 9
-                    i = s.index(after: nxIdx)
-                } else if s[i] == Romans.X.rawValue && s[nxIdx] == Romans.L.rawValue {
-                    result += 40
-                    i = s.index(after: nxIdx)
-                } else if s[i] == Romans.X.rawValue && s[nxIdx] == Romans.C.rawValue {
-                    result += 90
-                    i = s.index(after: nxIdx)
-                } else if s[i] == Romans.C.rawValue && s[nxIdx] == Romans.D.rawValue {
-                    result += 400
-                    i = s.index(after: nxIdx)
-                } else if s[i] == Romans.C.rawValue && s[nxIdx] == Romans.M.rawValue {
-                    result += 900
-                    i = s.index(after: nxIdx)
+            var nx: String.Index = s.index(after: i)
+
+            if nx != s.endIndex {
+                if let ele: Romans = Romans(rawValue: String(s[i...nx])) {
+                    result += ele.value
+                    i = s.index(after: nx)
                 } else {
-                    result += Vals(rawValue: s[i])?.value ?? 0
-                    i = s.index(after: i)
+                    handleNormalCheck()
                 }
             } else {
-                result += Vals(rawValue: s[i])?.value ?? 0
-                i = s.index(after: i)
+                handleNormalCheck()
             }
         }
-        
-        return result
+        return result       
     }
 }
 
-enum Romans: Character {
+enum Romans: String {
     case I = "I"
+    case IV = "IV"
+    case IX = "IX"
     case V = "V"
     case X = "X"
+    case XL = "XL"
+    case XC = "XC"
     case L = "L"
     case C = "C"
+    case CD = "CD"
+    case CM = "CM"
     case D = "D"
-    case M = "M"    
-}
-enum Vals: Character {
-    case I = "I"
-    case V = "V"
-    case X = "X"
-    case L = "L"
-    case C = "C"
-    case D = "D"
-    case M = "M" 
+    case M = "M"
+
     var value: Int {
         switch self {
             case .I: return 1
+            case .IV: return 4
+            case .IX: return 9
             case .V: return 5
             case .X: return 10
+            case .XL: return 40
+            case .XC: return 90
             case .L: return 50
             case .C: return 100
+            case .CD: return 400
+            case .CM: return 900
             case .D: return 500
             case .M: return 1000
         }
