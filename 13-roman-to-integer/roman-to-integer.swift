@@ -1,19 +1,17 @@
 class Solution {
     func romanToInt(_ s: String) -> Int {
-        var i: String.Index = s.startIndex, result: Int = 0
-        
-        func handleNormalCheck() -> Void {
-            result += Romans(rawValue: String(s[i]))!.value
-            i = s.index(after: i)
+        var result: Int = 0, lo: String.Index = s.startIndex
+
+        func handleNormalCheck() {
+            result += RomanInts(rawValue: String(s[lo]))!.value
+            lo = s.index(after: lo)
         }
-
-        while i < s.endIndex {
-            var nx: String.Index = s.index(after: i)
-
+        while lo < s.endIndex {
+            let nx: String.Index = s.index(after: lo)
             if nx != s.endIndex {
-                if let ele: Romans = Romans(rawValue: String(s[i...nx])) {
-                    result += ele.value
-                    i = s.index(after: nx)
+                if let item = RomanInts(rawValue: String(s[lo...nx])) {
+                    result += item.value
+                    lo = s.index(after: nx)
                 } else {
                     handleNormalCheck()
                 }
@@ -21,11 +19,11 @@ class Solution {
                 handleNormalCheck()
             }
         }
-        return result       
+        return result
     }
 }
 
-enum Romans: String {
+enum RomanInts: String {
     case I = "I"
     case IV = "IV"
     case IX = "IX"
@@ -40,7 +38,7 @@ enum Romans: String {
     case D = "D"
     case M = "M"
 
-    var value: Int {
+    var value: Int { 
         switch self {
             case .I: return 1
             case .IV: return 4
