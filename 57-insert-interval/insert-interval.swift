@@ -1,30 +1,26 @@
 class Solution {
     func insert(_ intervals: [[Int]], _ newInterval: [Int]) -> [[Int]] {
-        var newInter: [Int] = newInterval
-        var result: [[Int]] = []
-        var merged: Bool = false
-
-        for interval in intervals {
-            var x: Int = newInter[0], y: Int = newInter[1]
-            if merged {
-                result.append(interval)
+        var merged: Bool = false, result: [[Int]] = []
+        var cx: Int = newInterval[0], cy: Int = newInterval[1]
+        for arr: [Int] in intervals {
+            guard !merged else {
+                result.append(arr)
                 continue
             }
-            if y < interval[0] {
-                result.append(newInter)
-                result.append(interval)
+            print("Item")
+            let x: Int = arr[0], y: Int = arr[1] 
+            if x >= cx && x <= cy || y >= cx && y <= cy || cx >= x && cx <= y || cy >= x && cy <= y {
+                print("merged")
+                cx = min(x, cx); cy = max(y, cy)
+            } else if cy < x {
+                result.append([cx, cy])
+                result.append([x, y])
                 merged = true
-            } else if (x >= interval[0] && y <= interval[1]) || 
-                        (y >= interval[0] && y <= interval[1]) || 
-                        (interval[0] >= x && interval[0] <= y) ||
-                        (interval[1] >= x && interval[1] <= y) {
-                newInter[0] = min(interval[0], x)
-                newInter[1] = max(interval[1], y)
             } else {
-                result.append(interval)
+                result.append([x, y])
             }
         }
-        if !merged { result.append(newInter)}
+        if !merged { result.append([cx, cy]) }
         return result
     }
 }
