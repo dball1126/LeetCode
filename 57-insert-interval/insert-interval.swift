@@ -7,7 +7,6 @@ class Solution {
                 result.append(arr)
                 continue
             }
-            print("Item")
             let x: Int = arr[0], y: Int = arr[1] 
             if x >= cx && x <= cy || y >= cx && y <= cy || cx >= x && cx <= y || cy >= x && cy <= y {
                 print("merged")
