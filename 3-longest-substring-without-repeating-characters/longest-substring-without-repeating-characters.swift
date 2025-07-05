@@ -1,16 +1,17 @@
 class Solution {
     func lengthOfLongestSubstring(_ s: String) -> Int {
-        var maxLength: Int = 0, charMap:[Character: Int] = [:]
-        var lo = s.startIndex, hi = s.startIndex;
+        var map: [Character:Int] = [:], lo: String.Index = s.startIndex, hi: String.Index = lo
+        var longestSub: Int = 0
         while hi < s.endIndex {
-            charMap[s[hi], default: 0] += 1
-            while charMap[s[hi]]! > 1 {
-                charMap[s[lo]]! -= 1
+            map[s[hi], default: 0] += 1
+            while map[s[hi]]! > 1 {
+                map[s[lo]]! -= 1
+                if map[s[lo]] == 0 { map[s[lo]] = nil }
                 lo = s.index(after: lo)
             }
             hi = s.index(after: hi)
-            maxLength = max(maxLength, s.distance(from: lo, to: hi))
+            longestSub = max(longestSub, s.distance(from: lo, to: hi))
         }
-        return maxLength
+        return longestSub
     }
 }
