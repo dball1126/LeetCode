@@ -9,7 +9,6 @@ class Solution {
             }
             let x: Int = arr[0], y: Int = arr[1] 
             if x >= cx && x <= cy || y >= cx && y <= cy || cx >= x && cx <= y || cy >= x && cy <= y {
-                print("merged")
                 cx = min(x, cx); cy = max(y, cy)
             } else if cy < x {
                 result.append([cx, cy])
